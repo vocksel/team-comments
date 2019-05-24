@@ -13,11 +13,9 @@
 
 local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
 
 local Roact = require(script.Parent.Roact)
 local Rodux = require(script.Parent.Rodux)
-local config = require(script.Parent.config)
 local messages = require(script.Parent.messages)
 local WorldMessage = require(script.Parent.components.WorldMessage)
 local reducer = require(script.Parent.reducer)
@@ -26,8 +24,7 @@ local SetMessageBody = require(script.Parent.actions.SetMessageBody)
 local ToggleMessagesVisibility = require(script.Parent.actions.ToggleMessagesVisibility)
 
 local toolbar = plugin:CreateToolbar("World Messages")
-local client = Players.LocalPlayer or config.MOCK_PLAYER
-local userId = tostring(client.UserId)
+local userId = tostring(plugin:GetStudioUserId())
 local store = Rodux.Store.new(reducer, nil, { Rodux.loggerMiddleware })
 
 -- TODO: Replace buttons with just a widget. Will have add, visibility filter,

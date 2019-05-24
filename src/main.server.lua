@@ -47,8 +47,7 @@ local function createButtons()
 
 	newMessageButton.Click:Connect(function()
 		local messageId = HttpService:GenerateGUID()
-		store:dispatch(CreateMessage(messageId, userId, os.time()))
-		store:dispatch(SetMessageBody(messageId, "Hello, world!"))
+		store:dispatch(CreateMessage(messageId, userId, os.time(), Vector3.new(20, 20, 20)))
 
 		-- local p = messages.newMessagePart(client.UserId)
 		-- p.Parent = workspace

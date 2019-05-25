@@ -25,7 +25,6 @@ end
 
 function CameraDistanceProvider:didMount()
 	self.connection = RunService.RenderStepped:Connect(function()
-		print("working")
 		local distance = (self.props.origin-camera.CFrame.p).Magnitude
 		self:setState({ distance = distance })
 	end)

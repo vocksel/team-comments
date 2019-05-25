@@ -46,14 +46,12 @@ end
 
 local function onMessagePartRemoved(messagePart)
 	Messages.runIfValid(messagePart, function()
-		print("deleted")
 		store:dispatch(DeleteMessage(messagePart.Id.Value))
 	end)
 end
 
 local function setupInitialState()
 	for _, messagePart in pairs(CollectionService:GetTagged(Config.TAG_NAME)) do
-		print(messagePart:GetFullName())
 		onMessagePartAdded(messagePart)
 	end
 

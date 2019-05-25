@@ -23,14 +23,27 @@ local function Avatar(props)
                 rectOffset, rectSize = mirrorX(thumbnail.size.X, thumbnail.size.Y)
             end
 
-            return Roact.createElement("ImageLabel", {
-                Image = thumbnail.image,
-                BackgroundTransparency = 1,
+			return Roact.createElement("Frame", {
                 SizeConstraint = Enum.SizeConstraint.RelativeXX,
-                Size = UDim2.new(1, 0, 1, 0),
-                ImageRectOffset = rectOffset,
-                ImageRectSize = rectSize
-            })
+				Size = UDim2.new(1, 0, 1, 0),
+				BackgroundTransparency = 1,
+			}, {
+				Mask = Roact.createElement("ImageLabel", {
+					Image = "rbxassetid://3214902128",
+					BackgroundTransparency = 1,
+					Size = UDim2.new(1, 0, 1, 0),
+					ZIndex = 2
+				}),
+
+				Icon = Roact.createElement("ImageLabel", {
+					Image = thumbnail.image,
+					BackgroundTransparency = 1,
+					Size = UDim2.new(1, 0, 1, 0),
+					ImageRectOffset = rectOffset,
+					ImageRectSize = rectSize
+				})
+			})
+
         end
     })
 end

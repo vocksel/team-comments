@@ -23,12 +23,12 @@ local CollectionService = game:GetService("CollectionService")
 
 local Roact = require(script.Parent.Roact)
 local Rodux = require(script.Parent.Rodux)
-local RoactRodux = require(script.Parent.RoactRodux)
+local StoreProvider = require(script.Parent.RoactRodux).StoreProvider
 local messages = require(script.Parent.messages)
-local WorldMessage = require(script.Parent.components.WorldMessage)
 local reducer = require(script.Parent.reducer)
 local new = require(script.Parent.new)
 local config = require(script.Parent.config)
+local WorldMessages = require(script.Parent.components.WorldMessages)
 local CreateMessage = require(script.Parent.actions.CreateMessage)
 local DeleteMessage = require(script.Parent.actions.DeleteMessage)
 local SetMessageBody = require(script.Parent.actions.SetMessageBody)
@@ -61,30 +61,6 @@ local function setupInitialState()
 	CollectionService:GetInstanceAddedSignal(config.TAG_NAME):Connect(onMessagePartAdded)
 
 	CollectionService:GetInstanceRemovedSignal(config.TAG_NAME):Connect(onMessagePartRemoved)
-end
-
-local function createMessagePart(messageId, userId, position)
-	local messagePart = new("Part", {
-		Name = "WorldMessage",
-		Anchored = true,
-		Locked = true,
-		CanCollide = false,
-		Transparency = 1,
-		-- Normally we would use Position, but this forces the Part to exist
-		-- inside another, without being pushed up on top.
-		CFrame = CFrame.new(position),
-		Size = Vector3.new(0, 0, 0),
-		Parent = workspace
-	}, {
-		new("StringValue", { Name = "Id", Value = messageId }),
-		new("StringValue", { Name = "AuthorId", Value = userId, }),
-		new("StringValue", { Name = "Body" }),
-		new("NumberValue", { Name = "Time", Value = os.time() }),
-	})
-
-	CollectionService:AddTag(messagePart, config.TAG_NAME)
-
-	return messagePart
 end
 
 -- TODO: Replace buttons with just a widget. Will have add, visibility filter,
@@ -125,7 +101,15 @@ local function createButtons()
 end
 
 local function createInterface()
-	-- TODO: re add UI stuff after unfucking the state
+	-- so now we have actual state to go off of for the messages. time to leverage that!
+
+	local billboardsRoot = Roact.createElement(StoreProvider, {
+		store = store
+	}, {
+		Roact.createElement(WorldMessages)
+	})
+
+	Roact.mount(billboardsRoot, CoreGui, "WorldMessages")
 end
 
 setupInitialState()

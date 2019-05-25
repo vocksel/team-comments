@@ -7,26 +7,29 @@ local new = require(script.Parent.new)
 
 local messages = {}
 
-function messages.newMessagePart(userId)
-	local id = HttpService:GenerateGUID()
-
-	local part = new("Part", {
+function messages.createMessagePart(messageId, userId, position)
+	local messagePart = new("Part", {
 		Name = "WorldMessage",
 		Anchored = true,
+		Locked = true,
+		CanCollide = false,
 		Transparency = 1,
-		Size = Vector3.new(1, 1, 1)
+		-- Normally we would use Position, but this forces the Part to exist
+		-- inside another, without being pushed up on top.
+		CFrame = CFrame.new(position),
+		Size = Vector3.new(0, 0, 0),
+		Parent = workspace
 	}, {
-		new("StringValue", { Name = "Id", Value = id }),
-		new("IntValue", { Name = "AuthorId", Value = userId }),
+		new("StringValue", { Name = "Id", Value = messageId }),
+		new("StringValue", { Name = "AuthorId", Value = userId, }),
 		new("StringValue", { Name = "Body" }),
-		new("NumberValue", { Name = "Time" })
+		new("NumberValue", { Name = "Time", Value = os.time() }),
 	})
 
-	CollectionService:AddTag(part, config.TAG_NAME)
+	CollectionService:AddTag(messagePart, config.TAG_NAME)
 
-	return part
+	return messagePart
 end
-
 
 --[[
 	Exactly like GetChildren(), but returns a dictionary where the key is each
@@ -51,6 +54,8 @@ function messages.validateMessagePart(messagePart)
 	local check = t.interface({
 		Id = t.instance("StringValue"),
 		AuthorId = t.instance("StringValue"),
+		Body = t.instance("StringValue"),
+		Time = t.instance("NumberValue"),
 	})
 
 	local children = getNamedChildren(messagePart)
@@ -70,6 +75,17 @@ function messages.runIfValid(messagePart, callback)
 		callback()
 	else
 		warn(result)
+	end
+end
+
+--[[
+	Gets a messagePart by its ID.
+]]
+function messages.getMessagePartById(messageId)
+	for _, messagePart in pairs(CollectionService:GetTagged(config.TAG_NAME)) do
+		if messagePart.Id.Value == messageId then
+			return messagePart
+		end
 	end
 end
 

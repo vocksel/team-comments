@@ -1,13 +1,6 @@
 local createReducer = require(script.Parent.Parent.Rodux).createReducer
 local immutable = require(script.Parent.Parent.immutable)
-local t = require(script.Parent.Parent.t)
-
-local IMessage = t.interface({
-	id = t.string,
-	authorId = t.string,
-	body = t.string,
-	time = t.number,
-})
+local types = require(script.Parent.Parent.types)
 
 local messages = createReducer({
 	-- [id] = { authorId, body, id, time }
@@ -15,7 +8,7 @@ local messages = createReducer({
 	CreateMessage = function(state, action)
 		local message = action.message
 
-		assert(IMessage(message))
+		assert(types.IMessage(message))
 
 		return immutable.join(state, {
 			[action.message.id] = message

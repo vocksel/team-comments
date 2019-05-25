@@ -15,7 +15,7 @@ local function MessageMeta(props)
 	assert(Props(props))
 
 	local date = os.date("*t", props.message.time)
-	local formattedDate = ("%i/%i/%i"):format(date.day, date.month, date.year)
+	local formattedDate = ("%02i/%02i/%i"):format(date.month, date.day, date.year)
 
 	return Roact.createElement("Frame", {
 		BackgroundTransparency = 1,

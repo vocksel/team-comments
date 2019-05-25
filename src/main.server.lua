@@ -88,11 +88,7 @@ local function createButtons()
 		-- If there's anything in the way, push it closer (ray cast to check)
 		local position = workspace.CurrentCamera.CFrame.p
 
-		createMessagePart(messageId, clientId, position)
-
-		-- local p = messages.newMessagePart(userId)
-		-- p.Parent = workspace
-		-- p.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p)
+		messages.createMessagePart(messageId, clientId, position)
 	end)
 
 	toggleMessageVisibilityButton.Click:Connect(function()

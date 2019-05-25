@@ -33,7 +33,7 @@ local DeleteMessage = require(script.Parent.Actions.DeleteMessage)
 local SetMessageBody = require(script.Parent.Actions.SetMessageBody)
 local ToggleMessagesVisibility = require(script.Parent.Actions.ToggleMessagesVisibility)
 
-local toolbar = plugin:CreateToolbar("World Messages")
+local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
 local clientId = tostring(plugin:GetStudioUserId())
 local store = Rodux.Store.new(Reducer)
 
@@ -102,7 +102,7 @@ local function createInterface()
 		Roact.createElement(WorldMessages)
 	})
 
-	Roact.mount(billboardsRoot, CoreGui, "WorldMessages")
+	Roact.mount(billboardsRoot, CoreGui, Config.PLUGIN_NAME)
 end
 
 setupInitialState()

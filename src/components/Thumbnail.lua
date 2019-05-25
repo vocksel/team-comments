@@ -1,8 +1,5 @@
 --[[
-  Thumbnail
-  ---------
-
-  Provides a player's or bot's thumbnail to other components.
+  Provides a player's thumbnail to other components.
 
   Usage:
 

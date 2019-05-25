@@ -4,6 +4,8 @@ local config = require(script.Parent.Parent.config)
 local messages = require(script.Parent.Parent.messages)
 local types = require(script.Parent.Parent.types)
 local Avatar = require(script.Parent.Avatar)
+local MessageMeta = require(script.Parent.MessageMeta)
+local MessageBody = require(script.Parent.MessageBody)
 
 local Props = t.interface({
 	message = types.IMessage
@@ -31,11 +33,7 @@ local function MessageBillboard(props)
 			}, {
 				Avatar = Roact.createElement(Avatar, {
 					userId = props.message.authorId,
-				}),
-
-				-- Time = Roact.createElement(TimeLabel, {
-				-- 	time = props.message.time
-				-- })
+				})
 			}),
 
 			Main = Roact.createElement("Frame", {
@@ -44,9 +42,21 @@ local function MessageBillboard(props)
 				Position = UDim2.new(1, 0, 0 ,0),
 				BackgroundTransparency = 1,
 			}, {
-				-- Message = Roact.createElement(Message, {
-				-- 	messageId = props.message.id
-				-- })
+				Layout = Roact.createElement("UIListLayout", {
+					SortOrder = Enum.SortOrder.LayoutOrder
+				}),
+
+				Meta = Roact.createElement(MessageMeta, {
+					message = props.message,
+					size = UDim2.new(1, 0, 0.15, 0),
+					layoutOrder = 1,
+				}),
+
+				Body = Roact.createElement(MessageBody, {
+					message = props.message,
+					size = UDim2.new(1, 0, .75, 0),
+					layoutOrder = 2,
+				})
 			})
 		})
 	})

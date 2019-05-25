@@ -1,7 +1,7 @@
 local combineReducers = require(script.Parent.Lib.Rodux).combineReducers
 
 local reducer = combineReducers({
-	areMessagesVisible = require(script.AreMessagesVisible),
+	ui = require(script.UI),
 	messages = require(script.Messages)
 })
 

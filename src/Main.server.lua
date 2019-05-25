@@ -27,6 +27,7 @@ local StoreProvider = require(script.Parent.Lib.RoactRodux).StoreProvider
 local Messages = require(script.Parent.Messages)
 local Reducer = require(script.Parent.Reducer)
 local Config = require(script.Parent.Config)
+local App = require(script.Parent.Components.App)
 local WorldMessages = require(script.Parent.Components.WorldMessages)
 local CreateMessage = require(script.Parent.Actions.CreateMessage)
 local DeleteMessage = require(script.Parent.Actions.DeleteMessage)
@@ -37,10 +38,28 @@ local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
 local clientId = tostring(plugin:GetStudioUserId())
 local store = Rodux.Store.new(Reducer)
 
+local function createWidget()
+	local info = DockWidgetPluginGuiInfo.new(
+		Enum.InitialDockState.Left,
+		true
+	)
+	local widgetName = Config.PLUGIN_NAME.."App"
+	local widget = plugin:CreateDockWidgetPluginGui(widgetName, info)
+
+	widget.Name = widgetName
+	widget.Title = Config.DISPLAY_NAME
+	widget.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	return widget
+end
+
 local function onMessagePartAdded(messagePart)
 	Messages.runIfValid(messagePart, function()
 		store:dispatch(CreateMessage(messagePart.Id.Value, messagePart.AuthorId.Value, messagePart.Time.Value))
 		store:dispatch(SetMessageBody(messagePart.Id.Value, messagePart.Body.Value))
+
+		-- TODO: Listen for changes to the message's Value instances and
+		-- reconstruct if anything is edited manually.
 	end)
 end
 
@@ -62,7 +81,21 @@ end
 
 -- TODO: Replace buttons with just a widget. Will have add, visibility filter,
 -- and full list of messages
-local function createButtons()
+local function createButtons(widget)
+	local toggleAppView = toolbar:CreateButton(
+		Config.DISPLAY_NAME,
+		"View and edit the list of messages",
+		""
+	)
+
+	toggleAppView.Click:Connect(function()
+		widget.Enabled = not widget.Enabled
+	end)
+
+	widget:GetPropertyChangedSignal("Enabled"):Connect(function()
+		toggleAppView:SetActive(widget.Enabled)
+	end)
+
 	-- TODO: Create actions for the buttons so that we can set keybinds for
 	-- them. Like Ctrl+Alt+M in Google Docs.
 	local newMessageButton = toolbar:CreateButton(
@@ -93,9 +126,7 @@ local function createButtons()
 	end)
 end
 
-local function createInterface()
-	-- so now we have actual state to go off of for the messages. time to leverage that!
-
+local function createInterface(widget)
 	local billboardsRoot = Roact.createElement(StoreProvider, {
 		store = store
 	}, {
@@ -103,10 +134,20 @@ local function createInterface()
 	})
 
 	Roact.mount(billboardsRoot, CoreGui, Config.PLUGIN_NAME)
+
+	local appRoot = Roact.createElement(StoreProvider, {
+		store = store,
+	}, {
+		Roact.createElement(App)
+	})
+
+	Roact.mount(appRoot, widget, "App")
 end
 
+local widget = createWidget()
+
 setupInitialState()
-createButtons()
-createInterface()
+createButtons(widget)
+createInterface(widget)
 
 print("loaded!")

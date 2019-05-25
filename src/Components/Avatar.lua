@@ -8,8 +8,12 @@ local function mirrorX(x, y)
 end
 
 local Props = t.interface({
-    userId = t.string,
-	mirrored = t.optional(t.boolean)
+	userId = t.string,
+	size = t.optional(t.UDim2),
+	sizeConstraint = t.optional(t.enum(Enum.SizeConstraint)),
+	maskColor = t.optional(t.Color3),
+	layoutOrder = t.optional(t.integer),
+	mirrored = t.optional(t.boolean),
 })
 
 local function Avatar(props)
@@ -24,12 +28,14 @@ local function Avatar(props)
             end
 
 			return Roact.createElement("Frame", {
-                SizeConstraint = Enum.SizeConstraint.RelativeXX,
-				Size = UDim2.new(1, 0, 1, 0),
+                SizeConstraint = props.sizeConstraint or Enum.SizeConstraint.RelativeXX,
+				Size = props.size or UDim2.new(1, 0, 1, 0),
 				BackgroundTransparency = 1,
+				LayoutOrder = props.layoutOrder,
 			}, {
 				Mask = Roact.createElement("ImageLabel", {
 					Image = "rbxassetid://3214902128",
+					ImageColor3 = props.maskColor,
 					BackgroundTransparency = 1,
 					Size = UDim2.new(1, 0, 1, 0),
 					ZIndex = 2

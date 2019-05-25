@@ -21,6 +21,7 @@ stds.roblox = {
 		"NumberRange",
 		"NumberSequence",
 		"NumberSequenceKeypoint",
+		"DockWidgetPluginGuiInfo",
 		"ColorSequence",
 		"Random",
 		"Ray",

@@ -1,5 +1,5 @@
-local Roact = require(script.Parent.Parent.lib.Roact)
-local connect = require(script.Parent.Parent.lib.RoactRodux).connect
+local Roact = require(script.Parent.Parent.Lib.Roact)
+local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
 local MessageBillboard = require(script.Parent.MessageBillboard)
 
 local function WorldMessages(props)
@@ -20,4 +20,4 @@ local function mapStateToProps(state)
 	}
 end
 
-return connect(mapStateToProps)(WorldMessages)
+return Connect(mapStateToProps)(WorldMessages)

@@ -1,6 +1,6 @@
-local createReducer = require(script.Parent.Parent.lib.Rodux).createReducer
+local CreateReducer = require(script.Parent.Parent.Lib.Rodux).createReducer
 
-local areMessagesVisible = createReducer(true, {
+local areMessagesVisible = CreateReducer(true, {
 	ToggleMessagesVisibility = function(state)
 		return not state
 	end

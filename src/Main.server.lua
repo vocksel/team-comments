@@ -21,45 +21,45 @@ local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local CollectionService = game:GetService("CollectionService")
 
-local Roact = require(script.Parent.lib.Roact)
-local Rodux = require(script.Parent.lib.Rodux)
-local StoreProvider = require(script.Parent.lib.RoactRodux).StoreProvider
-local messages = require(script.Parent.messages)
-local reducer = require(script.Parent.reducer)
-local config = require(script.Parent.config)
-local WorldMessages = require(script.Parent.components.WorldMessages)
-local CreateMessage = require(script.Parent.actions.CreateMessage)
-local DeleteMessage = require(script.Parent.actions.DeleteMessage)
-local SetMessageBody = require(script.Parent.actions.SetMessageBody)
-local ToggleMessagesVisibility = require(script.Parent.actions.ToggleMessagesVisibility)
+local Roact = require(script.Parent.Lib.Roact)
+local Rodux = require(script.Parent.Lib.Rodux)
+local StoreProvider = require(script.Parent.Lib.RoactRodux).StoreProvider
+local Messages = require(script.Parent.Messages)
+local Reducer = require(script.Parent.Reducer)
+local Config = require(script.Parent.Config)
+local WorldMessages = require(script.Parent.Components.WorldMessages)
+local CreateMessage = require(script.Parent.Actions.CreateMessage)
+local DeleteMessage = require(script.Parent.Actions.DeleteMessage)
+local SetMessageBody = require(script.Parent.Actions.SetMessageBody)
+local ToggleMessagesVisibility = require(script.Parent.Actions.ToggleMessagesVisibility)
 
 local toolbar = plugin:CreateToolbar("World Messages")
 local clientId = tostring(plugin:GetStudioUserId())
-local store = Rodux.Store.new(reducer, nil, { Rodux.loggerMiddleware })
+local store = Rodux.Store.new(Reducer, nil, { Rodux.loggerMiddleware })
 
 local function onMessagePartAdded(messagePart)
-	messages.runIfValid(messagePart, function()
+	Messages.runIfValid(messagePart, function()
 		store:dispatch(CreateMessage(messagePart.Id.Value, messagePart.AuthorId.Value, messagePart.Time.Value))
 		store:dispatch(SetMessageBody(messagePart.Id.Value, messagePart.Body.Value))
 	end)
 end
 
 local function onMessagePartRemoved(messagePart)
-	messages.runIfValid(messagePart, function()
+	Messages.runIfValid(messagePart, function()
 		print("deleted")
 		store:dispatch(DeleteMessage(messagePart.Id.Value))
 	end)
 end
 
 local function setupInitialState()
-	for _, messagePart in pairs(CollectionService:GetTagged(config.TAG_NAME)) do
+	for _, messagePart in pairs(CollectionService:GetTagged(Config.TAG_NAME)) do
 		print(messagePart:GetFullName())
 		onMessagePartAdded(messagePart)
 	end
 
-	CollectionService:GetInstanceAddedSignal(config.TAG_NAME):Connect(onMessagePartAdded)
+	CollectionService:GetInstanceAddedSignal(Config.TAG_NAME):Connect(onMessagePartAdded)
 
-	CollectionService:GetInstanceRemovedSignal(config.TAG_NAME):Connect(onMessagePartRemoved)
+	CollectionService:GetInstanceRemovedSignal(Config.TAG_NAME):Connect(onMessagePartRemoved)
 end
 
 -- TODO: Replace buttons with just a widget. Will have add, visibility filter,
@@ -87,7 +87,7 @@ local function createButtons()
 		-- If there's anything in the way, push it closer (ray cast to check)
 		local position = workspace.CurrentCamera.CFrame.p
 
-		messages.createMessagePart(messageId, clientId, position)
+		Messages.createMessagePart(messageId, clientId, position)
 	end)
 
 	toggleMessageVisibilityButton.Click:Connect(function()

@@ -1,9 +1,9 @@
-local action = require(script.Parent.Parent.lib.action)
-local t = require(script.Parent.Parent.lib.t)
+local Action = require(script.Parent.Parent.Lib.Action)
+local t = require(script.Parent.Parent.Lib.t)
 
 local check = t.tuple(t.string)
 
-return action(script.Name, function(id)
+return Action(script.Name, function(id)
 	assert(check(id))
 
 	return {

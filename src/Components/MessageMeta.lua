@@ -1,10 +1,10 @@
-local Roact = require(script.Parent.Parent.lib.Roact)
-local t = require(script.Parent.Parent.lib.t)
-local types = require(script.Parent.Parent.types)
+local Roact = require(script.Parent.Parent.Lib.Roact)
+local t = require(script.Parent.Parent.Lib.t)
+local Types = require(script.Parent.Parent.Types)
 local PlayerName = require(script.Parent.PlayerName)
 
 local Props = t.interface({
-	message = types.IMessage,
+	message = Types.IMessage,
 	size = t.UDim2,
 	layoutOrder = t.integer
 })

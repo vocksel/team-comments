@@ -1,13 +1,13 @@
 local CollectionService = game:GetService("CollectionService")
 
-local t = require(script.Parent.lib.t)
-local config = require(script.Parent.config)
-local new = require(script.Parent.new)
+local t = require(script.Parent.Lib.t)
+local Config = require(script.Parent.Config)
+local New = require(script.Parent.New)
 
 local messages = {}
 
 function messages.createMessagePart(messageId, userId, position)
-	local messagePart = new("Part", {
+	local messagePart = New("Part", {
 		Name = "WorldMessage",
 		Anchored = true,
 		Locked = true,
@@ -19,13 +19,13 @@ function messages.createMessagePart(messageId, userId, position)
 		Size = Vector3.new(0, 0, 0),
 		Parent = workspace
 	}, {
-		new("StringValue", { Name = "Id", Value = messageId }),
-		new("StringValue", { Name = "AuthorId", Value = userId, }),
-		new("StringValue", { Name = "Body" }),
-		new("NumberValue", { Name = "Time", Value = os.time() }),
+		New("StringValue", { Name = "Id", Value = messageId }),
+		New("StringValue", { Name = "AuthorId", Value = userId, }),
+		New("StringValue", { Name = "Body" }),
+		New("NumberValue", { Name = "Time", Value = os.time() }),
 	})
 
-	CollectionService:AddTag(messagePart, config.TAG_NAME)
+	CollectionService:AddTag(messagePart, Config.TAG_NAME)
 
 	return messagePart
 end
@@ -81,7 +81,7 @@ end
 	Gets a messagePart by its ID.
 ]]
 function messages.getMessagePartById(messageId)
-	for _, messagePart in pairs(CollectionService:GetTagged(config.TAG_NAME)) do
+	for _, messagePart in pairs(CollectionService:GetTagged(Config.TAG_NAME)) do
 		if messagePart.Id.Value == messageId then
 			return messagePart
 		end

@@ -1,23 +1,23 @@
-local Roact = require(script.Parent.Parent.lib.Roact)
-local t = require(script.Parent.Parent.lib.t)
-local config = require(script.Parent.Parent.config)
-local messages = require(script.Parent.Parent.messages)
-local types = require(script.Parent.Parent.types)
+local Roact = require(script.Parent.Parent.Lib.Roact)
+local t = require(script.Parent.Parent.Lib.t)
+local Config = require(script.Parent.Parent.Config)
+local Messages = require(script.Parent.Parent.Messages)
+local Types = require(script.Parent.Parent.Types)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageBody = require(script.Parent.MessageBody)
 
 local Props = t.interface({
-	message = types.IMessage
+	message = Types.IMessage
 })
 
 local function MessageBillboard(props)
 	assert(Props(props))
 
-	local messagePart = messages.getMessagePartById(props.message.id)
+	local messagePart = Messages.getMessagePartById(props.message.id)
 
 	return Roact.createElement("BillboardGui", {
-		MaxDistance = config.BILLBOARD_MAX_DISTANCE,
+		MaxDistance = Config.BILLBOARD_MAX_DISTANCE,
 		Size = UDim2.new(8, 0, 4, 0),
 		LightInfluence = 0,
 		Adornee = messagePart

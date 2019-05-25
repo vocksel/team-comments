@@ -6,7 +6,6 @@ local IMessage = t.interface({
 	id = t.string,
 	authorId = t.string,
 	body = t.string,
-	position = t.Vector3,
 	time = t.number,
 })
 

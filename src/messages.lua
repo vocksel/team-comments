@@ -1,6 +1,7 @@
 local CollectionService = game:GetService("CollectionService")
 local HttpService = game:GetService("HttpService")
 
+local t = require(script.Parent.t)
 local config = require(script.Parent.config)
 local new = require(script.Parent.new)
 
@@ -26,12 +27,50 @@ function messages.newMessagePart(userId)
 	return part
 end
 
-function messages.getStorage()
-	return CollectionService:GetTagged(config.STORAGE_TAG_NAME)
+
+--[[
+	Exactly like GetChildren(), but returns a dictionary where the key is each
+	child's name.
+]]
+local function getNamedChildren(parent)
+	assert(typeof(parent) == "Instance")
+
+	local children = {}
+
+	for _, child in pairs(parent:GetChildren()) do
+		children[child.Name] = child
+	end
+
+	return children
 end
 
-function messages.getAll()
-	return CollectionService:GetTagged(config.TAG_NAME)
+--[[
+	Validates that a message part has all the required instances.
+]]
+function messages.validateMessagePart(messagePart)
+	local check = t.interface({
+		Id = t.instance("StringValue"),
+		AuthorId = t.instance("StringValue"),
+	})
+
+	local children = getNamedChildren(messagePart)
+
+	assert(check(children))
+end
+
+--[[
+	Only runs the given callback if messagePart is valid.
+
+	Otherwise warns what went wrong.
+]]
+function messages.runIfValid(messagePart, callback)
+	local ok, result = pcall(messages.validateMessagePart, messagePart)
+
+	if ok then
+		callback()
+	else
+		warn(result)
+	end
 end
 
 return messages

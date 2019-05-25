@@ -1,5 +1,5 @@
-local Roact = require(script.Parent.Parent.Roact)
-local connect = require(script.Parent.Parent.RoactRodux).connect
+local Roact = require(script.Parent.Parent.lib.Roact)
+local connect = require(script.Parent.Parent.lib.RoactRodux).connect
 local MessageBillboard = require(script.Parent.MessageBillboard)
 
 local function WorldMessages(props)

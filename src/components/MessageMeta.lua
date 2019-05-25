@@ -1,5 +1,5 @@
-local Roact = require(script.Parent.Parent.Roact)
-local t = require(script.Parent.Parent.t)
+local Roact = require(script.Parent.Parent.lib.Roact)
+local t = require(script.Parent.Parent.lib.t)
 local types = require(script.Parent.Parent.types)
 local PlayerName = require(script.Parent.PlayerName)
 

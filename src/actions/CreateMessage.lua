@@ -1,5 +1,5 @@
-local action = require(script.Parent.Parent.action)
-local t = require(script.Parent.Parent.t)
+local action = require(script.Parent.Parent.lib.action)
+local t = require(script.Parent.Parent.lib.t)
 
 local check = t.tuple(t.string, t.string, t.number)
 

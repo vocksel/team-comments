@@ -1,6 +1,6 @@
 
-local Roact = require(script.Parent.Parent.Roact)
-local t = require(script.Parent.Parent.t)
+local Roact = require(script.Parent.Parent.lib.Roact)
+local t = require(script.Parent.Parent.lib.t)
 local Thumbnail = require(script.Parent.Thumbnail)
 
 local function mirrorX(x, y)

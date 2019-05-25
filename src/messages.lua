@@ -1,7 +1,6 @@
 local CollectionService = game:GetService("CollectionService")
-local HttpService = game:GetService("HttpService")
 
-local t = require(script.Parent.t)
+local t = require(script.Parent.lib.t)
 local config = require(script.Parent.config)
 local new = require(script.Parent.new)
 

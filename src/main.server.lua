@@ -21,12 +21,11 @@ local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local CollectionService = game:GetService("CollectionService")
 
-local Roact = require(script.Parent.Roact)
-local Rodux = require(script.Parent.Rodux)
-local StoreProvider = require(script.Parent.RoactRodux).StoreProvider
+local Roact = require(script.Parent.lib.Roact)
+local Rodux = require(script.Parent.lib.Rodux)
+local StoreProvider = require(script.Parent.lib.RoactRodux).StoreProvider
 local messages = require(script.Parent.messages)
 local reducer = require(script.Parent.reducer)
-local new = require(script.Parent.new)
 local config = require(script.Parent.config)
 local WorldMessages = require(script.Parent.components.WorldMessages)
 local CreateMessage = require(script.Parent.actions.CreateMessage)

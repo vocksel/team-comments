@@ -1,5 +1,5 @@
-local createReducer = require(script.Parent.Parent.Rodux).createReducer
-local immutable = require(script.Parent.Parent.immutable)
+local createReducer = require(script.Parent.Parent.lib.Rodux).createReducer
+local immutable = require(script.Parent.Parent.lib.immutable)
 local types = require(script.Parent.Parent.types)
 
 local messages = createReducer({

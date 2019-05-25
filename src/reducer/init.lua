@@ -1,4 +1,4 @@
-local combineReducers = require(script.Parent.Rodux).combineReducers
+local combineReducers = require(script.Parent.lib.Rodux).combineReducers
 
 local reducer = combineReducers({
 	areMessagesVisible = require(script.areMessagesVisible),

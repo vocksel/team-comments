@@ -1,6 +1,7 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
+local Styles = require(script.Parent.Parent.Styles)
 local PlayerName = require(script.Parent.PlayerName)
 
 local Props = t.interface({
@@ -8,8 +9,6 @@ local Props = t.interface({
 	size = t.UDim2,
 	layoutOrder = t.integer
 })
-
-local TEXT_SIZE = 22
 
 local function MessageMeta(props)
 	assert(Props(props))
@@ -28,9 +27,9 @@ local function MessageMeta(props)
 				return Roact.createElement("TextLabel", {
 					Text = name,
 					Size = UDim2.new(1, 0, 1, 0),
-					Font = Enum.Font.GothamBold,
+					Font = Styles.HeaderFont,
 					BackgroundTransparency = 1,
-					TextSize = TEXT_SIZE,
+					TextSize = Styles.HeaderTextSize,
 					TextWrapped = true,
 					TextColor3 = Color3.fromRGB(20, 20, 20),
 					TextXAlignment = Enum.TextXAlignment.Left,
@@ -42,9 +41,9 @@ local function MessageMeta(props)
 		Date = Roact.createElement("TextLabel", {
 			Text = formattedDate,
 			Size = UDim2.new(1, 0, 1, 0),
-			Font = Enum.Font.GothamBold,
+			Font = Styles.HeaderFont,
 			BackgroundTransparency = 1,
-			TextSize = TEXT_SIZE-4,
+			TextSize = Styles.TextSize,
 			TextWrapped = true,
 			TextColor3 = Color3.fromRGB(129, 129, 138),
 			TextXAlignment = Enum.TextXAlignment.Right,

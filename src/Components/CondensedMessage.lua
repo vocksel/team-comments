@@ -31,7 +31,7 @@ local function CondensedMessage(props)
 				FillDirection = Enum.FillDirection.Horizontal,
 			}),
 
-			Padding = Roact.createElement(Padding, { size = 8 }),
+			Padding = Roact.createElement(Padding),
 
 			Avatar = Roact.createElement(Avatar, {
 				userId = props.message.authorId,

@@ -1,6 +1,7 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Config = require(script.Parent.Parent.Config)
+local Styles = require(script.Parent.Parent.Styles)
 local Messages = require(script.Parent.Parent.Messages)
 local Types = require(script.Parent.Parent.Types)
 local Avatar = require(script.Parent.Avatar)
@@ -12,8 +13,6 @@ local CameraDistanceProvider = require(script.Parent.CameraDistanceProvider)
 local Props = t.interface({
 	message = Types.IMessage
 })
-
-local PADDING = 8
 
 local function getScaleFromDistance(distance)
 	-- (distance, scale) pairs
@@ -56,9 +55,7 @@ local function MessageBillboard(props)
 						Scale = getScaleFromDistance(distance)
 					}),
 
-					Padding = Roact.createElement(Padding, {
-						size = PADDING
-					}),
+					Padding = Roact.createElement(Padding),
 
 					Layout = Roact.createElement("UIListLayout", {
 						SortOrder = Enum.SortOrder.LayoutOrder,
@@ -76,17 +73,17 @@ local function MessageBillboard(props)
 					}),
 
 					Main = Roact.createElement("Frame", {
-						Size = UDim2.new(4/5, -PADDING, 1, 0),
+						Size = UDim2.new(4/5, -Styles.Padding, 1, 0),
 						BackgroundTransparency = 1,
 						LayoutOrder = 2,
 					}, {
 						Layout = Roact.createElement("UIListLayout", {
 							SortOrder = Enum.SortOrder.LayoutOrder,
-							Padding = UDim.new(0, 8)
+							Padding = UDim.new(0, Styles.Padding)
 						}),
 
 						Padding = Roact.createElement("UIPadding", {
-							PaddingLeft = UDim.new(0, PADDING)
+							PaddingLeft = UDim.new(0, Styles.Padding)
 						}),
 
 						Meta = Roact.createElement(MessageMeta, {

@@ -27,7 +27,7 @@ local function getScaleFromDistance(distance)
 	return math.clamp(scale, s2, s1)
 end
 
-local function MessageBillboard(props)
+local function BillboardMessage(props)
 	assert(Props(props))
 
 	local messagePart = Messages.getMessagePartById(props.message.id)
@@ -104,4 +104,4 @@ local function MessageBillboard(props)
 	})
 end
 
-return MessageBillboard
+return BillboardMessage

@@ -35,7 +35,7 @@ local ToggleMessagesVisibility = require(script.Parent.Actions.ToggleMessagesVis
 
 local toolbar = plugin:CreateToolbar("World Messages")
 local clientId = tostring(plugin:GetStudioUserId())
-local store = Rodux.Store.new(Reducer, nil, { Rodux.loggerMiddleware })
+local store = Rodux.Store.new(Reducer)
 
 local function onMessagePartAdded(messagePart)
 	Messages.runIfValid(messagePart, function()

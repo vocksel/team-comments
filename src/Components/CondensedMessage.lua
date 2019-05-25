@@ -2,9 +2,12 @@ local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
 local Colors = require(script.Parent.Parent.Colors)
+local Styles = require(script.Parent.Parent.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Padding = require(script.Parent.Padding)
 local Avatar = require(script.Parent.Avatar)
+local MessageMeta = require(script.Parent.MessageMeta)
+local MessageBody = require(script.Parent.MessageBody)
 
 local Props = t.interface({
 	height = t.integer,
@@ -12,13 +15,15 @@ local Props = t.interface({
 	message = Types.IMessage
 })
 
+-- TODO: Clicking a CondensedMessage takes you to that message in the world
+
 local function CondensedMessage(props)
 	assert(Props(props))
 
 	return StudioThemeAccessor.withTheme(function(theme)
 		local isEven = props.layoutOrder % 2 == 0
-		local themeBackgroundColor = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground)
-		local backgroundColor = isEven and themeBackgroundColor or Colors.darken(themeBackgroundColor, 20)
+		local themeBackgroundColor = theme:GetColor("Item")
+		local backgroundColor = isEven and themeBackgroundColor or themeBackgroundColor
 
 		return Roact.createElement("Frame", {
 			Size = UDim2.new(1, 0, 0, props.height),
@@ -46,14 +51,25 @@ local function CondensedMessage(props)
 				BackgroundTransparency = 1,
 				LayoutOrder = 2,
 			}, {
-				Layout = Roact.createElement("UIListLayout"),
+				Layout = Roact.createElement("UIListLayout", {
+					SortOrder = Enum.SortOrder.LayoutOrder
+				}),
 
-				-- debug
-				Time = Roact.createElement("TextLabel", {
-					Text = props.message.time,
-					TextColor3 = Color3.fromRGB(255, 255, 255),
-					Size = UDim2.new(1, 0, 1, 0),
-					BackgroundTransparency = 1,
+				Padding = Roact.createElement("UIPadding", {
+					PaddingLeft = UDim.new(0, Styles.Padding)
+				}),
+
+				Meta = Roact.createElement(MessageMeta, {
+					message = props.message,
+					size = UDim2.new(1, 0, 1/3, 0),
+					layoutOrder = 1,
+				}),
+
+				Body = Roact.createElement(MessageBody, {
+					message = props.message,
+					size = UDim2.new(1, 0, 2/3, 0),
+					layoutOrder = 2,
+					isTruncated = true,
 				})
 			})
 		})

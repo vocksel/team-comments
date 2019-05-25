@@ -1,8 +1,8 @@
 return {
 	Font = Enum.Font.Gotham,
-	TextSize = 18,
-	Headerfont = Enum.Font.GothamBold,
-	HeaderTextSize = 22,
+	TextSize = 14,
+	HeaderFont = Enum.Font.GothamBold,
+	HeaderTextSize = 16,
 
 	Padding = 8,
 }

@@ -1,11 +1,18 @@
 
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
+local t = require(script.Parent.Parent.Lib.t)
 local Helpers = require(script.Parent.Parent.Helpers)
 local ScrollingFrame = require(script.Parent.ScrollingFrame)
 local CondensedMessage = require(script.Parent.CondensedMessage)
 
+local Props = t.interface({
+	size = t.UDim2
+})
+
 local function MessageList(props)
+	assert(Props(props))
+
 	local children = {}
 
 	local function sorter(a, b)
@@ -24,7 +31,7 @@ local function MessageList(props)
 		List = true,
 		ShowBorder = false,
 		LayoutOrder = 2,
-		Size = UDim2.new(1, 0, 1, 0),
+		Size = props.size,
 	}, children)
 end
 

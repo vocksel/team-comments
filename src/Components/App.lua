@@ -42,7 +42,10 @@ local function App(props)
 
 			-- Top bar for toggleable options (like visibility)
 			-- Scrolling list of all messages
-			List = Roact.createElement(MessageList)
+			List = Roact.createElement(MessageList, {
+				layoutOrder = 2,
+				size = UDim2.new(1, 0, 1, -64)
+			})
 		})
 	end)
 end

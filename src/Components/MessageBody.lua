@@ -1,6 +1,8 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
+local Styles = require(script.Parent.Parent.Styles)
+local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 
 local Props = t.interface({
 	message = Types.IMessage,
@@ -11,18 +13,20 @@ local Props = t.interface({
 local function MessageBody(props)
 	assert(Props(props))
 
-	return Roact.createElement("TextLabel", {
-		Text = props.message.body,
-		Size = props.size,
-		LayoutOrder = props.layoutOrder,
-		Font = Enum.Font.Gotham,
-		BackgroundTransparency = 1,
-		TextSize = 18,
-		TextWrapped = true,
-		TextColor3 = Color3.fromRGB(20, 20, 20),
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextYAlignment = Enum.TextYAlignment.Top,
-	})
+	return StudioThemeAccessor.withTheme(function(theme)
+		return Roact.createElement("TextLabel", {
+			Text = props.message.body,
+			Size = props.size,
+			LayoutOrder = props.layoutOrder,
+			Font = Styles.Font,
+			BackgroundTransparency = 1,
+			TextSize = Styles.TextSize,
+			TextWrapped = true,
+			TextColor3 = theme:GetColor("MainText"),
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextYAlignment = Enum.TextYAlignment.Top,
+		})
+	end)
 end
 
 return MessageBody

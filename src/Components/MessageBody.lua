@@ -7,6 +7,7 @@ local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Props = t.interface({
 	message = Types.IMessage,
 	size = t.UDim2,
+	isTruncated = t.optional(t.boolean),
 	layoutOrder = t.integer
 })
 
@@ -22,6 +23,7 @@ local function MessageBody(props)
 			BackgroundTransparency = 1,
 			TextSize = Styles.TextSize,
 			TextWrapped = true,
+			TextTruncate = props.isTruncated and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None,
 			TextColor3 = theme:GetColor("MainText"),
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,

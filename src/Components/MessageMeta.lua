@@ -24,7 +24,9 @@ local function MessageMeta(props)
 				LayoutOrder = props.layoutOrder,
 				Font = Enum.Font.GothamBlack,
 				BackgroundTransparency = 1,
-				TextScaled = true,
+				TextSize = 20,
+				TextWrapped = true,
+				TextColor3 = Color3.fromRGB(20, 20, 20),
 				TextXAlignment = Enum.TextXAlignment.Left,
 				TextYAlignment = Enum.TextYAlignment.Top,
 			})

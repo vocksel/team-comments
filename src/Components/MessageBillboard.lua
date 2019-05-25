@@ -6,10 +6,13 @@ local Types = require(script.Parent.Parent.Types)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageBody = require(script.Parent.MessageBody)
+local Padding = require(script.Parent.Padding)
 
 local Props = t.interface({
 	message = Types.IMessage
 })
+
+local PADDING = 8
 
 local function MessageBillboard(props)
 	assert(Props(props))
@@ -18,7 +21,7 @@ local function MessageBillboard(props)
 
 	return Roact.createElement("BillboardGui", {
 		MaxDistance = Config.BILLBOARD_MAX_DISTANCE,
-		Size = UDim2.new(8, 0, 4, 0),
+		Size = UDim2.new(0, 450, 0, 200),
 		LightInfluence = 0,
 		Adornee = messagePart
 	}, {
@@ -27,9 +30,19 @@ local function MessageBillboard(props)
 			Size = UDim2.new(1, 0, 1, 0),
 			BorderSizePixel = 0
 		}, {
+			Padding = Roact.createElement(Padding, {
+				size = PADDING
+			}),
+
+			Layout = Roact.createElement("UIListLayout", {
+				SortOrder = Enum.SortOrder.LayoutOrder,
+				FillDirection = Enum.FillDirection.Horizontal
+			}),
+
 			Sidebar = Roact.createElement("Frame", {
 				Size = UDim2.new(1/5, 0, 1, 0),
-				BackgroundTransparency = 1
+				BackgroundTransparency = 1,
+				LayoutOrder = 1,
 			}, {
 				Avatar = Roact.createElement(Avatar, {
 					userId = props.message.authorId,
@@ -37,24 +50,28 @@ local function MessageBillboard(props)
 			}),
 
 			Main = Roact.createElement("Frame", {
-				Size = UDim2.new(4/5, 0, 1, 0),
-				AnchorPoint = Vector2.new(1, 0),
-				Position = UDim2.new(1, 0, 0 ,0),
+				Size = UDim2.new(4/5, -PADDING, 1, 0),
 				BackgroundTransparency = 1,
+				LayoutOrder = 2,
 			}, {
 				Layout = Roact.createElement("UIListLayout", {
-					SortOrder = Enum.SortOrder.LayoutOrder
+					SortOrder = Enum.SortOrder.LayoutOrder,
+					Padding = UDim.new(0, 8)
+				}),
+
+				Padding = Roact.createElement("UIPadding", {
+					PaddingLeft = UDim.new(0, PADDING)
 				}),
 
 				Meta = Roact.createElement(MessageMeta, {
 					message = props.message,
-					size = UDim2.new(1, 0, 0.15, 0),
+					size = UDim2.new(1, 0, 0, 22),
 					layoutOrder = 1,
 				}),
 
 				Body = Roact.createElement(MessageBody, {
 					message = props.message,
-					size = UDim2.new(1, 0, .75, 0),
+					size = UDim2.new(1, 0, 0.85, 0),
 					layoutOrder = 2,
 				})
 			})

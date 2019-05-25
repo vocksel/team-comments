@@ -17,7 +17,9 @@ local function MessageBody(props)
 		LayoutOrder = props.layoutOrder,
 		Font = Enum.Font.Gotham,
 		BackgroundTransparency = 1,
-		TextScaled = true,
+		TextSize = 18,
+		TextWrapped = true,
+		TextColor3 = Color3.fromRGB(20, 20, 20),
 		TextXAlignment = Enum.TextXAlignment.Left,
 		TextYAlignment = Enum.TextYAlignment.Top,
 	})

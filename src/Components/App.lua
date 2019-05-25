@@ -1,6 +1,7 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local MessageList = require(script.Parent.MessageList)
+local MessageInputField = require(script.Parent.MessageInputField)
 
 local function ToggleOption(props)
 	return Roact.createElement("Frame", {
@@ -16,7 +17,6 @@ local function ToggleOption(props)
 end
 
 local function App(props)
-
 	return StudioThemeAccessor.withTheme(function(theme)
 		return Roact.createElement("Frame", {
 			BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
@@ -44,7 +44,7 @@ local function App(props)
 			-- Scrolling list of all messages
 			List = Roact.createElement(MessageList, {
 				layoutOrder = 2,
-				size = UDim2.new(1, 0, 1, -64)
+				size = UDim2.new(1, 0, 1, 0)
 			})
 		})
 	end)

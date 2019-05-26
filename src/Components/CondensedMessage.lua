@@ -49,7 +49,8 @@ local function CondensedMessage(props)
 				LayoutOrder = 2,
 			}, {
 				Layout = Roact.createElement("UIListLayout", {
-					SortOrder = Enum.SortOrder.LayoutOrder
+					SortOrder = Enum.SortOrder.LayoutOrder,
+					Padding = UDim.new(0, Styles.Padding),
 				}),
 
 				Padding = Roact.createElement("UIPadding", {

@@ -4,6 +4,7 @@ local Types = require(script.Parent.Parent.Types)
 local Styles = require(script.Parent.Parent.Styles)
 local PlayerName = require(script.Parent.PlayerName)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
+local TextLabel = require(script.Parent.TextLabel)
 
 local Props = t.interface({
 	message = Types.IMessage,
@@ -26,30 +27,23 @@ local function MessageMeta(props)
 			Name = Roact.createElement(PlayerName, {
 				userId = props.message.authorId,
 				render = function(name)
-					return Roact.createElement("TextLabel", {
+					return Roact.createElement(TextLabel, {
 						Text = name,
-						Size = UDim2.new(1, 0, 1, 0),
 						Font = Styles.HeaderFont,
-						BackgroundTransparency = 1,
 						TextSize = Styles.HeaderTextSize,
-						TextWrapped = true,
 						TextColor3 = theme:GetColor("MainText"),
-						TextXAlignment = Enum.TextXAlignment.Left,
-						TextYAlignment = Enum.TextYAlignment.Top,
 					})
 				end
 			}),
 
-			Date = Roact.createElement("TextLabel", {
+			Date = Roact.createElement(TextLabel, {
 				Text = formattedDate,
-				Size = UDim2.new(1, 0, 1, 0),
-				Font = Styles.Font,
-				BackgroundTransparency = 1,
-				TextSize = Styles.TextSize,
-				TextWrapped = true,
 				TextColor3 = theme:GetColor("DimmedText"),
 				TextXAlignment = Enum.TextXAlignment.Right,
-				TextYAlignment = Enum.TextYAlignment.Top,
+
+				-- align right
+				Position = UDim2.new(1, 0, 0, 0),
+				AnchorPoint = Vector2.new(1, 0)
 			})
 		})
 	end)

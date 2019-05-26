@@ -1,34 +1,21 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
-local Styles = require(script.Parent.Parent.Styles)
-local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
+local ThemedTextLabel = require(script.Parent.ThemedTextLabel)
 
 local Props = t.interface({
 	message = Types.IMessage,
-	size = t.UDim2,
-	isTruncated = t.optional(t.boolean),
-	layoutOrder = t.integer
+	isTruncated = t.optional(t.boolean)
 })
 
 local function MessageBody(props)
 	assert(Props(props))
 
-	return StudioThemeAccessor.withTheme(function(theme)
-		return Roact.createElement("TextLabel", {
-			Text = props.message.body,
-			Size = props.size,
-			LayoutOrder = props.layoutOrder,
-			Font = Styles.Font,
-			BackgroundTransparency = 1,
-			TextSize = Styles.TextSize,
-			TextWrapped = true,
-			TextTruncate = props.isTruncated and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None,
-			TextColor3 = theme:GetColor("MainText"),
-			TextXAlignment = Enum.TextXAlignment.Left,
-			TextYAlignment = Enum.TextYAlignment.Top,
-		})
-	end)
+	return Roact.createElement(ThemedTextLabel, {
+		Text = props.message.body,
+		TextTruncate = props.isTruncated and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None,
+		LayoutOrder = props.layoutOrder
+	})
 end
 
 return MessageBody

@@ -22,13 +22,9 @@ local function CondensedMessage(props)
 	assert(Props(props))
 
 	return StudioThemeAccessor.withTheme(function(theme)
-		local isEven = props.layoutOrder % 2 == 0
-		local themeBackgroundColor = theme:GetColor("Item")
-		local backgroundColor = isEven and themeBackgroundColor or themeBackgroundColor
-
 		return Roact.createElement("Frame", {
 			Size = UDim2.new(1, 0, 0, props.height),
-			BackgroundColor3 = backgroundColor,
+			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			LayoutOrder = props.layoutOrder,
 		}, {
@@ -42,7 +38,7 @@ local function CondensedMessage(props)
 			Avatar = Roact.createElement(Avatar, {
 				userId = props.message.authorId,
 				sizeConstraint = Enum.SizeConstraint.RelativeYY,
-				maskColor = backgroundColor,
+				maskColor = theme:getColor("MainBackground"),
 				layoutOrder = 1,
 			}),
 

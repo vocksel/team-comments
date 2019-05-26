@@ -8,6 +8,7 @@ local Padding = require(script.Parent.Padding)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageBody = require(script.Parent.MessageBody)
+local MessageActions = require(script.Parent.MessageActions)
 
 local Props = t.interface({
 	height = t.integer,
@@ -61,15 +62,21 @@ local function CondensedMessage(props)
 
 				Meta = Roact.createElement(MessageMeta, {
 					message = props.message,
-					size = UDim2.new(1, 0, 1/3, 0),
+					size = UDim2.new(1, 0, 0, Styles.HeaderTextSize),
 					layoutOrder = 1,
 				}),
 
 				Body = Roact.createElement(MessageBody, {
 					message = props.message,
-					size = UDim2.new(1, 0, 2/3, 0),
+					size = UDim2.new(1, 0, 0, Styles.TextSize),
 					layoutOrder = 2,
 					isTruncated = true,
+				}),
+
+				Actions = Roact.createElement(MessageActions, {
+					message = props.message,
+					size = UDim2.new(1, 0, 0, Styles.TextSize),
+					layoutOrder = 3,
 				})
 			})
 		})

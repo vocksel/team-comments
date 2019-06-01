@@ -37,7 +37,7 @@ local function CondensedMessage(props)
 
 			Avatar = Roact.createElement(Avatar, {
 				userId = props.message.authorId,
-				sizeConstraint = Enum.SizeConstraint.RelativeYY,
+				size = UDim2.new(0, 48, 0, 48),
 				maskColor = theme:getColor("MainBackground"),
 				layoutOrder = 1,
 			}),

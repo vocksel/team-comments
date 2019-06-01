@@ -72,7 +72,7 @@ local function CondensedMessage(props)
 
 				Actions = Roact.createElement(MessageActions, {
 					message = props.message,
-					size = UDim2.new(1, 0, 0, Styles.TextSize),
+					size = UDim2.new(1, 0, 0, 20),
 					layoutOrder = 3,
 				})
 			})

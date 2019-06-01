@@ -18,6 +18,8 @@ local Props = t.interface({
 
 -- TODO: Clicking a CondensedMessage takes you to that message in the world
 
+local AVATAR_SIZE = 48
+
 local function CondensedMessage(props)
 	assert(Props(props))
 
@@ -37,14 +39,14 @@ local function CondensedMessage(props)
 
 			Avatar = Roact.createElement(Avatar, {
 				userId = props.message.authorId,
-				size = UDim2.new(0, 48, 0, 48),
+				size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
 				maskColor = theme:getColor("MainBackground"),
 				layoutOrder = 1,
 			}),
 
 			Main = Roact.createElement("Frame", {
 				-- The X offset is to account for the avatar
-				Size = UDim2.new(1, -props.height, 1, 0),
+				Size = UDim2.new(1, -AVATAR_SIZE, 1, 0),
 				BackgroundTransparency = 1,
 				LayoutOrder = 2,
 			}, {

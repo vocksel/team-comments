@@ -8,10 +8,7 @@ local ScrollingFrame = require(script.Parent.ScrollingFrame)
 
 local function App(props)
 	return StudioThemeAccessor.withTheme(function(theme)
-		return Roact.createElement(ScrollingFrame, {
-			List = true,
-			ShowBorder = false,
-		}, {
+		return Roact.createElement(ScrollingFrame, nil, {
 			Options = Roact.createElement(ListBox, {
 				layoutOrder = 1,
 				transparency = 0,

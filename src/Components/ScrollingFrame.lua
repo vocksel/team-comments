@@ -1,45 +1,26 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
+local ListBox = require(script.Parent.ListBox)
 
-local function ScrollingFrame(props)
-	local children = {}
+local ScrollingFrame = Roact.Component:extend("ScrollingFrame")
 
-	if props.List then
-		local newProps = {}
-		newProps[Roact.Ref] = function(rbx)
-			if not rbx then return end
-			local function update()
-				if not rbx.Parent then return end
-				local cs = rbx.AbsoluteContentSize
-				rbx.Parent.CanvasSize = UDim2.new(0, 0, 0, cs.y)
-			end
-			rbx:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(update)
-			update()
-		end
-		newProps.SortOrder = Enum.SortOrder.LayoutOrder
-		for key,value in pairs(props.List == true and {} or props.List) do
-			newProps[key] = value
-		end
-		children.UIListLayout = Roact.createElement("UIListLayout", newProps)
+function ScrollingFrame:init()
+	self.height, self.setHeight = Roact.createBinding(0)
+
+	self.mapHeight = function(height)
+		return UDim2.new(0, 0, 0, height)
 	end
+end
 
-	for key, value in pairs(props[Roact.Children]) do
-		children[key] = value
-	end
-
+function ScrollingFrame:render()
 	return StudioThemeAccessor.withTheme(function(theme, themeEnum)
 		return Roact.createElement("Frame", {
-			Size = props.Size or UDim2.new(1, 0, 1, 0),
-			Position = props.Position,
-			AnchorPoint = props.AnchorPoint,
-			BorderSizePixel = props.ShowBorder and 1 or 0,
+			Size = UDim2.new(1, 0, 1, 0),
+			BorderSizePixel = 0,
 			BackgroundColor3 = theme:GetColor("MainBackground"),
 			BorderColor3 = theme:GetColor("Border"),
-			LayoutOrder = props.LayoutOrder,
-			ZIndex = props.ZIndex,
-			Visible = props.Visible,
+			LayoutOrder = self.props.layoutOrder,
 			ClipsDescendants = true,
-			[Roact.Ref] = props[Roact.Ref],
 		}, {
 			BarBackground = Roact.createElement("Frame", {
 				BackgroundColor3 = theme:GetColor("ScrollBarBackground"),
@@ -50,7 +31,9 @@ local function ScrollingFrame(props)
 			}),
 			ScrollingFrame = Roact.createElement("ScrollingFrame", {
 				Size = UDim2.new(1, -2, 1, 0),
+				CanvasSize = self.height:map(self.mapHeight),
 				VerticalScrollBarInset = Enum.ScrollBarInset.Always,
+				ScrollingDirection = Enum.ScrollingDirection.Y,
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
 				ScrollBarThickness = 8,
@@ -58,7 +41,11 @@ local function ScrollingFrame(props)
 				MidImage = "rbxasset://textures/StudioToolbox/ScrollBarMiddle.png",
 				BottomImage = "rbxasset://textures/StudioToolbox/ScrollBarBottom.png",
 				ScrollBarImageColor3 = themeEnum == Enum.UITheme.Dark and Color3.fromRGB(85, 85, 85) or Color3.fromRGB(245, 245, 245),--theme:GetColor("ScrollBar"),
-			}, children)
+			}, {
+				List = Roact.createElement(ListBox, {
+					onHeightChange = self.setHeight,
+				}, self.props[Roact.Children])
+			})
 		})
 	end)
 end

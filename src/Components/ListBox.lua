@@ -62,6 +62,7 @@ local Props = t.interface({
 	fillDirection = t.optional(t.enum(Enum.FillDirection)),
 	layoutOrder = t.optional(t.integer),
 	listPadding = t.optional(t.integer),
+	onHeightChange = t.optional(t.callback),
 	padding = t.optional(t.integer),
 	paddingBottom = t.optional(t.integer),
 	paddingLeft = t.optional(t.integer),
@@ -85,14 +86,19 @@ function ListBox:init()
 	self.height, self.setHeight = Roact.createBinding(0)
 
 	self.onSizeChange = function(rbx)
-		self.setHeight(rbx.AbsoluteContentSize.Y)
+		local padding = self:getPaddingProps()
+		local newHeight = rbx.AbsoluteContentSize.Y + padding.PaddingTop.Offset + padding.PaddingBottom.Offset
+
+		self.setHeight(newHeight)
+
+		if self.props.onHeightChange then
+			self.props.onHeightChange(newHeight)
+		end
 	end
 
 	self.mapHeight = function(height)
-		local padding = self:getPaddingProps()
-		local widthUDim = self.props.width or UDim.new(1, 0)
-		local heightUDim = UDim.new(0, height + padding.PaddingTop.Offset + padding.PaddingBottom.Offset)
-		return UDim2.new(widthUDim, heightUDim)
+		local width = self.props.width or UDim.new(1, 0)
+		return UDim2.new(width, UDim.new(0, height))
 	end
 end
 

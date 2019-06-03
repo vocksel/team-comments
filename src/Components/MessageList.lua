@@ -3,11 +3,11 @@ local Roact = require(script.Parent.Parent.Lib.Roact)
 local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
 local t = require(script.Parent.Parent.Lib.t)
 local Helpers = require(script.Parent.Parent.Helpers)
-local ScrollingFrame = require(script.Parent.ScrollingFrame)
+local ListBox = require(script.Parent.ListBox)
 local CondensedMessage = require(script.Parent.CondensedMessage)
 
 local Props = t.interface({
-	size = t.UDim2
+	layoutOrder = t.optional(t.integer)
 })
 
 local function MessageList(props)
@@ -22,16 +22,12 @@ local function MessageList(props)
 	for index, message in Helpers.spairs(props.messages, sorter) do
 		children[message.id] = Roact.createElement(CondensedMessage, {
 			message = message,
-			height = 64,
 			layoutOrder = index,
 		})
 	end
 
-	return Roact.createElement(ScrollingFrame, {
-		List = true,
-		ShowBorder = false,
-		LayoutOrder = 2,
-		Size = props.size,
+	return Roact.createElement(ListBox, {
+		layoutOrder = props.layoutOrder,
 	}, children)
 end
 

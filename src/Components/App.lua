@@ -4,13 +4,13 @@ local MessageList = require(script.Parent.MessageList)
 local ListBox = require(script.Parent.ListBox)
 local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
 local Styles = require(script.Parent.Parent.Styles)
+local ScrollingFrame = require(script.Parent.ScrollingFrame)
 
 local function App(props)
 	return StudioThemeAccessor.withTheme(function(theme)
-		-- TODO: Make this one giant scrolling frame that has a new message prompt, options, and the list of messages.
-		return Roact.createElement(ListBox, {
-			transparency = 0,
-			backgroundColor = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
+		return Roact.createElement(ScrollingFrame, {
+			List = true,
+			ShowBorder = false,
 		}, {
 			Options = Roact.createElement(ListBox, {
 				layoutOrder = 1,

@@ -5,4 +5,5 @@ return {
 	HeaderTextSize = 16,
 
 	Padding = 8,
+	BigPadding = 16,
 }

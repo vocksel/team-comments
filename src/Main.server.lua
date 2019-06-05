@@ -95,35 +95,6 @@ local function createButtons(widget)
 	widget:GetPropertyChangedSignal("Enabled"):Connect(function()
 		toggleAppView:SetActive(widget.Enabled)
 	end)
-
-	-- TODO: Create actions for the buttons so that we can set keybinds for
-	-- them. Like Ctrl+Alt+M in Google Docs.
-	local newMessageButton = toolbar:CreateButton(
-		"New message",
-		"Creates a new message in the world for others to read",
-		""
-	)
-
-	local toggleMessageVisibilityButton = toolbar:CreateButton(
-		"Toggle visibility",
-		"Shows or hides all of the messages in the world",
-		""
-	)
-
-	newMessageButton.Click:Connect(function()
-		local messageId = HttpService:GenerateGUID()
-
-		-- TODO: Make the position about 5 studs in front of the user's camera
-		-- so it's easier to author messages. Also, the 5 studs will be the max.
-		-- If there's anything in the way, push it closer (ray cast to check)
-		local position = workspace.CurrentCamera.CFrame.p
-
-		Messages.createMessagePart(messageId, clientId, position)
-	end)
-
-	toggleMessageVisibilityButton.Click:Connect(function()
-		store:dispatch(ToggleMessagesVisibility())
-	end)
 end
 
 local function createInterface(widget)

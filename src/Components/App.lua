@@ -27,6 +27,8 @@ local function App(props)
 				paddingLeft = Styles.Padding,
 				paddingRight = Styles.Padding,
 			}, {
+				-- TODO: Create an action for each toggle so that the user can
+				-- easily bind keys to them.
 				ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
 			}),
 

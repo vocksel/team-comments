@@ -6,6 +6,34 @@ local New = require(script.Parent.New)
 
 local messages = {}
 
+-- This is where all WorldMessages end up initially, but they can be moved
+-- whereever the user wants.
+--
+-- Once created, the storage folder can be moved whereever the user wants as
+-- well. We just find it via a tag and create it in the Workspace if it doesn't
+-- exist.
+--
+-- WorldMessage parts are not gauranteed to exist here, this is just the default
+-- location where they're stored. The user can move the parts wherever they
+-- want, as it can be beneficial to group messages under a single build.
+--
+-- With this in mind, you can never assume where the WorldMessage storage or
+-- parts will be, which is why we use tags.
+function messages.getOrCreateStorage()
+	local storage = CollectionService:GetTagged(Config.STORAGE_TAG_NAME)[1]
+
+	if not storage then
+		storage = New("Folder", {
+			Name = "WorldMessages",
+			Parent = workspace
+		})
+
+		CollectionService:AddTag(storage, Config.STORAGE_TAG_NAME)
+	end
+
+	return storage
+end
+
 function messages.createMessagePart(messageId, userId, position)
 	local messagePart = New("Part", {
 		Name = "WorldMessage",
@@ -17,7 +45,7 @@ function messages.createMessagePart(messageId, userId, position)
 		-- inside another, without being pushed up on top.
 		CFrame = CFrame.new(position),
 		Size = Vector3.new(0, 0, 0),
-		Parent = workspace
+		Parent = messages.getOrCreateStorage()
 	}, {
 		New("StringValue", { Name = "Id", Value = messageId }),
 		New("StringValue", { Name = "AuthorId", Value = userId, }),

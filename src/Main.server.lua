@@ -138,7 +138,9 @@ local function createInterface(widget)
 	local appRoot = Roact.createElement(StoreProvider, {
 		store = store,
 	}, {
-		Roact.createElement(App)
+		Roact.createElement(App, {
+			plugin = plugin
+		})
 	})
 
 	Roact.mount(appRoot, widget, "App")

@@ -89,7 +89,16 @@ function ListBox:init()
 		local padding = self:getPaddingProps()
 		local newHeight = rbx.AbsoluteContentSize.Y + padding.PaddingTop.Offset + padding.PaddingBottom.Offset
 
-		self.setHeight(newHeight)
+		-- We spawn here so when a ListBox acts as a parent for other ListBoxes,
+		-- it doesn't suffer from event re-entry errors.
+		--
+		-- When several child ListBoxes are all changing their height, the
+		-- parent ListBox is repeatedly adjusting for all of them. At 6+ events
+		-- in rapid succession, we get errors in the output. It ultimately
+		-- doesn't break anythig but is very annoying to see.
+		spawn(function()
+			self.setHeight(newHeight)
+		end)
 
 		if self.props.onHeightChange then
 			self.props.onHeightChange(newHeight)

@@ -5,17 +5,23 @@ local Immutable = require(script.Parent.Parent.Lib.Immutable)
 local Styles = require(script.Parent.Parent.Styles)
 
 local function TextLabel(props)
+	local height, setHeight = Roact.createBinding(0)
+
 	local function update(rbx)
 		if not rbx then return end
+
 		local width = rbx.AbsoluteSize.x
 		local tb = TextService:GetTextSize(rbx.Text, rbx.TextSize, rbx.Font, Vector2.new(width - 2, 100000))
-		rbx.Size = UDim2.new(1, 0, 0, tb.y)
+
+		setHeight(tb.y)
 	end
 
 	local autoSize = not props.Size
 
 	local newProps = Immutable.join({
-		Size = UDim2.new(1, 0, 0, 0),
+		Size = height:map(function(height)
+			return UDim2.new(1, 0, 0, height)
+		end),
 		BackgroundTransparency = 1,
 
 		Font = Styles.Font,

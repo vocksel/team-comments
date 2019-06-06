@@ -3,8 +3,6 @@ local RunService = game:GetService("RunService")
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 
-local camera = workspace.CurrentCamera
-
 local Props = t.interface({
 	origin = t.Vector3,
 	render = t.callback
@@ -25,6 +23,7 @@ end
 
 function CameraDistanceProvider:didMount()
 	self.connection = RunService.RenderStepped:Connect(function()
+		local camera = workspace.CurrentCamera
 		local distance = (self.props.origin-camera.CFrame.p).Magnitude
 		self:setState({ distance = distance })
 	end)

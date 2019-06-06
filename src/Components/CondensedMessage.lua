@@ -1,7 +1,6 @@
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
-local Colors = require(script.Parent.Parent.Colors)
 local Styles = require(script.Parent.Parent.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Avatar = require(script.Parent.Avatar)

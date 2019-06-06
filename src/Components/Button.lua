@@ -2,7 +2,6 @@ local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Styles = require(script.Parent.Parent.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
-local Padding = require(script.Parent.Padding)
 
 local Props = t.interface({
 	text = t.string,

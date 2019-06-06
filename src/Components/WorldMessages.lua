@@ -2,14 +2,6 @@ local Roact = require(script.Parent.Parent.Lib.Roact)
 local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
 local BillboardMessage = require(script.Parent.BillboardMessage)
 
-local function getTheme(name)
-    for _, theme in pairs(settings().Studio:GetAvailableThemes()) do
-        if theme.Name == name then
-            return theme
-        end
-    end
-end
-
 local function WorldMessages(props)
 	if props.ui.areMessagesVisible then
 		local children = {}

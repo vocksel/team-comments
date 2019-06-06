@@ -18,7 +18,6 @@
 -- 	When a WorldMessage is removed from the state, remove it from the game as well (link via IDs)
 
 local CoreGui = game:GetService("CoreGui")
-local HttpService = game:GetService("HttpService")
 local CollectionService = game:GetService("CollectionService")
 
 local Roact = require(script.Parent.Lib.Roact)
@@ -32,10 +31,8 @@ local WorldMessages = require(script.Parent.Components.WorldMessages)
 local CreateMessage = require(script.Parent.Actions.CreateMessage)
 local DeleteMessage = require(script.Parent.Actions.DeleteMessage)
 local SetMessageBody = require(script.Parent.Actions.SetMessageBody)
-local ToggleMessagesVisibility = require(script.Parent.Actions.ToggleMessagesVisibility)
 
 local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
-local clientId = tostring(plugin:GetStudioUserId())
 local store = Rodux.Store.new(Reducer)
 
 local function createWidget()

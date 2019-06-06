@@ -40,7 +40,8 @@ function ScrollingFrame:render()
 				TopImage = "rbxasset://textures/StudioToolbox/ScrollBarTop.png",
 				MidImage = "rbxasset://textures/StudioToolbox/ScrollBarMiddle.png",
 				BottomImage = "rbxasset://textures/StudioToolbox/ScrollBarBottom.png",
-				ScrollBarImageColor3 = themeEnum == Enum.UITheme.Dark and Color3.fromRGB(85, 85, 85) or Color3.fromRGB(245, 245, 245),--theme:GetColor("ScrollBar"),
+				ScrollBarImageColor3 = themeEnum == Enum.UITheme.Dark and Color3.fromRGB(85, 85, 85)
+					or Color3.fromRGB(245, 245, 245),--theme:GetColor("ScrollBar"),
 			}, {
 				List = Roact.createElement(ListBox, {
 					onHeightChange = self.setHeight,

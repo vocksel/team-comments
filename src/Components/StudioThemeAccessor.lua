@@ -1,7 +1,6 @@
 -- ty tiffany,,,,
 
 local Roact = require(script.Parent.Parent.Lib.Roact)
-local t = require(script.Parent.Parent.Lib.t)
 
 local StudioThemeAccessor = Roact.PureComponent:extend("StudioThemeAccessor")
 

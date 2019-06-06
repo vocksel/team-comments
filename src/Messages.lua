@@ -1,4 +1,5 @@
 local CollectionService = game:GetService("CollectionService")
+local ChangeHistoryService = game:GetService("ChangeHistoryService")
 
 local t = require(script.Parent.Lib.t)
 local Config = require(script.Parent.Config)
@@ -130,6 +131,14 @@ function messages.focus(messageId)
 
 	camera.Focus = messagePart.CFrame
 	camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
+end
+
+function messages.delete(messageId)
+	-- We can just remove WorldMessage parts because the state is
+	-- controlled by them being added/removed from the game.
+	local messagePart = messages.getMessagePartById(messageId)
+	messagePart.Parent = nil
+	ChangeHistoryService:SetWaypoint("Deleted WorldMessage")
 end
 
 return messages

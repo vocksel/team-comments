@@ -1,12 +1,9 @@
-local ChangeHistoryService = game:GetService("ChangeHistoryService")
-
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
 local Styles = require(script.Parent.Parent.Styles)
 local Button = require(script.Parent.Button)
 local Messages = require(script.Parent.Parent.Messages)
-local Config = require(script.Parent.Parent.Config)
 
 local Props = t.interface({
 	message = Types.IMessage,
@@ -32,13 +29,7 @@ local function MessageActions(props)
 			text = "Focus",
 			layoutOrder = 1,
 			onClick = function()
-				local messagePart = Messages.getMessagePartById(props.message.id)
-				local camera = workspace.CurrentCamera
-				local orientation = camera.CFrame-camera.CFrame.p
-				local newCFrame = CFrame.new(messagePart.Position) * orientation
-
-				camera.Focus = messagePart.CFrame
-				camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
+				Messages.focus(props.message.id)
 			end
 		}),
 
@@ -54,11 +45,7 @@ local function MessageActions(props)
 			text = "Resolve",
 			layoutOrder = 2,
 			onClick = function()
-				-- We can just remove WorldMessage parts because the state is
-				-- controlled by them being added/removed from the game.
-				local messagePart = Messages.getMessagePartById(props.message.id)
-				messagePart.Parent = nil
-				ChangeHistoryService:SetWaypoint("Deleted WorldMessage")
+				Messages.delete(props.message.id)
 			end
 		})
 	})

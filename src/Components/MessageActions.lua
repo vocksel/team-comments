@@ -33,13 +33,13 @@ local function MessageActions(props)
 			end
 		}),
 
-		Edit = Roact.createElement(Button, {
-			text = "Edit",
-			layoutOrder = 1,
-			onClick = function()
-				print("click :)")
-			end
-		}),
+		-- Edit = Roact.createElement(Button, {
+		-- 	text = "Edit",
+		-- 	layoutOrder = 1,
+		-- 	onClick = function()
+		-- 		print("click :)")
+		-- 	end
+		-- }),
 
 		Resolve = Roact.createElement(Button, {
 			text = "Resolve",

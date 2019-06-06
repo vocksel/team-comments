@@ -3,6 +3,8 @@ local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
 local Styles = require(script.Parent.Parent.Styles)
 local Button = require(script.Parent.Button)
+local Messages = require(script.Parent.Parent.Messages)
+local Config = require(script.Parent.Parent.Config)
 
 local Props = t.interface({
 	message = Types.IMessage,
@@ -25,10 +27,16 @@ local function MessageActions(props)
 		}),
 
 		View = Roact.createElement(Button, {
-			text = "View",
+			text = "Focus",
 			layoutOrder = 1,
 			onClick = function()
-				print("click :)")
+				local messagePart = Messages.getMessagePartById(props.message.id)
+				local camera = workspace.CurrentCamera
+				local orientation = camera.CFrame-camera.CFrame.p
+				local newCFrame = CFrame.new(messagePart.Position) * orientation
+
+				camera.Focus = messagePart.CFrame
+				camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
 			end
 		}),
 

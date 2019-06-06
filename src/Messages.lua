@@ -35,7 +35,7 @@ function messages.getOrCreateStorage()
 	return storage
 end
 
-function messages.createMessagePart(messageId, userId, position)
+function messages.createMessagePart(messageId, userId, position, text)
 	local messagePart = New("Part", {
 		Name = "WorldMessage",
 		Anchored = true,
@@ -50,7 +50,7 @@ function messages.createMessagePart(messageId, userId, position)
 	}, {
 		New("StringValue", { Name = "Id", Value = messageId }),
 		New("StringValue", { Name = "AuthorId", Value = userId, }),
-		New("StringValue", { Name = "Body" }),
+		New("StringValue", { Name = "Body", Value = text }),
 		New("NumberValue", { Name = "Time", Value = os.time() }),
 	})
 

@@ -26,7 +26,7 @@ function MessageInputField:init()
 			local messageId = HttpService:GenerateGUID()
 			local position = workspace.CurrentCamera.CFrame.p
 
-			Messages.createMessagePart(messageId, clientId, position)
+			Messages.createMessagePart(messageId, clientId, position, self.state.text)
 			self.props.setMessageBody(messageId, self.state.text)
 
 			self:setState({ text = "" })

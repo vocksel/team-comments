@@ -116,4 +116,20 @@ function messages.getMessagePartById(messageId)
 	end
 end
 
+--[[
+	Focuses a message part by its ID.
+
+	This is like the Zoom To action in Studio, which will focus something in
+	your selection.
+]]
+function messages.focus(messageId)
+	local messagePart = messages.getMessagePartById(messageId)
+	local camera = workspace.CurrentCamera
+	local orientation = camera.CFrame-camera.CFrame.p
+	local newCFrame = CFrame.new(messagePart.Position) * orientation
+
+	camera.Focus = messagePart.CFrame
+	camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
+end
+
 return messages

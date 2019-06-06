@@ -1,3 +1,5 @@
+local ChangeHistoryService = game:GetService("ChangeHistoryService")
+
 local Roact = require(script.Parent.Parent.Lib.Roact)
 local t = require(script.Parent.Parent.Lib.t)
 local Types = require(script.Parent.Parent.Types)
@@ -52,7 +54,11 @@ local function MessageActions(props)
 			text = "Resolve",
 			layoutOrder = 2,
 			onClick = function()
-				print("click :)")
+				-- We can just remove WorldMessage parts because the state is
+				-- controlled by them being added/removed from the game.
+				local messagePart = Messages.getMessagePartById(props.message.id)
+				messagePart.Parent = nil
+				ChangeHistoryService:SetWaypoint("Deleted WorldMessage")
 			end
 		})
 	})

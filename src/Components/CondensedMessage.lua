@@ -14,8 +14,6 @@ local Props = t.interface({
 	message = Types.IMessage
 })
 
--- TODO: Clicking a CondensedMessage takes you to that message in the world
-
 local AVATAR_SIZE = 48
 
 local function CondensedMessage(props)

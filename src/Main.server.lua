@@ -76,8 +76,6 @@ local function setupInitialState()
 	CollectionService:GetInstanceRemovedSignal(Config.TAG_NAME):Connect(onMessagePartRemoved)
 end
 
--- TODO: Replace buttons with just a widget. Will have add, visibility filter,
--- and full list of messages
 local function createButtons(widget)
 	local toggleAppView = toolbar:CreateButton(
 		Config.DISPLAY_NAME,

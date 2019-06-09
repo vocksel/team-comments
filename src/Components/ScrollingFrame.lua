@@ -45,6 +45,7 @@ function ScrollingFrame:render()
 			}, {
 				List = Roact.createElement(ListBox, {
 					onHeightChange = self.setHeight,
+					useLazyResizing = true,
 				}, self.props[Roact.Children])
 			})
 		})

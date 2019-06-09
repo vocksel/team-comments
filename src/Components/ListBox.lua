@@ -70,6 +70,7 @@ local Props = t.interface({
 	paddingTop = t.optional(t.integer),
 	width = t.optional(t.UDim),
 	transparency = t.optional(t.number),
+	useLazyResizing = t.optional(t.boolean),
 })
 
 local ListBox = Roact.Component:extend("ListBox")
@@ -89,16 +90,17 @@ function ListBox:init()
 		local padding = self:getPaddingProps()
 		local newHeight = rbx.AbsoluteContentSize.Y + padding.PaddingTop.Offset + padding.PaddingBottom.Offset
 
-		-- We spawn here so when a ListBox acts as a parent for other ListBoxes,
-		-- it doesn't suffer from event re-entry errors.
-		--
-		-- When several child ListBoxes are all changing their height, the
-		-- parent ListBox is repeatedly adjusting for all of them. At 6+ events
-		-- in rapid succession, we get errors in the output. It ultimately
-		-- doesn't break anythig but is very annoying to see.
-		spawn(function()
+		-- useLazyResizing is used when nesting ListBoxes, as there can be event
+		-- re-entry errors from a parent ListBox adjusting every time its child
+		-- ListBoxes adjust. This switch spawns the height change, so that the
+		-- event isn't flooded.
+		if self.props.useLazyResizing then
+			spawn(function()
+				self.setHeight(newHeight)
+			end)
+		else
 			self.setHeight(newHeight)
-		end)
+		end
 
 		if self.props.onHeightChange then
 			self.props.onHeightChange(newHeight)

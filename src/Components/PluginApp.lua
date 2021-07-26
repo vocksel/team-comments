@@ -1,12 +1,15 @@
 local Roact = require(script.Parent.Parent.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
-local MessageList = require(script.Parent.MessageList)
 -- local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
 local Styles = require(script.Parent.Parent.Styles)
 local MessageInputField = require(script.Parent.MessageInputField)
+local MessageContext = require(script.Parent.MessageContext)
+local CondensedMessage = require(script.Parent.CondensedMessage)
 
 local function App(props)
     return StudioThemeAccessor.withTheme(function(theme)
+        -- FIXME: The scrolling frame doesn't update when new messages are
+        -- added. Requires the widget to be resized first.
         return Roact.createElement("ScrollingFrame", {
             Size = UDim2.fromScale(1, 1),
             BackgroundTransparency = 1,
@@ -43,9 +46,32 @@ local function App(props)
                 -- ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
             }),
 
-            List = Roact.createElement(MessageList, {
+            MessageList = Roact.createElement("Frame", {
                 LayoutOrder = 3,
+                Size = UDim2.fromScale(1, 0),
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundTransparency = 1,
+            }, {
+                Roact.createElement(MessageContext.Consumer, {
+                    render = function(context)
+                        local children = {}
+
+                        children.Layout = Roact.createElement("UIListLayout", {
+                            SortOrder = Enum.SortOrder.LayoutOrder,
+                        })
+
+                        for index, message in ipairs(context.getOrderedMessages()) do
+                            children[message.id] = Roact.createElement(CondensedMessage, {
+                                LayoutOrder = index,
+                                message = message,
+                            })
+                        end
+
+                        return Roact.createFragment(children)
+                    end
+                })
             })
+
         })
     end)
 end

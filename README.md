@@ -1,7 +1,8 @@
 # WorldMessages
 
+## Development
 
 ```
 foreman install
-npx kayak pull
+./bin/kayak
 ```

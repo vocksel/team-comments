@@ -12,7 +12,7 @@ local function MessageBody(props)
 	assert(Props(props))
 
 	return Roact.createElement(ThemedTextLabel, {
-		Text = props.message.body,
+		Text = props.message.text,
 		Size = props.size,
 		TextTruncate = props.isTruncated and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None,
 		LayoutOrder = props.LayoutOrder

@@ -4,9 +4,9 @@ local types = {}
 
 types.IMessage = t.interface({
 	id = t.string,
-	authorId = t.string,
-	body = t.string,
-	time = t.number,
+	userId = t.string,
+	text = t.string,
+	createdAt = t.number,
 })
 
 return types

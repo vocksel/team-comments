@@ -64,7 +64,7 @@ local function BillboardMessage(props)
                 LayoutOrder = 1,
             }, {
                 Avatar = Roact.createElement(Avatar, {
-                    userId = props.message.authorId,
+                    userId = props.message.userId,
                     maskColor = theme:GetColor("MainBackground")
                 })
             }),

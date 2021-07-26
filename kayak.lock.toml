@@ -16,34 +16,6 @@ source = "git+https://github.com/Roblox/roact"
 commit = "d4f4a7a77684688b32ef3744d9fe902e2c3206af"
 
 [[package]]
-name = "roblox/rodux"
-version = "3.0.0"
-source = "git+https://github.com/Roblox/rodux"
-commit = "2ea111e5695dddaefcfb5d67bcbb1095fff1b069"
-
-[[package]]
-name = "roblox/roact"
-version = "1.4.0"
-source = "git+https://github.com/roblox/roact"
-commit = "d4f4a7a77684688b32ef3744d9fe902e2c3206af"
-
-[[package]]
-name = "roblox/rodux"
-version = "3.0.0"
-source = "git+https://github.com/roblox/rodux"
-commit = "2ea111e5695dddaefcfb5d67bcbb1095fff1b069"
-
-[[package]]
-name = "roblox/roact-rodux"
-version = "0.3.0"
-source = "git+https://github.com/Roblox/roact-rodux"
-commit = "e54b1eecc1280d9e25b86efc9179f93cd3ed1b2a"
-dependencies = [
-  "Roact roblox/roact 1.4.0 d4f4a7a7 git+https://github.com/roblox/roact",
-  "Rodux roblox/rodux 3.0.0 2ea111e5 git+https://github.com/roblox/rodux"
-]
-
-[[package]]
 name = "osyris/t"
 version = "1.2.5"
 source = "git+https://github.com/Roblox/t"

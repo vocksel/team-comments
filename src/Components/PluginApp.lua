@@ -1,7 +1,7 @@
 local Roact = require(script.Parent.Parent.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local MessageList = require(script.Parent.MessageList)
-local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
+-- local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
 local Styles = require(script.Parent.Parent.Styles)
 local MessageInputField = require(script.Parent.MessageInputField)
 
@@ -36,9 +36,11 @@ local function App(props)
                     PaddingLeft = UDim.new(0, Styles.Padding),
                 }),
 
+                -- FIXME: Porting over to Roact Context from Rodux. Don't have
+                -- any UI settings in place yet, so this still needs to be added.
                 -- TODO: Create an action for each toggle so that the user can
 				-- easily bind keys to them.
-				ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
+				-- ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
             }),
 
 			List = Roact.createElement(MessageList, {

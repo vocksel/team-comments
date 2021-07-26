@@ -17,20 +17,13 @@
 -- 	When a WorldMessage tagged part is destroyed, remove it from the state
 -- 	When a WorldMessage is removed from the state, remove it from the game as well (link via IDs)
 
-local CoreGui = game:GetService("CoreGui")
-local CollectionService = game:GetService("CollectionService")
-
 local Roact = require(script.Parent.Packages.Roact)
-local Rodux = require(script.Parent.Packages.Rodux)
-local StoreProvider = require(script.Parent.Packages.RoactRodux).StoreProvider
-local Reducer = require(script.Parent.Reducer)
 local Config = require(script.Parent.Config)
 local PluginApp = require(script.Parent.Components.PluginApp)
-local WorldMessages = require(script.Parent.Components.WorldMessages)
-local initializeState = require(script.Parent.InitializeState)
+local BillboardApp = require(script.Parent.Components.BillboardApp)
+local MessageContext = require(script.Parent.Components.MessageContext)
 
 local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
-local store = Rodux.Store.new(Reducer)
 
 local function createWidget()
 	local info = DockWidgetPluginGuiInfo.new(
@@ -63,30 +56,19 @@ local function createButtons(widget)
 	end)
 end
 
-local function createInterface(widget)
-	local billboardsRoot = Roact.createElement(StoreProvider, {
-		store = store
-	}, {
-		Roact.createElement(WorldMessages)
-	})
-
-	Roact.mount(billboardsRoot, CoreGui, Config.PLUGIN_NAME)
-
-	local appRoot = Roact.createElement(StoreProvider, {
-		store = store,
-	}, {
-		Roact.createElement(PluginApp, {
-			plugin = plugin
-		})
-	})
-
-	Roact.mount(appRoot, widget, "App")
-end
-
 local widget = createWidget()
-
-initializeState(store)
 createButtons(widget)
-createInterface(widget)
+
+local ui = Roact.createElement(MessageContext.Provider, {}, {
+    PluginApp = Roact.createElement(PluginApp, {
+        -- userId = plugin:something
+    }),
+
+    -- Might need to portal this to CoreGui
+    Roact.createElement(BillboardApp),
+})
+
+Roact.mount(ui, widget, "Apps")
+
 
 print("loaded!")

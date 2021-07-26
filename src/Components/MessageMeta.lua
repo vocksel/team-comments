@@ -25,7 +25,7 @@ local function MessageMeta(props)
 			LayoutOrder = props.LayoutOrder,
 		}, {
 			Name = Roact.createElement(PlayerName, {
-				userId = props.message.authorId,
+				userId = props.message.userId,
 				render = function(name)
 					return Roact.createElement(TextLabel, {
 						Text = name,

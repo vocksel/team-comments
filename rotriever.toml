@@ -4,3 +4,11 @@ author = "David Minnerly"
 license = "MIT"
 content_root = "src"
 version = "1.0.0"
+
+[dependencies]
+Llama = "https://github.com/Frelerik/llama@1.1.0"
+Promise = "https://github.com/evaera/roblox-lua-promise@3.1.0"
+Roact = "https://github.com/Roblox/roact@1.4.0"
+Rodux = "https://github.com/Roblox/rodux@3.0.0"
+RoactRodux = "https://github.com/Roblox/roact-rodux@0.2.2"
+t = "https://github.com/Roblox/t@1.2.5"

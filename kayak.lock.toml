@@ -3,13 +3,54 @@
 lockfile_format_version = 0
 
 [[package]]
-name = "roblox/roact"
-version = "1.4.0"
-source = "git+https://github.com/Roblox/Roact"
-commit = "d4f4a7a77684688b32ef3744d9fe902e2c3206af"
-
-[[package]]
 name = "llama"
 version = "1.1.0"
 source = "git+https://github.com/Frelerik/llama"
 commit = "17c2eaa6cc2d6a808903514bd7b35c2721f839c5"
+
+[[package]]
+name = "evaera/roblox-lua-promise"
+version = "3.1.0"
+source = "git+https://github.com/evaera/roblox-lua-promise"
+commit = "49deee5d514c8916e9085260e1bb30509ac40b82"
+dependencies = [ ]
+
+[[package]]
+name = "roblox/roact"
+version = "1.4.0"
+source = "git+https://github.com/Roblox/roact"
+commit = "d4f4a7a77684688b32ef3744d9fe902e2c3206af"
+
+[[package]]
+name = "roblox/rodux"
+version = "3.0.0"
+source = "git+https://github.com/Roblox/rodux"
+commit = "2ea111e5695dddaefcfb5d67bcbb1095fff1b069"
+
+[[package]]
+name = "roblox/roact"
+version = "1.4.0"
+source = "git+https://github.com/roblox/roact"
+commit = "d4f4a7a77684688b32ef3744d9fe902e2c3206af"
+
+[[package]]
+name = "roblox/rodux"
+version = "3.0.0"
+source = "git+https://github.com/roblox/rodux"
+commit = "2ea111e5695dddaefcfb5d67bcbb1095fff1b069"
+
+[[package]]
+name = "roblox/roact-rodux"
+version = "0.3.0"
+source = "git+https://github.com/Roblox/roact-rodux"
+commit = "e54b1eecc1280d9e25b86efc9179f93cd3ed1b2a"
+dependencies = [
+  "Roact roblox/roact 1.4.0 d4f4a7a7 git+https://github.com/roblox/roact",
+  "Rodux roblox/rodux 3.0.0 2ea111e5 git+https://github.com/roblox/rodux"
+]
+
+[[package]]
+name = "osyris/t"
+version = "1.2.5"
+source = "git+https://github.com/Roblox/t"
+commit = "20f07bbdaca09af3307760e72646bfebe32e0490"

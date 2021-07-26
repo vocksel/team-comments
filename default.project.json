@@ -1,6 +1,9 @@
 {
   "name": "WorldMessages",
   "tree": {
+    "Packages": {
+      "$path": "packages"
+    },
     "$path": "src"
   }
 }

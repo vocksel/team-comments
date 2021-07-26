@@ -1,0 +1,6 @@
+[package]
+name = "WorldMessage"
+author = "David Minnerly"
+license = "MIT"
+content_root = "src"
+version = "1.0.0"

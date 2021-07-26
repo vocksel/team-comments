@@ -1,0 +1,12 @@
+{
+  "name": "WorldMessages (Dev)",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerScriptService": {
+      "WorldMessages": {
+        "$path": "src/"
+      }
+    }
+  }
+}

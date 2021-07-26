@@ -1,7 +1,7 @@
 local CollectionService = game:GetService("CollectionService")
 local ChangeHistoryService = game:GetService("ChangeHistoryService")
 
-local t = require(script.Parent.Lib.t)
+local t = require(script.Parent.Packages.t)
 local Config = require(script.Parent.Config)
 local New = require(script.Parent.New)
 

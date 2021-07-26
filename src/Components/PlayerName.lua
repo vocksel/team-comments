@@ -15,9 +15,9 @@
 
 local Players = game:GetService("Players")
 
-local Promise = require(script.Parent.Parent.Lib.Promise)
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local t = require(script.Parent.Parent.Lib.t)
+local Promise = require(script.Parent.Parent.Packages.Promise)
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local t = require(script.Parent.Parent.Packages.t)
 
 local function fetchPlayerName(userId)
 	return Promise.new(function(resolve, reject)

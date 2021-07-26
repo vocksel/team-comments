@@ -1,4 +1,4 @@
-local combineReducers = require(script.Parent.Lib.Rodux).combineReducers
+local combineReducers = require(script.Parent.Packages.Rodux).combineReducers
 
 local reducer = combineReducers({
 	ui = require(script.UI),

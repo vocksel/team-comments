@@ -17,9 +17,9 @@
 
 local Players = game:GetService("Players")
 
-local Promise = require(script.Parent.Parent.Lib.Promise)
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local t = require(script.Parent.Parent.Lib.t)
+local Promise = require(script.Parent.Parent.Packages.Promise)
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local t = require(script.Parent.Parent.Packages.t)
 
 -- Must be one of the values from here:
 -- http://wiki.roblox.com/index.php?title=API:Enum/ThumbnailSize

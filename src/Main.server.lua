@@ -20,17 +20,17 @@
 local CoreGui = game:GetService("CoreGui")
 local CollectionService = game:GetService("CollectionService")
 
-local Roact = require(script.Parent.Lib.Roact)
-local Rodux = require(script.Parent.Lib.Rodux)
-local StoreProvider = require(script.Parent.Lib.RoactRodux).StoreProvider
+local Roact = require(script.Parent.Packages.Roact)
+local Rodux = require(script.Parent.Packages.Rodux)
+local StoreProvider = require(script.Parent.Packages.RoactRodux).StoreProvider
 local Messages = require(script.Parent.Messages)
 local Reducer = require(script.Parent.Reducer)
 local Config = require(script.Parent.Config)
 local App = require(script.Parent.Components.App)
 local WorldMessages = require(script.Parent.Components.WorldMessages)
-local CreateMessage = require(script.Parent.Actions.CreateMessage)
-local DeleteMessage = require(script.Parent.Actions.DeleteMessage)
-local SetMessageBody = require(script.Parent.Actions.SetMessageBody)
+local CreateMessage = require(script.Parent.Lib.Actions.CreateMessage)
+local DeleteMessage = require(script.Parent.Lib.Actions.DeleteMessage)
+local SetMessageBody = require(script.Parent.Lib.Actions.SetMessageBody)
 
 local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
 local store = Rodux.Store.new(Reducer)

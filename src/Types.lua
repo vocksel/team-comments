@@ -1,4 +1,4 @@
-local t = require(script.Parent.Lib.t)
+local t = require(script.Parent.Packages.t)
 
 local types = {}
 

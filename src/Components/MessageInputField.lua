@@ -1,12 +1,12 @@
 local HttpService = game:GetService("HttpService")
 
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local Connect = require(script.Parent.Parent.Packages.RoactRodux).connect
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Padding = require(script.Parent.Padding)
 local Styles = require(script.Parent.Parent.Styles)
 local Messages = require(script.Parent.Parent.Messages)
-local SetMessageBody = require(script.Parent.Parent.Actions.SetMessageBody)
+local SetMessageBody = require(script.Parent.Parent.Lib.Actions.SetMessageBody)
 
 local MessageInputField = Roact.Component:extend("MessageInputField")
 

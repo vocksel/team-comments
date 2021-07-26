@@ -1,7 +1,7 @@
 
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local Connect = require(script.Parent.Parent.Lib.RoactRodux).connect
-local t = require(script.Parent.Parent.Lib.t)
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local Connect = require(script.Parent.Parent.Packages.RoactRodux).connect
+local t = require(script.Parent.Parent.Packages.t)
 local Helpers = require(script.Parent.Parent.Helpers)
 local ListBox = require(script.Parent.ListBox)
 local CondensedMessage = require(script.Parent.CondensedMessage)

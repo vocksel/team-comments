@@ -1,4 +1,4 @@
-local Roact = require(script.Parent.Parent.Lib.Roact)
+local Roact = require(script.Parent.Parent.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local MessageList = require(script.Parent.MessageList)
 local ListBox = require(script.Parent.ListBox)

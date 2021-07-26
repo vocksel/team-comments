@@ -1,5 +1,5 @@
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local t = require(script.Parent.Parent.Lib.t)
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local t = require(script.Parent.Parent.Packages.t)
 local Config = require(script.Parent.Parent.Config)
 local Styles = require(script.Parent.Parent.Styles)
 local Messages = require(script.Parent.Parent.Messages)

@@ -4,8 +4,8 @@ local MessageContext = require(script.Parent.MessageContext)
 
 return function(target)
     local root = Roact.createElement(MessageContext.Provider, {
-        messageTag = "WorldMessage",
-        storageTag = "WorldMessageStorage"
+        messageTag = "TeamComment",
+        storageTag = "TeamCommentStorage"
     }, {
         Wrapper = Roact.createElement("Frame", {
             Size = UDim2.fromScale(0.4, 0.8),

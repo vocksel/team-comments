@@ -1,5 +1,5 @@
 [package]
-name = "WorldMessage"
+name = "TeamComments"
 author = "David Minnerly"
 license = "MIT"
 content_root = "src"

@@ -33,11 +33,11 @@ function messages.focus(messageId)
 end
 
 function messages.delete(messageId)
-    -- We can just remove WorldMessage parts because the state is
+    -- We can just remove TeamComment parts because the state is
     -- controlled by them being added/removed from the game.
     local messagePart = messages.getMessagePartById(messageId)
     messagePart.Parent = nil
-    ChangeHistoryService:SetWaypoint("Deleted WorldMessage")
+    ChangeHistoryService:SetWaypoint("Deleted TeamComment")
 end
 
 return messages

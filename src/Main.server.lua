@@ -11,11 +11,11 @@
     -- Let author edit
     -- Allow deleting notes
 
--- Have all WorldMessages stored as Parts in the workspace
--- When Studio boots up, create state out of all the WorldMessages' Value instances
--- 	When a new "WorldMessage" tagged Part is added, add a new one
--- 	When a WorldMessage tagged part is destroyed, remove it from the state
--- 	When a WorldMessage is removed from the state, remove it from the game as well (link via IDs)
+-- Have all TeamComments stored as Parts in the workspace
+-- When Studio boots up, create state out of all the TeamComments' Value instances
+-- 	When a new "TeamComment" tagged Part is added, add a new one
+-- 	When a TeamComment tagged part is destroyed, remove it from the state
+-- 	When a TeamComment is removed from the state, remove it from the game as well (link via IDs)
 
 local Roact = require(script.Parent.Packages.Roact)
 local Config = require(script.Parent.Config)

@@ -1,10 +1,10 @@
 {
-  "name": "WorldMessages (Dev)",
+  "name": "TeamComments (Dev)",
   "tree": {
     "$className": "DataModel",
 
     "ServerScriptService": {
-      "WorldMessages": {
+      "TeamComments": {
         "Packages": {
           "$path": "packages"
         },

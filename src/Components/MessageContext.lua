@@ -17,7 +17,7 @@ function MessageProvider:init(initialProps)
 
         if not storage then
             storage = Instance.new("Folder")
-            storage.Name = "WorldMessages"
+            storage.Name = "TeamComments"
             storage.Parent = workspace
 
             CollectionService:AddTag(storage, initialProps.storageTag)
@@ -28,7 +28,7 @@ function MessageProvider:init(initialProps)
 
     self.createPhysicalMessage = function(position, message)
         local part = Instance.new("Part")
-        part.Name = ("WorldMessage_%i"):format(message.createdAt)
+        part.Name = ("TeamComment_%i"):format(message.createdAt)
         part.Anchored = true
         part.Locked = true
         part.CanCollide = false

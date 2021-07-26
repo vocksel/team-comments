@@ -7,7 +7,7 @@ local ToggleMessagesVisibility = require(script.Parent.Parent.Actions.ToggleMess
 local Props = t.interface({
 	areMessagesVisible = t.boolean,
 	toggleVisibility = t.callback,
-	layoutOrder = t.optional(t.integer),
+	LayoutOrder = t.optional(t.integer),
 })
 
 local function ToggleVisibilityCheckbox(props)
@@ -15,7 +15,7 @@ local function ToggleVisibilityCheckbox(props)
 
 	return Roact.createElement(ToggleOption, {
 		text = "Show messages",
-		layoutOrder = props.layoutOrder,
+		LayoutOrder = props.LayoutOrder,
 		isChecked = props.areMessagesVisible,
 		onClick = props.toggleVisibility
 	})

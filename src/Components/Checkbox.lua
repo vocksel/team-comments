@@ -7,7 +7,7 @@ local Props = t.interface({
 	onClick = t.optional(t.callback),
 	position = t.optional(t.UDim2),
 	anchorPoint = t.optional(t.Vector2),
-	layoutOrder = t.optional(t.integer),
+	LayoutOrder = t.optional(t.integer),
 })
 
 local function Checkbox(props)
@@ -23,7 +23,7 @@ local function Checkbox(props)
             AutoButtonColor = false,
             Position = props.position,
             AnchorPoint = props.anchorPoint,
-            LayoutOrder = props.layoutOrder,
+            LayoutOrder = props.LayoutOrder,
             [Roact.Event.MouseButton1Click] = props.onClick,
         }, {
             Check = Roact.createElement("ImageLabel", {

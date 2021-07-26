@@ -8,7 +8,7 @@ local Props = t.interface({
 	text = t.string,
 	isChecked = t.boolean,
 	onClick = t.optional(t.callback),
-	layoutOrder = t.optional(t.integer),
+	LayoutOrder = t.optional(t.integer),
 })
 
 local function ToggleOption(props)
@@ -17,7 +17,7 @@ local function ToggleOption(props)
 	return Roact.createElement("Frame", {
 		Size = UDim2.new(1, 0, 0, 24),
 		BackgroundTransparency = 1,
-		LayoutOrder = props.layoutOrder,
+		LayoutOrder = props.LayoutOrder,
 	}, {
 		Layout = Roact.createElement("UIListLayout", {
 			FillDirection = Enum.FillDirection.Horizontal,
@@ -25,7 +25,7 @@ local function ToggleOption(props)
 		}),
 
 		Checkbox = Roact.createElement(Checkbox, {
-			layoutOrder = 1,
+			LayoutOrder = 1,
 			isChecked = props.isChecked,
 			onClick = props.onClick,
 		}),

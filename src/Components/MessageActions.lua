@@ -8,7 +8,7 @@ local Messages = require(script.Parent.Parent.Messages)
 local Props = t.interface({
 	message = Types.IMessage,
 	size = t.UDim2,
-	layoutOrder = t.integer,
+	LayoutOrder = t.integer,
 })
 
 local function MessageActions(props)
@@ -17,7 +17,7 @@ local function MessageActions(props)
 	return Roact.createElement("Frame", {
 		Size = props.size,
 		BackgroundTransparency = 1,
-		LayoutOrder = props.layoutOrder,
+		LayoutOrder = props.LayoutOrder,
 	}, {
 		Layout = Roact.createElement("UIListLayout", {
 			SortOrder = Enum.SortOrder.LayoutOrder,
@@ -27,7 +27,7 @@ local function MessageActions(props)
 
 		View = Roact.createElement(Button, {
 			text = "Focus",
-			layoutOrder = 1,
+			LayoutOrder = 1,
 			onClick = function()
 				Messages.focus(props.message.id)
 			end
@@ -35,7 +35,7 @@ local function MessageActions(props)
 
 		-- Edit = Roact.createElement(Button, {
 		-- 	text = "Edit",
-		-- 	layoutOrder = 1,
+		-- 	LayoutOrder = 1,
 		-- 	onClick = function()
 		-- 		print("click :)")
 		-- 	end
@@ -43,7 +43,7 @@ local function MessageActions(props)
 
 		Resolve = Roact.createElement(Button, {
 			text = "Resolve",
-			layoutOrder = 2,
+			LayoutOrder = 2,
 			onClick = function()
 				Messages.delete(props.message.id)
 			end

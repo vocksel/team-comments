@@ -92,13 +92,13 @@ local function BillboardMessage(props)
 							Meta = Roact.createElement(MessageMeta, {
 								message = props.message,
 								size = UDim2.new(1, 0, 0, 22),
-								layoutOrder = 1,
+								LayoutOrder = 1,
 							}),
 
 							Body = Roact.createElement(MessageBody, {
 								message = props.message,
 								size = UDim2.new(1, 0, 0.85, 0),
-								layoutOrder = 2,
+								LayoutOrder = 2,
 							})
 						})
 					})

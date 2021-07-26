@@ -1,40 +1,48 @@
 local Roact = require(script.Parent.Parent.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local MessageList = require(script.Parent.MessageList)
-local ListBox = require(script.Parent.ListBox)
 local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
 local Styles = require(script.Parent.Parent.Styles)
-local ScrollingFrame = require(script.Parent.ScrollingFrame)
 local MessageInputField = require(script.Parent.MessageInputField)
 
 local function App(props)
 	return StudioThemeAccessor.withTheme(function(theme)
-		return Roact.createElement(ScrollingFrame, nil, {
-			Input = Roact.createElement(ListBox, {
-				layoutOrder = 1,
-			}, {
-				InputField = Roact.createElement(MessageInputField, {
-					plugin = props.plugin,
-				}),
-			}),
+        return Roact.createElement("ScrollingFrame", {
+            Size = UDim2.fromScale(1, 1),
+            BackgroundTransparency = 1,
+            CanvasSize = UDim2.fromScale(1, 0),
+            AutomaticCanvasSize = Enum.AutomaticSize.Y,
+            ScrollingDirection = Enum.ScrollingDirection.Y,
+        }, {
+            Layout = Roact.createElement("UIListLayout", {
+                SortOrder = Enum.SortOrder.LayoutOrder,
+            }),
 
-			Options = Roact.createElement(ListBox, {
-				layoutOrder = 2,
-				transparency = 0,
-				backgroundColor = theme:GetColor("Light"),
-				paddingTop = Styles.BigPadding,
-				paddingBottom = Styles.BigPadding,
-				paddingLeft = Styles.Padding,
-				paddingRight = Styles.Padding,
-			}, {
-				-- TODO: Create an action for each toggle so that the user can
+            InputField = Roact.createElement(MessageInputField, {
+                LayoutOrder = 1,
+                userId = props.userId,
+            }),
+
+            Options = Roact.createElement("Frame", {
+                LayoutOrder = 2,
+                AutomaticSize = Enum.AutomaticSize.Y,
+                Size = UDim2.fromScale(1, 0),
+                BackgroundColor3 = theme:GetColor("Light")
+            }, {
+                Padding = Roact.createElement("UIPadding", {
+                    PaddingTop = UDim.new(0, Styles.Padding),
+                    PaddingRight = UDim.new(0, Styles.Padding),
+                    PaddingBottom = UDim.new(0, Styles.Padding),
+                    PaddingLeft = UDim.new(0, Styles.Padding),
+                }),
+
+                -- TODO: Create an action for each toggle so that the user can
 				-- easily bind keys to them.
 				ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
-			}),
+            }),
 
 			List = Roact.createElement(MessageList, {
-				layoutOrder = 3,
-				size = UDim2.new(1, 0, 1, 0)
+				LayoutOrder = 3,
 			})
 		})
 	end)

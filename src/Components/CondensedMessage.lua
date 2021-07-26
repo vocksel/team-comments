@@ -7,10 +7,9 @@ local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageBody = require(script.Parent.MessageBody)
 local MessageActions = require(script.Parent.MessageActions)
-local ListBox = require(script.Parent.ListBox)
 
 local Props = t.interface({
-	layoutOrder = t.integer,
+	LayoutOrder = t.integer,
 	message = Types.IMessage
 })
 
@@ -20,41 +19,61 @@ local function CondensedMessage(props)
 	assert(Props(props))
 
 	return StudioThemeAccessor.withTheme(function(theme)
-		return Roact.createElement(ListBox, {
-			layoutOrder = props.layoutOrder,
-			fillDirection = Enum.FillDirection.Horizontal,
-			padding = Styles.Padding,
+		return Roact.createElement("Frame", {
+            LayoutOrder = props.LayoutOrder,
+            BackgroundTransparency = 1,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = UDim2.fromScale(1, 0),
 		}, {
+            Layout = Roact.createElement("UIListLayout", {
+                FillDirection = Enum.FillDirection.Horizontal,
+            }),
+
+            Padding = Roact.createElement("UIPadding", {
+                PaddingTop = UDim.new(0, Styles.Padding),
+                PaddingRight = UDim.new(0, Styles.Padding),
+                PaddingBottom = UDim.new(0, Styles.Padding),
+                PaddingLeft = UDim.new(0, Styles.Padding),
+            }),
+
 			Avatar = Roact.createElement(Avatar, {
+                LayoutOrder = 1,
 				userId = props.message.authorId,
 				size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
 				maskColor = theme:getColor("MainBackground"),
-				layoutOrder = 1,
 			}),
 
-			Main = Roact.createElement(ListBox, {
+			Main = Roact.createElement("Frame", {
+                LayoutOrder = 2,
+                BackgroundTransparency = 1,
 				-- The X offset is to account for the avatar
-				width = UDim.new(1, -AVATAR_SIZE),
-				layoutOrder = 2,
-				listPadding = Styles.Padding,
-				paddingLeft = Styles.Padding,
+                Size = UDim2.new(1, -AVATAR_SIZE, 0, 0),
 			}, {
+                Layout = Roact.createElement("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, Styles.Padding)
+                }),
+
+                Padding = Roact.createElement("UIPadding", {
+                    PaddingLeft = UDim.new(0, Styles.Padding)
+                }),
+
 				Meta = Roact.createElement(MessageMeta, {
 					message = props.message,
 					size = UDim2.new(1, 0, 0, Styles.HeaderTextSize),
-					layoutOrder = 1,
+					LayoutOrder = 1,
 				}),
 
 				Body = Roact.createElement(MessageBody, {
 					message = props.message,
-					layoutOrder = 2,
+					LayoutOrder = 2,
 					isTruncated = true,
 				}),
 
 				Actions = Roact.createElement(MessageActions, {
 					message = props.message,
 					size = UDim2.new(1, 0, 0, 20),
-					layoutOrder = 3,
+					LayoutOrder = 3,
 				})
 			})
 		})

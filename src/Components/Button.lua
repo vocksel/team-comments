@@ -5,7 +5,7 @@ local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 
 local Props = t.interface({
 	text = t.string,
-	layoutOrder = t.interger,
+	LayoutOrder = t.interger,
 	size = t.optional(t.UDim2),
 	onClick = t.callback,
 })
@@ -18,7 +18,7 @@ local function Button(props)
 			Text = props.text,
 			TextSize = Styles.TextSize-2,
 			Font = Styles.HeaderFont,
-			LayoutOrder = props.layoutOrder,
+			LayoutOrder = props.LayoutOrder,
 			TextColor3 = theme:GetColor("MainText"),
 			BackgroundColor3 = theme:GetColor("Button"),
 			Size = props.size or UDim2.new(0, 48, 1, 0),

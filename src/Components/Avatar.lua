@@ -12,7 +12,7 @@ local Props = t.interface({
 	size = t.optional(t.UDim2),
 	sizeConstraint = t.optional(t.enum(Enum.SizeConstraint)),
 	maskColor = t.optional(t.Color3),
-	layoutOrder = t.optional(t.integer),
+	LayoutOrder = t.optional(t.integer),
 	mirrored = t.optional(t.boolean),
 })
 
@@ -31,7 +31,7 @@ local function Avatar(props)
                 SizeConstraint = props.sizeConstraint or Enum.SizeConstraint.RelativeXX,
 				Size = props.size or UDim2.new(1, 0, 1, 0),
 				BackgroundTransparency = 1,
-				LayoutOrder = props.layoutOrder,
+				LayoutOrder = props.LayoutOrder,
 			}, {
 				Mask = Roact.createElement("ImageLabel", {
 					Image = "rbxassetid://3214902128",

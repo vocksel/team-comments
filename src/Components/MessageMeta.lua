@@ -9,7 +9,7 @@ local TextLabel = require(script.Parent.TextLabel)
 local Props = t.interface({
 	message = Types.IMessage,
 	size = t.UDim2,
-	layoutOrder = t.integer
+	LayoutOrder = t.integer
 })
 
 local function MessageMeta(props)
@@ -22,7 +22,7 @@ local function MessageMeta(props)
 		return Roact.createElement("Frame", {
 			BackgroundTransparency = 1,
 			Size = props.size,
-			LayoutOrder = props.layoutOrder,
+			LayoutOrder = props.LayoutOrder,
 		}, {
 			Name = Roact.createElement(PlayerName, {
 				userId = props.message.authorId,

@@ -15,7 +15,7 @@ local function MessageBody(props)
 		Text = props.message.body,
 		Size = props.size,
 		TextTruncate = props.isTruncated and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None,
-		LayoutOrder = props.layoutOrder
+		LayoutOrder = props.LayoutOrder
 	})
 end
 

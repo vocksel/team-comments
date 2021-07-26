@@ -52,7 +52,7 @@ function MessageInputField:render()
 			[Roact.Change.Text] = self.setText,
 			[Roact.Event.FocusLost] = self.onFocusLost
 		}, {
-			Roact = Roact.createElement("UIPadding", {
+            Padding = Roact.createElement("UIPadding", {
                 PaddingTop = UDim.new(0, Styles.Padding),
                 PaddingRight = UDim.new(0, Styles.Padding),
                 PaddingBottom = UDim.new(0, Styles.Padding),

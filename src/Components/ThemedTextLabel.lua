@@ -1,6 +1,6 @@
-local Roact = require(script.Parent.Parent.Lib.Roact)
+local Roact = require(script.Parent.Parent.Packages.Roact)
 local Immutable = require(script.Parent.Parent.Lib.Immutable)
-local t = require(script.Parent.Parent.Lib.t)
+local t = require(script.Parent.Parent.Packages.t)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local TextLabel = require(script.Parent.TextLabel)
 

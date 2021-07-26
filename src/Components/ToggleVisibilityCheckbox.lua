@@ -2,7 +2,7 @@ local Roact = require(script.Parent.Parent.Packages.Roact)
 local Connect = require(script.Parent.Parent.Packages.RoactRodux).connect
 local t = require(script.Parent.Parent.Packages.t)
 local ToggleOption = require(script.Parent.ToggleOption)
-local ToggleMessagesVisibility = require(script.Parent.Parent.Lib.Actions.ToggleMessagesVisibility)
+local ToggleMessagesVisibility = require(script.Parent.Parent.Actions.ToggleMessagesVisibility)
 
 local Props = t.interface({
 	areMessagesVisible = t.boolean,

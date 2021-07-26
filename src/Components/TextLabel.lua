@@ -1,6 +1,6 @@
 local TextService = game:GetService("TextService")
 
-local Roact = require(script.Parent.Parent.Lib.Roact)
+local Roact = require(script.Parent.Parent.Packages.Roact)
 local Immutable = require(script.Parent.Parent.Lib.Immutable)
 local Styles = require(script.Parent.Parent.Styles)
 

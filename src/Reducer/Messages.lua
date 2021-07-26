@@ -1,4 +1,4 @@
-local CreateReducer = require(script.Parent.Parent.Lib.Rodux).createReducer
+local CreateReducer = require(script.Parent.Parent.Packages.Rodux).createReducer
 local Immutable = require(script.Parent.Parent.Lib.Immutable)
 local Types = require(script.Parent.Parent.Types)
 

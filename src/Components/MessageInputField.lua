@@ -6,7 +6,7 @@ local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Padding = require(script.Parent.Padding)
 local Styles = require(script.Parent.Parent.Styles)
 local Messages = require(script.Parent.Parent.Messages)
-local SetMessageBody = require(script.Parent.Parent.Lib.Actions.SetMessageBody)
+local SetMessageBody = require(script.Parent.Parent.Actions.SetMessageBody)
 
 local MessageInputField = Roact.Component:extend("MessageInputField")
 

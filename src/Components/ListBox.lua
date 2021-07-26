@@ -52,8 +52,8 @@
 ]]
 
 local Immutable = require(script.Parent.Parent.Lib.Immutable)
-local Roact = require(script.Parent.Parent.Lib.Roact)
-local t = require(script.Parent.Parent.Lib.t)
+local Roact = require(script.Parent.Parent.Packages.Roact)
+local t = require(script.Parent.Parent.Packages.t)
 
 local Props = t.interface({
 	backgroundColor = t.optional(t.Color3),

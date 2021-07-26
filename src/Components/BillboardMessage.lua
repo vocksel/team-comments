@@ -11,27 +11,26 @@ local CameraDistanceProvider = require(script.Parent.CameraDistanceProvider)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 
 local Props = t.interface({
-	message = Types.IMessage
+    message = Types.IMessage
 })
 
 local function getScaleFromDistance(distance)
-	-- (distance, scale) pairs
-	local d1, s1 = 20, 1.2
-	local d2, s2 = 80, 0.05
+    -- (distance, scale) pairs
+    local d1, s1 = 20, 1.2
+    local d2, s2 = 80, 0.05
 
-	local slope = (s2-s1)/(d2-d1)
+    local slope = (s2-s1)/(d2-d1)
 
-	-- slope-point form
-	local scale = slope*(distance-d1) + s1
+    -- slope-point form
+    local scale = slope*(distance-d1) + s1
 
-	return math.clamp(scale, s2, s1)
+    return math.clamp(scale, s2, s1)
 end
 
 local function BillboardMessage(props)
-	assert(Props(props))
+    assert(Props(props))
 
     return StudioThemeAccessor.withTheme(function(theme)
-        print("test")
         return Roact.createElement("Frame", {
             BackgroundColor3 = theme:GetColor("MainBackground"),
             Size = UDim2.new(1, 0, 1, 0),

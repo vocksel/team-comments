@@ -8,8 +8,8 @@ return function(target)
     local store = Rodux.Store.new(Reducer)
 
     local root = Roact.createElement(RoactRodux.StoreProvider, {
-		store = store
-	}, {
+        store = store
+    }, {
         Wrapper = Roact.createElement("Frame", {
             Size = UDim2.fromScale(0.5, 0.8),
             BackgroundTransparency = 1,
@@ -23,7 +23,7 @@ return function(target)
                 }
             })
         })
-	})
+    })
 
     local handle = Roact.mount(root, target, "BillboardMessage")
 

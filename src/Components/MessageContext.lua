@@ -124,7 +124,7 @@ function MessageProvider:render()
 end
 
 function MessageProvider:didMount()
-    local function onAdded(messagePart: Part)
+    local function onAdded(_messagePart: Part)
         -- TODO: Only add messages if they're made by a different user
         -- local attr = messagePart:GetAttributes()
         -- self.createMessage(attr.Id, attr.UserId, attr.Text, attr.CreatedAt, messagePart.Position)

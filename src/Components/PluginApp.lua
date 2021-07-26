@@ -6,7 +6,7 @@ local Styles = require(script.Parent.Parent.Styles)
 local MessageInputField = require(script.Parent.MessageInputField)
 
 local function App(props)
-	return StudioThemeAccessor.withTheme(function(theme)
+    return StudioThemeAccessor.withTheme(function(theme)
         return Roact.createElement("ScrollingFrame", {
             Size = UDim2.fromScale(1, 1),
             BackgroundTransparency = 1,
@@ -39,15 +39,15 @@ local function App(props)
                 -- FIXME: Porting over to Roact Context from Rodux. Don't have
                 -- any UI settings in place yet, so this still needs to be added.
                 -- TODO: Create an action for each toggle so that the user can
-				-- easily bind keys to them.
-				-- ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
+                -- easily bind keys to them.
+                -- ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
             }),
 
-			List = Roact.createElement(MessageList, {
-				LayoutOrder = 3,
-			})
-		})
-	end)
+            List = Roact.createElement(MessageList, {
+                LayoutOrder = 3,
+            })
+        })
+    end)
 end
 
 return App

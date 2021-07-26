@@ -1,18 +1,18 @@
 --[[
-  Provides a player's thumbnail to other components.
+    Provides a player's thumbnail to other components.
 
-  Usage:
+    Usage:
 
-    Roact.createElement(Thumbnail, {
-        userId = "-1", -- Must be a string
-        render = function(thumbnail)
+        Roact.createElement(Thumbnail, {
+            userId = "-1", -- Must be a string
+            render = function(thumbnail)
 
-            return Roact.createElement("ImageLabel", {
-                Image = thumbnail.image
-            })
+                return Roact.createElement("ImageLabel", {
+                    Image = thumbnail.image
+                })
 
-        end
-    })
+            end
+        })
 --]]
 
 local Players = game:GetService("Players")
@@ -26,24 +26,24 @@ local t = require(script.Parent.Parent.Packages.t)
 local AVATAR_SIZE = 420
 
 local function fetchUserThumbnail(userId, thumbnailType)
-	thumbnailType = thumbnailType or Enum.ThumbnailType.AvatarBust
+    thumbnailType = thumbnailType or Enum.ThumbnailType.AvatarBust
 
-	local size = ("Size{size}x{size}"):gsub("{size}", AVATAR_SIZE)
+    local size = ("Size{size}x{size}"):gsub("{size}", AVATAR_SIZE)
 
-	return Promise.new(function(resolve, reject)
-		spawn(function()
-			local ok, result = pcall(function()
-				return Players:GetUserThumbnailAsync(tonumber(userId),
-					thumbnailType, Enum.ThumbnailSize[size])
-			end)
+    return Promise.new(function(resolve, reject)
+        spawn(function()
+            local ok, result = pcall(function()
+                return Players:GetUserThumbnailAsync(tonumber(userId),
+                thumbnailType, Enum.ThumbnailSize[size])
+            end)
 
-			if ok then
-				resolve(result)
-			else
-				reject(result)
-			end
-		end)
-	end)
+            if ok then
+                resolve(result)
+            else
+                reject(result)
+            end
+        end)
+    end)
 end
 
 local Thumbnail = Roact.Component:extend("Thumbnail")
@@ -71,7 +71,7 @@ end
 
 function Thumbnail:didMount()
     fetchUserThumbnail(self.props.userId, self.props.thumbnailType)
-		:andThen(function(image)
+        :andThen(function(image)
             self:setState({ image = image })
         end)
 end

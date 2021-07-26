@@ -9,22 +9,22 @@ local MessageBody = require(script.Parent.MessageBody)
 local MessageActions = require(script.Parent.MessageActions)
 
 local Props = t.interface({
-	LayoutOrder = t.integer,
-	message = Types.IMessage
+    LayoutOrder = t.integer,
+    message = Types.IMessage
 })
 
 local AVATAR_SIZE = 48
 
 local function CondensedMessage(props)
-	assert(Props(props))
+    assert(Props(props))
 
-	return StudioThemeAccessor.withTheme(function(theme)
-		return Roact.createElement("Frame", {
+    return StudioThemeAccessor.withTheme(function(theme)
+        return Roact.createElement("Frame", {
             LayoutOrder = props.LayoutOrder,
             BackgroundTransparency = 1,
             AutomaticSize = Enum.AutomaticSize.Y,
             Size = UDim2.fromScale(1, 0),
-		}, {
+        }, {
             Layout = Roact.createElement("UIListLayout", {
                 FillDirection = Enum.FillDirection.Horizontal,
             }),
@@ -36,19 +36,19 @@ local function CondensedMessage(props)
                 PaddingLeft = UDim.new(0, Styles.Padding),
             }),
 
-			Avatar = Roact.createElement(Avatar, {
+            Avatar = Roact.createElement(Avatar, {
                 LayoutOrder = 1,
-				userId = props.message.userId,
-				size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
-				maskColor = theme:getColor("MainBackground"),
-			}),
+                userId = props.message.userId,
+                size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
+                maskColor = theme:getColor("MainBackground"),
+            }),
 
-			Main = Roact.createElement("Frame", {
+            Main = Roact.createElement("Frame", {
                 LayoutOrder = 2,
                 BackgroundTransparency = 1,
-				-- The X offset is to account for the avatar
+                -- The X offset is to account for the avatar
                 Size = UDim2.new(1, -AVATAR_SIZE, 0, 0),
-			}, {
+            }, {
                 Layout = Roact.createElement("UIListLayout", {
                     SortOrder = Enum.SortOrder.LayoutOrder,
                     Padding = UDim.new(0, Styles.Padding)
@@ -58,26 +58,26 @@ local function CondensedMessage(props)
                     PaddingLeft = UDim.new(0, Styles.Padding)
                 }),
 
-				Meta = Roact.createElement(MessageMeta, {
-					message = props.message,
-					size = UDim2.new(1, 0, 0, Styles.HeaderTextSize),
-					LayoutOrder = 1,
-				}),
+                Meta = Roact.createElement(MessageMeta, {
+                    message = props.message,
+                    size = UDim2.new(1, 0, 0, Styles.HeaderTextSize),
+                    LayoutOrder = 1,
+                }),
 
-				Body = Roact.createElement(MessageBody, {
-					message = props.message,
-					LayoutOrder = 2,
-					isTruncated = true,
-				}),
+                Body = Roact.createElement(MessageBody, {
+                    message = props.message,
+                    LayoutOrder = 2,
+                    isTruncated = true,
+                }),
 
-				Actions = Roact.createElement(MessageActions, {
-					message = props.message,
-					size = UDim2.new(1, 0, 0, 20),
-					LayoutOrder = 3,
-				})
-			})
-		})
-	end)
+                Actions = Roact.createElement(MessageActions, {
+                    message = props.message,
+                    size = UDim2.new(1, 0, 0, 20),
+                    LayoutOrder = 3,
+                })
+            })
+        })
+    end)
 end
 
 return CondensedMessage

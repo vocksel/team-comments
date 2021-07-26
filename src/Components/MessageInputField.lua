@@ -8,13 +8,13 @@ local Styles = require(script.Parent.Parent.Styles)
 local MessageInputField = Roact.Component:extend("MessageInputField")
 
 function MessageInputField:init()
-	self.state = {
-		text = ""
-	}
+    self.state = {
+        text = ""
+    }
 
-	self.setText = function(rbx)
-		self:setState({ text = rbx.Text })
-	end
+    self.setText = function(rbx)
+        self:setState({ text = rbx.Text })
+    end
 end
 
 function MessageInputField:render()

@@ -5,11 +5,11 @@ local CondensedMessage = require(script.Parent.CondensedMessage)
 local MessageContext = require(script.Parent.MessageContext)
 
 local Props = t.interface({
-	LayoutOrder = t.optional(t.integer)
+    LayoutOrder = t.optional(t.integer)
 })
 
 local function MessageList(props)
-	assert(Props(props))
+    assert(Props(props))
 
     return Roact.createElement(MessageContext.Consumer, {
         render = function(context)

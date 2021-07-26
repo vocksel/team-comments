@@ -3,15 +3,15 @@ local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local t = require(script.Parent.Parent.Packages.t)
 
 local Props = t.interface({
-	isChecked = t.boolean,
-	onClick = t.optional(t.callback),
-	position = t.optional(t.UDim2),
-	anchorPoint = t.optional(t.Vector2),
-	LayoutOrder = t.optional(t.integer),
+    isChecked = t.boolean,
+    onClick = t.optional(t.callback),
+    position = t.optional(t.UDim2),
+    anchorPoint = t.optional(t.Vector2),
+    LayoutOrder = t.optional(t.integer),
 })
 
 local function Checkbox(props)
-	assert(Props(props))
+    assert(Props(props))
 
     local state = props.isChecked and "Selected" or "Default"
 

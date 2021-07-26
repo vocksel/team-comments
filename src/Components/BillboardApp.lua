@@ -6,12 +6,12 @@ local Messages = require(script.Parent.Parent.Messages)
 local CameraDistanceProvider = require(script.Parent.CameraDistanceProvider)
 
 local function BillboardApp(props)
-	if props.ui.areMessagesVisible then
-		local children = {}
+    if props.ui.areMessagesVisible then
+        local children = {}
 
-		for _, message in pairs(props.messages) do
+        for _, message in pairs(props.messages) do
             local messagePart = Messages.getMessagePartById(message.id)
-			children[message.id] = Roact.createElement(CameraDistanceProvider, {
+            children[message.id] = Roact.createElement(CameraDistanceProvider, {
                 origin = messagePart.Position,
                 render = function(distance)
                     return Roact.createElement("BillboardGui", {
@@ -29,15 +29,15 @@ local function BillboardApp(props)
             })
         end
 
-		return Roact.createElement("Folder", {}, children)
-	end
+        return Roact.createElement("Folder", {}, children)
+    end
 end
 
 local function mapStateToProps(state)
-	return {
-		messages = state.messages,
-		ui = state.ui,
-	}
+    return {
+        messages = state.messages,
+        ui = state.ui,
+    }
 end
 
 return Connect(mapStateToProps)(BillboardApp)

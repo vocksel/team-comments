@@ -26,6 +26,7 @@ local function Comment(props)
             Size = UDim2.fromScale(1, 0),
         }, {
             Layout = Roact.createElement("UIListLayout", {
+                SortOrder = Enum.SortOrder.LayoutOrder,
                 FillDirection = Enum.FillDirection.Horizontal,
             }),
 
@@ -36,19 +37,26 @@ local function Comment(props)
                 PaddingLeft = UDim.new(0, Styles.Padding),
             }),
 
-            Avatar = Roact.createElement(Avatar, {
+            Sidebar = Roact.createElement("Frame", {
                 LayoutOrder = 1,
-                userId = props.message.userId,
-                size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
-                maskColor = theme:getColor("MainBackground"),
+                Size = UDim2.fromScale(1/6, 1),
+                BackgroundTransparency = 1,
+            }, {
+                Avatar = Roact.createElement(Avatar, {
+                    LayoutOrder = 1,
+                    userId = props.message.userId,
+                    size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
+                    maskColor = theme:getColor("MainBackground"),
+                }),
             }),
+
 
             Main = Roact.createElement("Frame", {
                 LayoutOrder = 2,
                 BackgroundTransparency = 1,
                 -- The X offset is to account for the avatar
                 AutomaticSize = Enum.AutomaticSize.Y,
-                Size = UDim2.new(1, -AVATAR_SIZE, 0, 0),
+                Size = UDim2.fromScale(5/6, 0),
             }, {
                 Layout = Roact.createElement("UIListLayout", {
                     SortOrder = Enum.SortOrder.LayoutOrder,

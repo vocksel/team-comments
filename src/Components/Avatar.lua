@@ -1,57 +1,64 @@
-
+local Players = game:GetService("Players")
+local Promise = require(script.Parent.Parent.Packages.Promise)
 local Roact = require(script.Parent.Parent.Packages.Roact)
 local t = require(script.Parent.Parent.Packages.t)
-local Thumbnail = require(script.Parent.Thumbnail)
 
-local function mirrorX(x, y)
-    return Vector2.new(x, 0), Vector2.new(-x, y)
-end
+local Avatar = Roact.Component:extend("Avatar")
 
 local Props = t.interface({
     userId = t.string,
-    size = t.optional(t.UDim2),
-    sizeConstraint = t.optional(t.enum(Enum.SizeConstraint)),
     maskColor = t.optional(t.Color3),
     LayoutOrder = t.optional(t.integer),
-    mirrored = t.optional(t.boolean),
 })
 
-local function Avatar(props)
-    assert(Props(props))
+function Avatar:init()
+    self.state = {
+        image = ""
+    }
 
-    return Roact.createElement(Thumbnail, {
-        userId = props.userId,
-        render = function(thumbnail)
-            local rectOffset, rectSize
-            if props.mirrored then
-                rectOffset, rectSize = mirrorX(thumbnail.size.X, thumbnail.size.Y)
-            end
+    self.fetchPlayerThumbnail = Promise.promisify(function(userId: string)
+        return Players:GetUserThumbnailAsync(
+            tonumber(userId),
+            Enum.ThumbnailType.HeadShot,
+            Enum.ThumbnailSize.Size420x420
+        )
+    end)
+end
 
-            return Roact.createElement("Frame", {
-                SizeConstraint = props.sizeConstraint or Enum.SizeConstraint.RelativeXX,
-                Size = props.size or UDim2.new(1, 0, 1, 0),
-                BackgroundTransparency = 1,
-                LayoutOrder = props.LayoutOrder,
-            }, {
-                Mask = Roact.createElement("ImageLabel", {
-                    Image = "rbxassetid://3214902128",
-                    ImageColor3 = props.maskColor,
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(1, 0, 1, 0),
-                    ZIndex = 2
-                }),
+function Avatar:render()
+    assert(Props(self.props))
 
-                Icon = Roact.createElement("ImageLabel", {
-                    Image = thumbnail.image,
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(1, 0, 1, 0),
-                    ImageRectOffset = rectOffset,
-                    ImageRectSize = rectSize
-                })
-            })
+    return Roact.createElement("Frame", {
+        Size = UDim2.fromScale(1, 1),
+        BackgroundTransparency = 1,
+        LayoutOrder = self.props.LayoutOrder,
+    }, {
+        AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
+            AspectRatio = 1,
+        }),
 
-        end
+        Mask = Roact.createElement("ImageLabel", {
+            Image = "rbxassetid://3214902128",
+            ImageColor3 = self.props.maskColor,
+            BackgroundTransparency = 1,
+            Size = UDim2.fromScale(1, 1),
+            ZIndex = 2
+        }),
+
+        Icon = Roact.createElement("ImageLabel", {
+            Image = self.state.image,
+            BackgroundTransparency = 1,
+            Size = UDim2.fromScale(1, 1),
+        })
     })
+end
+
+function Avatar:didMount()
+    self.fetchPlayerThumbnail(self.props.userId):andThen(function(image)
+        self:setState({
+            image = image
+        })
+    end)
 end
 
 return Avatar

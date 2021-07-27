@@ -18,6 +18,8 @@ local Props = t.interface({
     LayoutOrder = t.integer
 })
 
+local MessageMeta = Roact.Component:extend("MessageMeta")
+
 function MessageMeta:init()
     self.state = {
         name = nil

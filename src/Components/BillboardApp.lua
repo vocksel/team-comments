@@ -1,6 +1,6 @@
 local Roact = require(script.Parent.Parent.Packages.Roact)
 local Connect = require(script.Parent.Parent.Packages.RoactRodux).connect
-local BillboardMessage = require(script.Parent.BillboardMessage)
+local Comment = require(script.Parent.Comment)
 local Config = require(script.Parent.Parent.Config)
 local Messages = require(script.Parent.Parent.Messages)
 local CameraDistanceProvider = require(script.Parent.CameraDistanceProvider)
@@ -20,7 +20,7 @@ local function BillboardApp(props)
                         LightInfluence = 0,
                         Adornee = messagePart
                     }, {
-                        Roact.createElement(BillboardMessage, {
+                        Roact.createElement(Comment, {
                             message = message,
                             distance = distance,
                         })

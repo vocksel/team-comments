@@ -4,7 +4,7 @@ local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Styles = require(script.Parent.Parent.Styles)
 local MessageInputField = require(script.Parent.MessageInputField)
 local MessageContext = require(script.Parent.MessageContext)
-local CondensedMessage = require(script.Parent.CondensedMessage)
+local Comment = require(script.Parent.Comment)
 
 local function App(props)
     return StudioThemeAccessor.withTheme(function(theme)
@@ -61,7 +61,7 @@ local function App(props)
                         })
 
                         for index, message in ipairs(context.getOrderedMessages()) do
-                            children[message.id] = Roact.createElement(CondensedMessage, {
+                            children[message.id] = Roact.createElement(Comment, {
                                 LayoutOrder = index,
                                 message = message,
                             })

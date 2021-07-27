@@ -1,12 +1,12 @@
 local Roact = require(script.Parent.Parent.Packages.Roact)
-local BillboardMessage = require(script.Parent.BillboardMessage)
+local Comment = require(script.Parent.Comment)
 
 return function(target)
     local root = Roact.createElement("Frame", {
         Size = UDim2.fromScale(0.5, 0.8),
         BackgroundTransparency = 1,
     }, {
-        BillboardMessage = Roact.createElement(BillboardMessage, {
+        Comment = Roact.createElement(Comment, {
             message = {
                 id = "1",
                 userId = "1343930",
@@ -16,7 +16,7 @@ return function(target)
         })
     })
 
-    local handle = Roact.mount(root, target, "BillboardMessage")
+    local handle = Roact.mount(root, target, "Comment")
 
     return function()
         Roact.unmount(handle)

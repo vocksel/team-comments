@@ -9,13 +9,13 @@ local MessageBody = require(script.Parent.MessageBody)
 local MessageActions = require(script.Parent.MessageActions)
 
 local Props = t.interface({
-    LayoutOrder = t.integer,
+    LayoutOrder = t.optional(t.integer),
     message = Types.IMessage
 })
 
 local AVATAR_SIZE = 48
 
-local function CondensedMessage(props)
+local function Comment(props)
     assert(Props(props))
 
     return StudioThemeAccessor.withTheme(function(theme)
@@ -47,6 +47,7 @@ local function CondensedMessage(props)
                 LayoutOrder = 2,
                 BackgroundTransparency = 1,
                 -- The X offset is to account for the avatar
+                AutomaticSize = Enum.AutomaticSize.Y,
                 Size = UDim2.new(1, -AVATAR_SIZE, 0, 0),
             }, {
                 Layout = Roact.createElement("UIListLayout", {
@@ -80,4 +81,4 @@ local function CondensedMessage(props)
     end)
 end
 
-return CondensedMessage
+return Comment

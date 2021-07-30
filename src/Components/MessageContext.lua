@@ -26,9 +26,9 @@ function MessageProvider:init(initialProps)
         return storage
     end
 
-    self.createPhysicalMessage = function(position, message)
+    self.createMessagePart = function(messageId, userId, text, createdAt, position)
         local part = Instance.new("Part")
-        part.Name = ("TeamComment_%i"):format(message.createdAt)
+        part.Name = ("TeamComment_%i"):format(createdAt)
         part.Anchored = true
         part.Locked = true
         part.CanCollide = false
@@ -40,41 +40,44 @@ function MessageProvider:init(initialProps)
         part.Size = Vector3.new(0, 0, 0)
         part.Parent = self.getOrCreateBaseStorage()
 
-        part:SetAttribute("Id", message.id)
-        part:SetAttribute("UserId", message.userId)
-        part:SetAttribute("Text", message.text)
-        part:SetAttribute("CreatedAt", message.createdAt)
+        part:SetAttribute("Id", messageId)
+        part:SetAttribute("UserId", userId)
+        part:SetAttribute("Text", text)
+        part:SetAttribute("CreatedAt", createdAt)
 
         CollectionService:AddTag(part, initialProps.messageTag)
 
         return part
     end
 
-    self.createMessage = function(messageId, userId, text, createdAt, position)
-        -- Skip over any messages that already exist in the state. This is so
-        -- when the user sends a message that it doesn't get added a second time
-        -- from CollectionService adding messages to the state when new message
-        -- parts are added.
-        if self.state[messageId] then
-            return
-        end
+    self.createMessageState = function(messageId, userId, text, createdAt)
+        self:setState(function(prevState)
+            -- Skip over any messages that already exist in the state. This is
+            -- so when the user sends a message that it doesn't get added a
+            -- second time from CollectionService adding messages to the state
+            -- when new message parts are added.
+            if prevState.messages[messageId] then
+                return
+            end
 
-        local message = {
-            id = messageId,
-            userId = userId,
-            text = text,
-            createdAt = createdAt,
-        }
+            local message = {
+                id = messageId,
+                userId = userId,
+                text = text,
+                createdAt = createdAt,
+            }
 
-        self.createPhysicalMessage(position, message)
-
-        self:setState(function(state)
             return {
-                messages = Immutable.join(state.messages, {
+                messages = Immutable.join(prevState.messages, {
                     [messageId] = message
                 })
             }
         end)
+    end
+
+    self.createMessage = function(messageId, userId, text, createdAt, position)
+        self.createMessageState(messageId, userId, text, createdAt)
+        self.createMessagePart(messageId, userId, text, createdAt, position)
     end
 
     self.deleteMessage = function(messageId)
@@ -134,12 +137,12 @@ end
 function MessageProvider:didMount()
     local function onAdded(messagePart: Part)
         local attr = messagePart:GetAttributes()
-        self.createMessage(attr.Id, attr.UserId, attr.Text, attr.CreatedAt, messagePart.Position)
+        self.createMessageState(attr.Id, attr.UserId, attr.Text, attr.CreatedAt)
     end
 
     local function onRemoved(messagePart)
-        local id = messagePart:GetAttribute("Id")
-        self.deleteMessage(id)
+        local messageId = messagePart:GetAttribute("Id")
+        self.deleteMessage(messageId)
     end
 
     for _, messagePart in ipairs(CollectionService:GetTagged(self.props.messageTag)) do

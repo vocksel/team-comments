@@ -51,6 +51,14 @@ function MessageProvider:init(initialProps)
     end
 
     self.createMessage = function(messageId, userId, text, createdAt, position)
+        -- Skip over any messages that already exist in the state. This is so
+        -- when the user sends a message that it doesn't get added a second time
+        -- from CollectionService adding messages to the state when new message
+        -- parts are added.
+        if self.state[messageId] then
+            return
+        end
+
         local message = {
             id = messageId,
             userId = userId,
@@ -124,10 +132,9 @@ function MessageProvider:render()
 end
 
 function MessageProvider:didMount()
-    local function onAdded(_messagePart: Part)
-        -- TODO: Only add messages if they're made by a different user
-        -- local attr = messagePart:GetAttributes()
-        -- self.createMessage(attr.Id, attr.UserId, attr.Text, attr.CreatedAt, messagePart.Position)
+    local function onAdded(messagePart: Part)
+        local attr = messagePart:GetAttributes()
+        self.createMessage(attr.Id, attr.UserId, attr.Text, attr.CreatedAt, messagePart.Position)
     end
 
     local function onRemoved(messagePart)

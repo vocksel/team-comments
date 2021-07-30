@@ -86,9 +86,7 @@ function MessageProvider:init(initialProps)
     self.deleteMessage = function(messageId)
         self:setState(function(state)
             return {
-                messages =  Immutable.join(state.messages, {
-                    [messageId] = Roact.None
-                })
+                messages = Immutable.set(state.messages, messageId, nil)
             }
         end)
     end

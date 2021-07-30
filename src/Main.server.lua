@@ -17,6 +17,8 @@
 -- 	When a TeamComment tagged part is destroyed, remove it from the state
 -- 	When a TeamComment is removed from the state, remove it from the game as well (link via IDs)
 
+local CoreGui = game:GetService("CoreGui")
+
 local Roact = require(script.Parent.Packages.Roact)
 local Config = require(script.Parent.Config)
 local PluginApp = require(script.Parent.Components.PluginApp)
@@ -59,16 +61,27 @@ end
 local widget = createWidget()
 createButtons(widget)
 
-local ui = Roact.createElement(MessageContext.Provider, {}, {
+local ui = Roact.createElement(MessageContext.Provider, {
+    messageTag = "TeamComment",
+    storageTag = "TeamCommentStorage"
+}, {
     PluginApp = Roact.createElement(PluginApp, {
-        -- userId = plugin:something
+        -- selene: allow(incorrect_standard_library_use)
+        userId = plugin:GetStudioUserId()
     }),
 
-    -- Might need to portal this to CoreGui
-    Roact.createElement(BillboardApp),
+    -- Billboards do not adorn when parented under PluginGuiService so we have
+    -- to portal them to CoreGui.
+    --
+    -- We're using a portal instead of mounting BillboardApp separately because
+    -- we need MessageContext shared between the plugin and billboards.
+    Billboards = Roact.createElement(Roact.Portal, {
+        target = CoreGui,
+    }, {
+        BillboardApp = Roact.createElement(BillboardApp),
+    }),
 })
 
 Roact.mount(ui, widget, "Apps")
-
 
 print("loaded!")

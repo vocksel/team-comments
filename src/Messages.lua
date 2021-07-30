@@ -10,7 +10,7 @@ local messages = {}
 ]]
 function messages.getMessagePartById(messageId)
     for _, messagePart in pairs(CollectionService:GetTagged(Config.TAG_NAME)) do
-        if messagePart.Id.Value == messageId then
+        if messagePart:GetAttribute("Id") == messageId then
             return messagePart
         end
     end

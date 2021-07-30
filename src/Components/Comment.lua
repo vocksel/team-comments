@@ -21,7 +21,7 @@ local function Comment(props)
     return StudioThemeAccessor.withTheme(function(theme)
         return Roact.createElement("Frame", {
             LayoutOrder = props.LayoutOrder,
-            BackgroundTransparency = 1,
+            BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
             AutomaticSize = Enum.AutomaticSize.Y,
             Size = UDim2.fromScale(1, 0),
         }, {

@@ -12,7 +12,7 @@ local function App(props)
         -- added. Requires the widget to be resized first.
         return Roact.createElement("ScrollingFrame", {
             Size = UDim2.fromScale(1, 1),
-            BackgroundTransparency = 1,
+            BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
             CanvasSize = UDim2.fromScale(1, 0),
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             ScrollingDirection = Enum.ScrollingDirection.Y,

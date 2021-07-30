@@ -76,7 +76,10 @@ function MessageProvider:init(initialProps)
     end
 
     self.createMessage = function(messageId, userId, text, createdAt, position)
-        self.createMessageState(messageId, userId, text, createdAt)
+        -- Adding a message part triggers CollectionService, which in turn adds
+        -- the message to the state. A bit roundabout, but it works well and
+        -- solves some issues with trying to add state _then_ the part, and vice
+        -- versa.
         self.createMessagePart(messageId, userId, text, createdAt, position)
     end
 

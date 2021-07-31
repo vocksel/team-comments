@@ -53,6 +53,11 @@ end
 local widget = createWidget()
 createButtons(widget)
 
+-- TODO: Use plugin:SetSetting() and plugin:GetSetting() to keep track of which
+-- comments have new activity for the client. This will allow us to add badges
+-- to notify the client of new activity on comments. Hopefully we can store
+-- tables with this approach.
+
 local ui = Roact.createElement(MessageContext.Provider, {
 	messageTag = "TeamComment",
 }, {

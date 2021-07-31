@@ -33,14 +33,14 @@ local function CommentIcon(props, hooks)
 	end, {})
 
 	hooks.useEffect(function()
-		motor:setGoal(Flipper.Spring.new(props.isShown and 1 or 0, SPRING_CONFIG))
+		motor:setGoal(Flipper.Spring.new(props.isShown and 1 or 0.2, SPRING_CONFIG))
 	end, {
 		props.isShown,
 	})
 
 	return Roact.createElement("ImageButton", {
 		-- Image = ""
-		Size = UDim2.fromOffset(32, 32),
+		Size = UDim2.fromOffset(48, 48),
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		Position = UDim2.fromScale(0.5, 0.5),
 		[Roact.Event.Activated] = props.onActivated,

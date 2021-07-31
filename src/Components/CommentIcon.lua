@@ -3,8 +3,10 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local Flipper = require(TeamComments.Packages.Flipper)
+local Immutable = require(TeamComments.Lib.Immutable)
 local assets = require(TeamComments.Assets)
 local t = require(TeamComments.Packages.t)
+local types = require(TeamComments.Types)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
 local SPRING_CONFIG = {
@@ -13,13 +15,19 @@ local SPRING_CONFIG = {
 }
 
 local validateProps = t.interface({
+	message = types.IMessage,
 	isShown = t.optional(t.boolean),
 	onActivated = t.optional(t.callback),
 })
 
+local defaultProps = {
+	isShown = true,
+}
+
 local BUTTON_SIZE = 64
 
 local function CommentIcon(props, hooks)
+	props = Immutable.join(defaultProps, props)
 	assert(validateProps(props))
 
 	local scale, setScale = hooks.useState(1)

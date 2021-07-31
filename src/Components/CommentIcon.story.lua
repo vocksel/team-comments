@@ -16,7 +16,7 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
 					return not prev
 				end)
 
-				wait(1)
+				wait(2)
 			end
 		end)()
 
@@ -25,13 +25,20 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
 		end
 	end, {})
 
-	print("isShown", isShown)
-
 	return Roact.createElement("Frame", {
 		Size = UDim2.fromScale(1, 1),
 	}, {
 		Roact.createElement(CommentIcon, {
 			isShown = isShown,
+			message = {
+				id = "1",
+				userId = "1343930",
+				text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel leo bibendum, efficitur eros vel, tincidunt est. Aenean augue velit, volutpat et posuere quis, fermentum quis purus. Etiam est risus, fringilla sit amet elementum eget, elementum eu tellus. Vestibulum vehicula nibh felis, at gravida metus rhoncus eu. Curabitur ornare sodales varius.",
+				createdAt = os.time(),
+			},
+			onActivated = function()
+				print("clicked")
+			end,
 		}),
 	})
 end)

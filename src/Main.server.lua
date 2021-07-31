@@ -54,7 +54,7 @@ local widget = createWidget()
 createButtons(widget)
 
 local ui = Roact.createElement(MessageContext.Provider, {
-	-- messageTag = "TeamComment",
+	messageTag = "TeamComment",
 }, {
 	PluginApp = Roact.createElement(PluginApp, {
 		-- selene: allow(incorrect_standard_library_use)

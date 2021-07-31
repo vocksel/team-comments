@@ -4,10 +4,10 @@ local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local Flipper = require(TeamComments.Packages.Flipper)
 local Immutable = require(TeamComments.Lib.Immutable)
-local assets = require(TeamComments.Assets)
 local t = require(TeamComments.Packages.t)
 local types = require(TeamComments.Types)
 local useTheme = require(TeamComments.Hooks.useTheme)
+local useAvatar = require(TeamComments.Hooks.useAvatar)
 
 local SPRING_CONFIG = {
 	frequency = 1.2,
@@ -28,11 +28,13 @@ local BUTTON_SIZE = 64
 
 local function CommentBubble(props, hooks)
 	props = Immutable.join(defaultProps, props)
+
 	assert(validateProps(props))
 
 	local scale, setScale = hooks.useState(1)
 	local transparency, setTransparency = hooks.useState(1)
 	local theme = useTheme(hooks)
+	local avatar = useAvatar(hooks, props.message.userId)
 
 	local motor = hooks.useMemo(function()
 		return Flipper.SingleMotor.new(scale)
@@ -50,17 +52,20 @@ local function CommentBubble(props, hooks)
 	end, {})
 
 	hooks.useEffect(function()
-		motor:setGoal(Flipper.Spring.new(props.isShown and 1 or 0.2, SPRING_CONFIG))
+		motor:setGoal(Flipper.Spring.new(props.isShown and 1 or 0.3, SPRING_CONFIG))
 	end, {
 		props.isShown,
 	})
 
-	return Roact.createElement("Frame", {
+	return Roact.createElement("ImageButton", {
+		Image = avatar,
+		ImageTransparency = transparency,
 		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
 		BackgroundTransparency = transparency,
-		Size = UDim2.fromOffset(BUTTON_SIZE, BUTTON_SIZE),
+		Size = UDim2.fromScale(1, 1),
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		Position = UDim2.fromScale(0.5, 0.5),
+		[Roact.Event.Activated] = props.onActivated,
 	}, {
 		Corner = Roact.createElement("UICorner", {
 			CornerRadius = UDim.new(1, 0),
@@ -72,17 +77,6 @@ local function CommentBubble(props, hooks)
 
 		AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
 			AspectRatio = 1,
-		}),
-
-		Icon = Roact.createElement("ImageButton", {
-			Image = assets.CommentBubble,
-			ImageTransparency = transparency,
-			ImageColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-			BackgroundTransparency = 1,
-			Size = UDim2.fromOffset(BUTTON_SIZE - 24, BUTTON_SIZE - 24),
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			[Roact.Event.Activated] = props.onActivated,
 		}),
 	})
 end

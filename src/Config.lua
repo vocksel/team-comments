@@ -1,6 +1,6 @@
 return {
     PLUGIN_NAME = "TeamComments",
-    DISPLAY_NAME = "World Messages",
+    DISPLAY_NAME = "Team Comments",
 
     TAG_NAME = "TeamComment",
     STORAGE_TAG_NAME = "TeamCommentStorage",

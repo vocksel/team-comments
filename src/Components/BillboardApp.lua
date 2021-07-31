@@ -21,13 +21,14 @@ local function BillboardApp(_props, hooks)
 
 		children[message.id] = Roact.createElement("BillboardGui", {
 			MaxDistance = math.huge,
-			Size = UDim2.fromOffset(400, 200),
+			Size = UDim2.fromScale(4, 4),
 			LightInfluence = 0,
 			Adornee = messagePart,
 			Active = true,
 		}, {
 			CommentBubble = Roact.createElement(CommentBubble, {
-				isShown = distance < 40,
+				isShown = distance < 60,
+				message = message,
 				onActivated = onActivated,
 			}),
 		})

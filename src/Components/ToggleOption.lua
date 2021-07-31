@@ -2,8 +2,9 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
+local Immutable = require(TeamComments.Lib.Immutable)
+local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Checkbox = require(script.Parent.Checkbox)
-local ThemedTextLabel = require(script.Parent.ThemedTextLabel)
 local Styles = require(TeamComments.Styles)
 
 local Props = t.interface({
@@ -16,29 +17,35 @@ local Props = t.interface({
 local function ToggleOption(props)
 	assert(Props(props))
 
-	return Roact.createElement("Frame", {
-		Size = UDim2.new(1, 0, 0, 24),
-		BackgroundTransparency = 1,
-		LayoutOrder = props.LayoutOrder,
-	}, {
-		Layout = Roact.createElement("UIListLayout", {
-			FillDirection = Enum.FillDirection.Horizontal,
-			Padding = UDim.new(0, Styles.Padding),
-		}),
+	return StudioThemeAccessor.withTheme(function(theme)
+		return Roact.createElement("Frame", {
+			Size = UDim2.new(1, 0, 0, 24),
+			BackgroundTransparency = 1,
+			LayoutOrder = props.LayoutOrder,
+		}, {
+			Layout = Roact.createElement("UIListLayout", {
+				FillDirection = Enum.FillDirection.Horizontal,
+				Padding = Styles.Padding,
+			}),
 
-		Checkbox = Roact.createElement(Checkbox, {
-			LayoutOrder = 1,
-			isChecked = props.isChecked,
-			onClick = props.onClick,
-		}),
+			Checkbox = Roact.createElement(Checkbox, {
+				LayoutOrder = 1,
+				isChecked = props.isChecked,
+				onClick = props.onClick,
+			}),
 
-		Label = Roact.createElement(ThemedTextLabel, {
-			LayoutOrder = 2,
-			Text = props.text,
-			Size = UDim2.new(1, 0, 1, 0),
-			TextYAlignment = Enum.TextYAlignment.Center,
-		}),
-	})
+			Label = Roact.createElement(
+				"TextLabel",
+				Immutable.join(Styles.Text, {
+					LayoutOrder = 2,
+					Text = props.text,
+					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+					Size = UDim2.new(1, 0, 1, 0),
+					TextYAlignment = Enum.TextYAlignment.Center,
+				})
+			),
+		})
+	end)
 end
 
 return ToggleOption

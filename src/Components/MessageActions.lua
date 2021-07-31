@@ -26,7 +26,7 @@ local function MessageActions(props)
 				Layout = Roact.createElement("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
 					FillDirection = Enum.FillDirection.Horizontal,
-					Padding = UDim.new(0, Styles.Padding),
+					Padding = Styles.Padding,
 				}),
 
 				View = Roact.createElement(Button, {

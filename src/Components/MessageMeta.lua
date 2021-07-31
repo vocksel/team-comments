@@ -5,10 +5,10 @@ local Players = game:GetService("Players")
 local Promise = require(TeamComments.Packages.Promise)
 local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
+local Immutable = require(TeamComments.Lib.Immutable)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
-local TextLabel = require(script.Parent.TextLabel)
 
 local fetchPlayerName = Promise.promisify(function(userId)
 	return Players:GetNameFromUserIdAsync(tonumber(userId))
@@ -40,22 +40,27 @@ function MessageMeta:render()
 			Size = self.props.size,
 			LayoutOrder = self.props.LayoutOrder,
 		}, {
-			Name = Roact.createElement(TextLabel, {
-				Text = self.state.name,
-				Font = Styles.HeaderFont,
-				TextSize = Styles.HeaderTextSize,
-				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-			}),
+			Name = Roact.createElement(
+				"TextLabel",
+				Immutable.join(Styles.Text, {
+					Text = self.state.name,
+					Font = Styles.HeaderFont,
+					TextSize = Styles.Header.TextSize,
+					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+				})
+			),
 
-			Date = Roact.createElement(TextLabel, {
-				Text = formattedDate,
-				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.DimmedText),
-				TextXAlignment = Enum.TextXAlignment.Right,
-
-				-- align right
-				Position = UDim2.new(1, 0, 0, 0),
-				AnchorPoint = Vector2.new(1, 0),
-			}),
+			Date = Roact.createElement(
+				"TextLabel",
+				Immutable.join(Styles.Text, {
+					Text = formattedDate,
+					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.DimmedText),
+					TextXAlignment = Enum.TextXAlignment.Right,
+					-- align right
+					Position = UDim2.new(1, 0, 0, 0),
+					AnchorPoint = Vector2.new(1, 0),
+				})
+			),
 		})
 	end)
 end

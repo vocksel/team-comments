@@ -35,10 +35,10 @@ local function App(props)
 				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Light),
 			}, {
 				Padding = Roact.createElement("UIPadding", {
-					PaddingTop = UDim.new(0, Styles.Padding),
-					PaddingRight = UDim.new(0, Styles.Padding),
-					PaddingBottom = UDim.new(0, Styles.Padding),
-					PaddingLeft = UDim.new(0, Styles.Padding),
+					PaddingTop = Styles.Padding,
+					PaddingRight = Styles.Padding,
+					PaddingBottom = Styles.Padding,
+					PaddingLeft = Styles.Padding,
 				}),
 
 				-- FIXME: Porting over to Roact Context from Rodux. Don't have

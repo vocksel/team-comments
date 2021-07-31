@@ -47,16 +47,16 @@ function MessageInputField:render()
 					PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
 					ClearTextOnFocus = false,
 					TextWrapped = true,
-					LineHeight = Styles.TextSize,
+					LineHeight = Styles.Text.TextSize,
 
 					[Roact.Change.Text] = self.setText,
 					[Roact.Event.FocusLost] = onFocusLost,
 				}, {
 					Padding = Roact.createElement("UIPadding", {
-						PaddingTop = UDim.new(0, Styles.Padding),
-						PaddingRight = UDim.new(0, Styles.Padding),
-						PaddingBottom = UDim.new(0, Styles.Padding),
-						PaddingLeft = UDim.new(0, Styles.Padding),
+						PaddingTop = Styles.Padding,
+						PaddingRight = Styles.Padding,
+						PaddingBottom = Styles.Padding,
+						PaddingLeft = Styles.Padding,
 					}),
 				})
 			end)

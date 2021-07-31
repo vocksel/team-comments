@@ -4,7 +4,7 @@ local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
-local ThemedTextLabel = require(script.Parent.ThemedTextLabel)
+local Immutable = require(TeamComments.Lib.Immutable)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
@@ -33,10 +33,10 @@ local function Comment(props)
 			}),
 
 			Padding = Roact.createElement("UIPadding", {
-				PaddingTop = UDim.new(0, Styles.Padding),
-				PaddingRight = UDim.new(0, Styles.Padding),
-				PaddingBottom = UDim.new(0, Styles.Padding),
-				PaddingLeft = UDim.new(0, Styles.Padding),
+				PaddingTop = Styles.Padding,
+				PaddingRight = Styles.Padding,
+				PaddingBottom = Styles.Padding,
+				PaddingLeft = Styles.Padding,
 			}),
 
 			Sidebar = Roact.createElement("Frame", {
@@ -61,24 +61,27 @@ local function Comment(props)
 			}, {
 				Layout = Roact.createElement("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
-					Padding = UDim.new(0, Styles.Padding),
+					Padding = Styles.Padding,
 				}),
 
 				Padding = Roact.createElement("UIPadding", {
-					PaddingLeft = UDim.new(0, Styles.Padding),
+					PaddingLeft = Styles.Padding,
 				}),
 
 				Meta = Roact.createElement(MessageMeta, {
 					message = props.message,
-					size = UDim2.new(1, 0, 0, Styles.HeaderTextSize),
+					size = UDim2.new(1, 0, 0, Styles.Header.TextSize),
 					LayoutOrder = 1,
 				}),
 
-				Body = Roact.createElement(ThemedTextLabel, {
-					LayoutOrder = 2,
-					Text = props.message.text,
-					Size = props.size,
-				}),
+				Body = Roact.createElement(
+					"TextLabel",
+					Immutable.join(Styles.Text, {
+						LayoutOrder = 2,
+						Text = props.message.text,
+						TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+					})
+				),
 
 				Actions = Roact.createElement(MessageActions, {
 					message = props.message,

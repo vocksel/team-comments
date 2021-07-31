@@ -18,8 +18,8 @@ local function Button(props)
 	return StudioThemeAccessor.withTheme(function(theme)
 		return Roact.createElement("TextButton", {
 			Text = props.text,
-			TextSize = Styles.TextSize - 2,
-			Font = Styles.HeaderFont,
+			TextSize = Styles.Text.TextSize - 2,
+			Font = Styles.Header.Font,
 			LayoutOrder = props.LayoutOrder,
 			TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 			BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Button),

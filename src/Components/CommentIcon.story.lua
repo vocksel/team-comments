@@ -27,8 +27,12 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
 
 	print("isShown", isShown)
 
-	return Roact.createElement(CommentIcon, {
-		isShown = isShown,
+	return Roact.createElement("Frame", {
+		Size = UDim2.fromScale(1, 1),
+	}, {
+		Roact.createElement(CommentIcon, {
+			isShown = isShown,
+		}),
 	})
 end)
 

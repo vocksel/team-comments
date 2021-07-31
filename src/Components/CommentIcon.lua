@@ -3,7 +3,9 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local Flipper = require(TeamComments.Packages.Flipper)
+local assets = require(TeamComments.Assets)
 local t = require(TeamComments.Packages.t)
+local useTheme = require(TeamComments.Hooks.useTheme)
 
 local SPRING_CONFIG = {
 	frequency = 1.2,
@@ -15,17 +17,24 @@ local validateProps = t.interface({
 	onActivated = t.optional(t.callback),
 })
 
+local BUTTON_SIZE = 64
+
 local function CommentIcon(props, hooks)
 	assert(validateProps(props))
 
 	local scale, setScale = hooks.useState(1)
+	local transparency, setTransparency = hooks.useState(1)
+	local theme = useTheme(hooks)
 
 	local motor = hooks.useMemo(function()
 		return Flipper.SingleMotor.new(scale)
 	end, {})
 
 	hooks.useEffect(function()
-		motor:onStep(setScale)
+		motor:onStep(function(value)
+			setScale(value)
+			setTransparency(1 - value)
+		end)
 
 		return function()
 			motor:destroy()
@@ -38,15 +47,34 @@ local function CommentIcon(props, hooks)
 		props.isShown,
 	})
 
-	return Roact.createElement("ImageButton", {
-		-- Image = ""
-		Size = UDim2.fromOffset(48, 48),
+	return Roact.createElement("Frame", {
+		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
+		BackgroundTransparency = transparency,
+		Size = UDim2.fromOffset(BUTTON_SIZE, BUTTON_SIZE),
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		Position = UDim2.fromScale(0.5, 0.5),
-		[Roact.Event.Activated] = props.onActivated,
 	}, {
+		Corner = Roact.createElement("UICorner", {
+			CornerRadius = UDim.new(1, 0),
+		}),
+
 		Scale = Roact.createElement("UIScale", {
 			Scale = scale,
+		}),
+
+		AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
+			AspectRatio = 1,
+		}),
+
+		Icon = Roact.createElement("ImageButton", {
+			Image = assets.CommentBubble,
+			ImageTransparency = transparency,
+			ImageColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+			BackgroundTransparency = 1,
+			Size = UDim2.fromOffset(BUTTON_SIZE - 24, BUTTON_SIZE - 24),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			[Roact.Event.Activated] = props.onActivated,
 		}),
 	})
 end

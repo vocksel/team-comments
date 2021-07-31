@@ -20,3 +20,9 @@ name = "osyris/t"
 version = "1.2.5"
 source = "git+https://github.com/Roblox/t"
 commit = "20f07bbdaca09af3307760e72646bfebe32e0490"
+
+[[package]]
+name = "Hooks"
+version = "0.1.1"
+source = "git+https://github.com/vocksel/roact-hooks"
+commit = "9c10854f90d1bf0cbe15f6e7ad146acd1173ee77"

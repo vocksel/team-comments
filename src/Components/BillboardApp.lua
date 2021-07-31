@@ -1,26 +1,23 @@
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
+local Hooks = require(TeamComments.Packages.Hooks)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local CommentBillboard = require(script.Parent.CommentBillboard)
 
-local function BillboardApp()
-	-- if props.ui.areMessagesVisible then
-	return Roact.createElement(MessageContext.Consumer, {
-		render = function(context)
-			local children = {}
+local function BillboardApp(_props, hooks)
+	local messages = hooks.useContext(MessageContext)
 
-			for _, message in pairs(context.messages) do
-				children[message.id] = Roact.createElement(CommentBillboard, {
-					messagePart = context.getMessagePart(message.id),
-					message = message,
-				})
-			end
+	local children = {}
 
-			return Roact.createElement("Folder", {}, children)
-		end,
-	})
-	-- end
+	for _, message in pairs(messages.getMessages()) do
+		children[message.id] = Roact.createElement(CommentBillboard, {
+			messagePart = messages.getMessagePart(message.id),
+			message = message,
+		})
+	end
+
+	return Roact.createElement("Folder", {}, children)
 end
 
-return BillboardApp
+return Hooks.new(Roact)(BillboardApp)

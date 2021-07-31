@@ -5,10 +5,7 @@ local PluginApp = require(script.Parent.PluginApp)
 local MessageContext = require(TeamComments.Context.MessageContext)
 
 return function(target)
-	local root = Roact.createElement(MessageContext.Provider, {
-		messageTag = "TeamComment",
-		storageTag = "TeamCommentStorage",
-	}, {
+	local root = Roact.createElement(MessageContext.Provider, { messageTag = "TeamComment" }, {
 		Wrapper = Roact.createElement("Frame", {
 			Size = UDim2.fromScale(0.4, 0.8),
 			BackgroundTransparency = 1,

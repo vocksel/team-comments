@@ -16,6 +16,10 @@ MessageProvider.validateProps = t.interface({
 	messageTag = t.string,
 })
 
+MessageProvider.defaultProps = {
+	messageTag = Config.TAG_NAME,
+}
+
 function MessageProvider:init(initialProps)
 	self.state = {
 		messages = {},
@@ -159,16 +163,21 @@ function MessageProvider:init(initialProps)
 
 		return messages
 	end
+
+	self.getMessages = function()
+		return self.state.messages
+	end
 end
 
 function MessageProvider:render()
 	return Roact.createElement(MessageContext.Provider, {
 		value = {
-			messages = self.state.messages,
+			getMessages = self.getMessages,
 			createMessage = self.createMessage,
 			deleteMessage = self.deleteMessage,
 			setMessageText = self.setMessageText,
 			getOrderedMessages = self.getOrderedMessages,
+			getMessagePart = self.getMessagePart,
 			focusMessagePart = self.focusMessagePart,
 		},
 	}, self.props[Roact.Children])

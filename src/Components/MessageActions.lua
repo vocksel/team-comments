@@ -1,6 +1,7 @@
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
+local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
@@ -13,48 +14,46 @@ local Props = t.interface({
 	LayoutOrder = t.integer,
 })
 
-local function MessageActions(props)
+local function MessageActions(props, hooks)
 	assert(Props(props))
 
-	return Roact.createElement(MessageContext.Consumer, {
-		render = function(context)
-			return Roact.createElement("Frame", {
-				Size = props.size,
-				BackgroundTransparency = 1,
-				LayoutOrder = props.LayoutOrder,
-			}, {
-				Layout = Roact.createElement("UIListLayout", {
-					SortOrder = Enum.SortOrder.LayoutOrder,
-					FillDirection = Enum.FillDirection.Horizontal,
-					Padding = Styles.Padding,
-				}),
+	local messages = hooks.useContext(MessageContext)
 
-				View = Roact.createElement(Button, {
-					text = "Focus",
-					LayoutOrder = 1,
-					onClick = function()
-						context.focusMessagePart(props.message.id)
-					end,
-				}),
+	return Roact.createElement("Frame", {
+		Size = props.size,
+		BackgroundTransparency = 1,
+		LayoutOrder = props.LayoutOrder,
+	}, {
+		Layout = Roact.createElement("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			FillDirection = Enum.FillDirection.Horizontal,
+			Padding = Styles.Padding,
+		}),
 
-				-- Edit = Roact.createElement(Button, {
-				-- 	text = "Edit",
-				-- 	LayoutOrder = 1,
-				-- 	onClick = function()
-				-- 		print("click :)")
-				-- 	end
-				-- }),
+		View = Roact.createElement(Button, {
+			text = "Focus",
+			LayoutOrder = 1,
+			onClick = function()
+				messages.focusMessagePart(props.message.id)
+			end,
+		}),
 
-				Resolve = Roact.createElement(Button, {
-					text = "Resolve",
-					LayoutOrder = 2,
-					onClick = function()
-						context.deleteMessage(props.message.id)
-					end,
-				}),
-			})
-		end,
+		-- Edit = Roact.createElement(Button, {
+		-- 	text = "Edit",
+		-- 	LayoutOrder = 1,
+		-- 	onClick = function()
+		-- 		print("click :)")
+		-- 	end
+		-- }),
+
+		Resolve = Roact.createElement(Button, {
+			text = "Resolve",
+			LayoutOrder = 2,
+			onClick = function()
+				messages.deleteMessage(props.message.id)
+			end,
+		}),
 	})
 end
 
-return MessageActions
+return Hooks.new(Roact)(MessageActions)

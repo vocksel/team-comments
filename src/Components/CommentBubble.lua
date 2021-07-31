@@ -24,8 +24,6 @@ local defaultProps = {
 	isShown = true,
 }
 
-local BUTTON_SIZE = 64
-
 local function CommentBubble(props, hooks)
 	props = Immutable.join(defaultProps, props)
 

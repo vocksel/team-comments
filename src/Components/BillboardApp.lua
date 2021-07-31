@@ -2,7 +2,6 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useCameraDistance = require(TeamComments.Hooks.useCameraDistance)
 local CommentIcon = require(script.Parent.CommentIcon)

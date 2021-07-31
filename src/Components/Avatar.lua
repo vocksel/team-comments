@@ -1,5 +1,3 @@
-local Players = game:GetService("Players")
-
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)

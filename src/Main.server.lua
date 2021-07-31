@@ -82,6 +82,12 @@ local ui = Roact.createElement(MessageContext.Provider, {
     }),
 })
 
+Roact.setGlobalConfig({
+    typeChecks = true,
+    elementTracing = true,
+    propValidation = true,
+})
+
 local handle = Roact.mount(ui, widget, "Apps")
 
 plugin.Unloading:Connect(function()

@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local Immutable = require(script.Parent.Parent.Lib.Immutable)
-local Styles = require(script.Parent.Parent.Styles)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local Immutable = require(TeamComments.Lib.Immutable)
+local Styles = require(TeamComments.Styles)
 
 local function TextLabel(props)
     local newProps = Immutable.join({

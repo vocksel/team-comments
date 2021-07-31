@@ -1,9 +1,11 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 -- local ToggleVisibilityCheckbox = require(script.Parent.ToggleVisibilityCheckbox)
-local Styles = require(script.Parent.Parent.Styles)
+local Styles = require(TeamComments.Styles)
 local MessageInputField = require(script.Parent.MessageInputField)
-local MessageContext = require(script.Parent.MessageContext)
+local MessageContext = require(TeamComments.Context.MessageContext)
 local Comment = require(script.Parent.Comment)
 
 local function App(props)

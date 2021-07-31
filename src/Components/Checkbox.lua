@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
-local t = require(script.Parent.Parent.Packages.t)
+local t = require(TeamComments.Packages.t)
 
 local Props = t.interface({
     isChecked = t.boolean,

@@ -23,7 +23,7 @@ local Roact = require(script.Parent.Packages.Roact)
 local Config = require(script.Parent.Config)
 local PluginApp = require(script.Parent.Components.PluginApp)
 local BillboardApp = require(script.Parent.Components.BillboardApp)
-local MessageContext = require(script.Parent.Components.MessageContext)
+local MessageContext = require(script.Parent.Context.MessageContext)
 
 local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
 

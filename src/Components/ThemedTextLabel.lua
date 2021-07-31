@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local Immutable = require(script.Parent.Parent.Lib.Immutable)
-local t = require(script.Parent.Parent.Packages.t)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local Immutable = require(TeamComments.Lib.Immutable)
+local t = require(TeamComments.Packages.t)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local TextLabel = require(script.Parent.TextLabel)
 

@@ -1,7 +1,10 @@
 local Players = game:GetService("Players")
-local Promise = require(script.Parent.Parent.Packages.Promise)
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
+
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Promise = require(TeamComments.Packages.Promise)
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
 
 local Avatar = Roact.Component:extend("Avatar")
 

@@ -1,6 +1,7 @@
 -- ty tiffany,,,,
+local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local Roact = require(TeamComments.Packages.Roact)
 
 local StudioThemeAccessor = Roact.PureComponent:extend("StudioThemeAccessor")
 

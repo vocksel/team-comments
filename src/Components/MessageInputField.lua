@@ -1,9 +1,11 @@
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
 local HttpService = game:GetService("HttpService")
 
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local Roact = require(TeamComments.Packages.Roact)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
-local MessageContext = require(script.Parent.MessageContext)
-local Styles = require(script.Parent.Parent.Styles)
+local MessageContext = require(TeamComments.Context.MessageContext)
+local Styles = require(TeamComments.Styles)
 
 local MessageInputField = Roact.Component:extend("MessageInputField")
 

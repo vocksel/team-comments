@@ -1,7 +1,9 @@
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
 local CollectionService = game:GetService("CollectionService")
 
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local Immutable = require(script.Parent.Parent.Lib.Immutable)
+local Roact = require(TeamComments.Packages.Roact)
+local Immutable = require(TeamComments.Lib.Immutable)
 
 local MessageContext = Roact.createContext()
 

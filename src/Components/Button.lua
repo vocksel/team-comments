@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
-local Styles = require(script.Parent.Parent.Styles)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
+local Styles = require(TeamComments.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 
 local Props = t.interface({

@@ -1,4 +1,6 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
 local Comment = require(script.Parent.Comment)
 
 return function(target)

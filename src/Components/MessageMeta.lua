@@ -1,10 +1,12 @@
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
 local Players = game:GetService("Players")
 
-local Promise = require(script.Parent.Parent.Packages.Promise)
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
-local Types = require(script.Parent.Parent.Types)
-local Styles = require(script.Parent.Parent.Styles)
+local Promise = require(TeamComments.Packages.Promise)
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
+local Types = require(TeamComments.Types)
+local Styles = require(TeamComments.Styles)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local TextLabel = require(script.Parent.TextLabel)
 

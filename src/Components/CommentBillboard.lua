@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
-local types = require(script.Parent.Parent.Types)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
+local types = require(TeamComments.Types)
 local CameraDistanceProvider = require(script.Parent.CameraDistanceProvider)
 local Comment = require(script.Parent.Comment)
 

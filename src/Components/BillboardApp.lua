@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local Messages = require(script.Parent.Parent.Messages)
-local MessageContext = require(script.Parent.MessageContext)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local Messages = require(TeamComments.Messages)
+local MessageContext = require(TeamComments.Context.MessageContext)
 local CommentBillboard = require(script.Parent.CommentBillboard)
 
 local function BillboardApp()

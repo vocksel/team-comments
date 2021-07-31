@@ -1,7 +1,9 @@
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
 local RunService = game:GetService("RunService")
 
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
 
 local Props = t.interface({
     origin = t.Vector3,

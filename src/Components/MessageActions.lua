@@ -1,9 +1,11 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
-local t = require(script.Parent.Parent.Packages.t)
-local Types = require(script.Parent.Parent.Types)
-local Styles = require(script.Parent.Parent.Styles)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
+local Types = require(TeamComments.Types)
+local Styles = require(TeamComments.Styles)
 local Button = require(script.Parent.Button)
-local Messages = require(script.Parent.Parent.Messages)
+local Messages = require(TeamComments.Messages)
 
 local Props = t.interface({
     message = Types.IMessage,

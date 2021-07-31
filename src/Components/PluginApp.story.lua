@@ -1,6 +1,8 @@
-local Roact = require(script.Parent.Parent.Packages.Roact)
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
+local Roact = require(TeamComments.Packages.Roact)
 local PluginApp = require(script.Parent.PluginApp)
-local MessageContext = require(script.Parent.MessageContext)
+local MessageContext = require(TeamComments.Context.MessageContext)
 
 return function(target)
     local root = Roact.createElement(MessageContext.Provider, {

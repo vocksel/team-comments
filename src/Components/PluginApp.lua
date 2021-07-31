@@ -26,7 +26,7 @@ local function App(props, hooks)
 
 		InputField = Roact.createElement(MessageInputField, {
 			LayoutOrder = 1,
-			userId = props.userId,
+			userId = tostring(props.userId),
 		}),
 
 		Options = Roact.createElement("Frame", {

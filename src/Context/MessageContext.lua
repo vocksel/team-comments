@@ -13,11 +13,13 @@ local MessageContext = Roact.createContext()
 local MessageProvider = Roact.Component:extend("MessageProvider")
 
 MessageProvider.validateProps = t.interface({
-	messageTag = t.string,
+	messageTag = t.optional(t.string),
+	storageTag = t.optional(t.string),
 })
 
 MessageProvider.defaultProps = {
 	messageTag = Config.TAG_NAME,
+	storageTag = Config.STORAGE_TAG_NAME,
 }
 
 function MessageProvider:init(initialProps)

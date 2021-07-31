@@ -4,11 +4,19 @@ local HttpService = game:GetService("HttpService")
 
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
+local t = require(TeamComments.Packages.t)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local Styles = require(TeamComments.Styles)
 
+local validateProps = t.interface({
+	userId = t.string,
+	LayoutOrder = t.optional(t.number),
+})
+
 local function MessageInputField(props, hooks)
+	assert(validateProps(props))
+
 	local text, setText = hooks.useState("")
 	local messages = hooks.useContext(MessageContext)
 	local theme = useTheme(hooks)
@@ -18,7 +26,8 @@ local function MessageInputField(props, hooks)
 			local messageId = HttpService:GenerateGUID()
 			local position = workspace.CurrentCamera.CFrame.p
 
-			messages.createMessage(messageId, tostring(props.userId), text, os.time(), position)
+			print(messageId, props.userId, text, os.time(), position)
+			messages.createMessage(messageId, props.userId, text, os.time(), position)
 			setText("")
 		end
 	end, {
@@ -44,7 +53,9 @@ local function MessageInputField(props, hooks)
 		TextWrapped = true,
 		LineHeight = Styles.Text.TextSize,
 
-		[Roact.Change.Text] = setText,
+		[Roact.Change.Text] = function(rbx)
+			setText(rbx.Text)
+		end,
 		[Roact.Event.FocusLost] = onFocusLost,
 	}, {
 		Padding = Roact.createElement("UIPadding", {

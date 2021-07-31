@@ -26,7 +26,7 @@ local defaultProps = {
 
 local BUTTON_SIZE = 64
 
-local function CommentIcon(props, hooks)
+local function CommentBubble(props, hooks)
 	props = Immutable.join(defaultProps, props)
 	assert(validateProps(props))
 
@@ -87,4 +87,4 @@ local function CommentIcon(props, hooks)
 	})
 end
 
-return Hooks.new(Roact)(CommentIcon)
+return Hooks.new(Roact)(CommentBubble)

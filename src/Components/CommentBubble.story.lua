@@ -2,7 +2,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
-local CommentIcon = require(script.Parent.CommentIcon)
+local CommentBubble = require(script.Parent.CommentBubble)
 
 local Story = Hooks.new(Roact)(function(_props, hooks)
 	local isShown, set = hooks.useState(true)
@@ -28,7 +28,7 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
 	return Roact.createElement("Frame", {
 		Size = UDim2.fromScale(1, 1),
 	}, {
-		Roact.createElement(CommentIcon, {
+		Roact.createElement(CommentBubble, {
 			isShown = isShown,
 			message = {
 				id = "1",
@@ -44,7 +44,7 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
 end)
 
 return function(target)
-	local handle = Roact.mount(Roact.createElement(Story), target, "CommentIcon")
+	local handle = Roact.mount(Roact.createElement(Story), target, "CommentBubble")
 
 	return function()
 		Roact.unmount(handle)

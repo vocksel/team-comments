@@ -4,7 +4,7 @@ local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useCameraDistance = require(TeamComments.Hooks.useCameraDistance)
-local CommentIcon = require(script.Parent.CommentIcon)
+local CommentBubble = require(script.Parent.CommentBubble)
 
 local function BillboardApp(_props, hooks)
 	local messages = hooks.useContext(MessageContext)
@@ -26,7 +26,7 @@ local function BillboardApp(_props, hooks)
 			Adornee = messagePart,
 			Active = true,
 		}, {
-			CommentIcon = Roact.createElement(CommentIcon, {
+			CommentBubble = Roact.createElement(CommentBubble, {
 				isShown = distance < 40,
 				onActivated = onActivated,
 			}),

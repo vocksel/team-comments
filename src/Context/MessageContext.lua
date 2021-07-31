@@ -1,13 +1,20 @@
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
+local ChangeHistoryService = game:GetService("ChangeHistoryService")
 local CollectionService = game:GetService("CollectionService")
 
 local Roact = require(TeamComments.Packages.Roact)
+local t = require(TeamComments.Packages.t)
 local Immutable = require(TeamComments.Lib.Immutable)
+local Config = require(TeamComments.Config)
 
 local MessageContext = Roact.createContext()
 
 local MessageProvider = Roact.Component:extend("MessageProvider")
+
+MessageProvider.validateProps = t.interface({
+    messageTag = t.string,
+})
 
 function MessageProvider:init(initialProps)
     self.state = {
@@ -52,6 +59,27 @@ function MessageProvider:init(initialProps)
         return part
     end
 
+    self.getMessagePart = function(messageId)
+        for _, messagePart in pairs(CollectionService:GetTagged(self.props.messageTag)) do
+            if messagePart:GetAttribute("Id") == messageId then
+                return messagePart
+            end
+        end
+    end
+
+    self.focusMessagePart = function(messageId)
+        local messagePart = self.getMessagePart(messageId)
+
+        if messagePart then
+            local camera = workspace.CurrentCamera
+            local orientation = camera.CFrame-camera.CFrame.p
+            local newCFrame = CFrame.new(messagePart.Position) * orientation
+
+            camera.Focus = messagePart.CFrame
+            camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
+        end
+    end
+
     self.createMessageState = function(messageId, userId, text, createdAt)
         self:setState(function(prevState)
             -- Skip over any messages that already exist in the state. This is
@@ -91,6 +119,14 @@ function MessageProvider:init(initialProps)
                 messages = Immutable.set(state.messages, messageId, nil)
             }
         end)
+
+        local messagePart = self.getMessagePart(messageId)
+
+        if messagePart then
+            ChangeHistoryService:SetWaypoint("Deleting message...")
+            messagePart.Parent = nil
+            ChangeHistoryService:SetWaypoint("Deleted message")
+        end
     end
 
     self.setMessageText = function(messageId, newText)
@@ -133,6 +169,7 @@ function MessageProvider:render()
             deleteMessage = self.deleteMessage,
             setMessageText = self.setMessageText,
             getOrderedMessages = self.getOrderedMessages,
+            focusMessagePart = self.focusMessagePart,
         }
     }, self.props[Roact.Children])
 end
@@ -144,8 +181,7 @@ function MessageProvider:didMount()
     end
 
     local function onRemoved(messagePart)
-        local messageId = messagePart:GetAttribute("Id")
-        self.deleteMessage(messageId)
+        self.deleteMessage(messagePart:GetAttribute("Id"))
     end
 
     for _, messagePart in ipairs(CollectionService:GetTagged(self.props.messageTag)) do

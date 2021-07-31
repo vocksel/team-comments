@@ -26,3 +26,9 @@ name = "Hooks"
 version = "0.1.1"
 source = "git+https://github.com/vocksel/roact-hooks"
 commit = "9c10854f90d1bf0cbe15f6e7ad146acd1173ee77"
+
+[[package]]
+name = "Reselim/Flipper"
+version = "2.0.0"
+source = "git+https://github.com/Reselim/Flipper"
+commit = "0e46142fb883a8c49f313ce001926237c203ea20"

@@ -32,7 +32,7 @@ local function App(props)
 				LayoutOrder = 2,
 				AutomaticSize = Enum.AutomaticSize.Y,
 				Size = UDim2.fromScale(1, 0),
-				BackgroundColor3 = theme:GetColor("Light"),
+				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Light),
 			}, {
 				Padding = Roact.createElement("UIPadding", {
 					PaddingTop = UDim.new(0, Styles.Padding),

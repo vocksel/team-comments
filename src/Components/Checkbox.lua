@@ -15,13 +15,13 @@ local Props = t.interface({
 local function Checkbox(props)
 	assert(Props(props))
 
-	local state = props.isChecked and "Selected" or "Default"
+	local state = props.isChecked and Enum.StudioStyleGuideModifier.Selected or Enum.StudioStyleGuideModifier.Default
 
 	return StudioThemeAccessor.withTheme(function(theme)
 		return Roact.createElement("ImageButton", {
 			Size = UDim2.new(0, 20, 0, 20),
-			BackgroundColor3 = theme:GetColor("CheckedFieldBackground", state),
-			BorderColor3 = theme:GetColor("CheckedFieldBorder", state),
+			BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.CheckedFieldBackground, state),
+			BorderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.CheckedFieldBorder, state),
 			AutoButtonColor = false,
 			Position = props.position,
 			AnchorPoint = props.anchorPoint,
@@ -34,7 +34,7 @@ local function Checkbox(props)
 				Position = UDim2.new(0.5, 0, 0.5, 0),
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				Visible = props.isChecked == true,
-				ImageColor3 = theme:GetColor("CheckedFieldIndicator", state),
+				ImageColor3 = theme:GetColor(Enum.StudioStyleGuideColor.CheckedFieldIndicator, state),
 				Image = "rbxassetid://2617163557",
 			}),
 		})

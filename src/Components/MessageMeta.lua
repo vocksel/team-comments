@@ -44,12 +44,12 @@ function MessageMeta:render()
 				Text = self.state.name,
 				Font = Styles.HeaderFont,
 				TextSize = Styles.HeaderTextSize,
-				TextColor3 = theme:GetColor("MainText"),
+				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 			}),
 
 			Date = Roact.createElement(TextLabel, {
 				Text = formattedDate,
-				TextColor3 = theme:GetColor("DimmedText"),
+				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.DimmedText),
 				TextXAlignment = Enum.TextXAlignment.Right,
 
 				-- align right

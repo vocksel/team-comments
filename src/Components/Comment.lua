@@ -48,7 +48,7 @@ local function Comment(props)
 					LayoutOrder = 1,
 					userId = props.message.userId,
 					size = UDim2.new(0, AVATAR_SIZE, 0, AVATAR_SIZE),
-					maskColor = theme:getColor("MainBackground"),
+					maskColor = theme:getColor(Enum.StudioStyleGuideColor.MainBackground),
 				}),
 			}),
 

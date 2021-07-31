@@ -21,8 +21,8 @@ local function Button(props)
 			TextSize = Styles.TextSize - 2,
 			Font = Styles.HeaderFont,
 			LayoutOrder = props.LayoutOrder,
-			TextColor3 = theme:GetColor("MainText"),
-			BackgroundColor3 = theme:GetColor("Button"),
+			TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+			BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Button),
 			Size = props.size or UDim2.new(0, 48, 1, 0),
 			[Roact.Event.MouseButton1Click] = props.onClick,
 		})

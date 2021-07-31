@@ -2,10 +2,10 @@ local Roact = require(script.Parent.Parent.Packages.Roact)
 local t = require(script.Parent.Parent.Packages.t)
 local Types = require(script.Parent.Parent.Types)
 local Styles = require(script.Parent.Parent.Styles)
+local ThemedTextLabel = require(script.Parent.ThemedTextLabel)
 local StudioThemeAccessor = require(script.Parent.StudioThemeAccessor)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
-local MessageBody = require(script.Parent.MessageBody)
 local MessageActions = require(script.Parent.MessageActions)
 
 local Props = t.interface({
@@ -73,10 +73,10 @@ local function Comment(props)
                     LayoutOrder = 1,
                 }),
 
-                Body = Roact.createElement(MessageBody, {
-                    message = props.message,
+                Body = Roact.createElement(ThemedTextLabel, {
                     LayoutOrder = 2,
-                    isTruncated = true,
+                    Text = props.message.text,
+                    Size = props.size,
                 }),
 
                 Actions = Roact.createElement(MessageActions, {

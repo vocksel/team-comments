@@ -82,6 +82,8 @@ local ui = Roact.createElement(MessageContext.Provider, {
     }),
 })
 
-Roact.mount(ui, widget, "Apps")
+local handle = Roact.mount(ui, widget, "Apps")
 
-print("loaded!")
+plugin.Unloading:Connect(function()
+    Roact.unmount(handle)
+end)

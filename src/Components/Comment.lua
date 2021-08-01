@@ -16,7 +16,7 @@ local Props = t.interface({
 	message = Types.IMessage,
 })
 
-local AVATAR_SIZE = 48
+local AVATAR_SIZE = 64
 
 local function Comment(props, hooks)
 	assert(Props(props))
@@ -26,6 +26,7 @@ local function Comment(props, hooks)
 	return Roact.createElement("Frame", {
 		LayoutOrder = props.LayoutOrder,
 		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
+		BorderSizePixel = 0,
 		AutomaticSize = Enum.AutomaticSize.Y,
 		Size = UDim2.fromScale(1, 0),
 	}, {
@@ -43,7 +44,7 @@ local function Comment(props, hooks)
 
 		Sidebar = Roact.createElement("Frame", {
 			LayoutOrder = 1,
-			Size = UDim2.fromScale(1 / 6, 1),
+			Size = UDim2.fromOffset(AVATAR_SIZE, AVATAR_SIZE),
 			BackgroundTransparency = 1,
 		}, {
 			Avatar = Roact.createElement(Avatar, {
@@ -59,7 +60,7 @@ local function Comment(props, hooks)
 			BackgroundTransparency = 1,
 			-- The X offset is to account for the avatar
 			AutomaticSize = Enum.AutomaticSize.Y,
-			Size = UDim2.fromScale(5 / 6, 0),
+			Size = UDim2.new(1, -AVATAR_SIZE, 0, 0),
 		}, {
 			Layout = Roact.createElement("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,

@@ -203,20 +203,6 @@ function MessageProvider:init(initialProps)
 		end
 	end
 
-	self.setMessageText = function(messageId, newText)
-		self:setState(function(state)
-			local newMessage = Immutable.join(state.messages[messageId], {
-				text = newText,
-			})
-
-			return {
-				messages = Immutable.join(state.messages, {
-					[messageId] = newMessage,
-				}),
-			}
-		end)
-	end
-
 	-- Sorts the messages by the time they were created. Returns an array of
 	-- each message in order from newest to oldest. This is used to display the
 	-- list of messages in the plugin.
@@ -256,7 +242,6 @@ function MessageProvider:render()
 			createMessage = self.createMessage,
 			respond = self.respond,
 			deleteMessage = self.deleteMessage,
-			setMessageText = self.setMessageText,
 			getOrderedMessages = self.getOrderedMessages,
 			getMessagePart = self.getMessagePart,
 			focusMessagePart = self.focusMessagePart,

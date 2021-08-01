@@ -3,6 +3,7 @@ return {
 	DISPLAY_NAME = "Team Comments",
 
 	TAG_NAME = "TeamComment",
+	RESPONSE_TAG_NAME = "TeamCommentResponse",
 	STORAGE_TAG_NAME = "TeamCommentStorage",
 
 	BILLBOARD_MAX_DISTANCE = 400, -- studs

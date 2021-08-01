@@ -10,7 +10,7 @@ local useTheme = require(TeamComments.Hooks.useTheme)
 local useName = require(TeamComments.Hooks.useName)
 
 local Props = t.interface({
-	message = Types.IMessage,
+	message = Types.Message,
 	size = t.UDim2,
 	LayoutOrder = t.integer,
 })

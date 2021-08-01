@@ -23,6 +23,7 @@ local Config = require(script.Parent.Config)
 local PluginApp = require(script.Parent.Components.PluginApp)
 local BillboardApp = require(script.Parent.Components.BillboardApp)
 local MessageContext = require(script.Parent.Context.MessageContext)
+local assets = require(script.Parent.Assets)
 
 local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
 
@@ -39,7 +40,11 @@ local function createWidget()
 end
 
 local function createButtons(widget)
-	local toggleAppView = toolbar:CreateButton(Config.DISPLAY_NAME, "View and edit the list of messages", "")
+	local toggleAppView = toolbar:CreateButton(
+		Config.DISPLAY_NAME,
+		"View and edit the list of messages",
+		assets.CommentBubble
+	)
 
 	toggleAppView.Click:Connect(function()
 		widget.Enabled = not widget.Enabled
@@ -63,7 +68,7 @@ local ui = Roact.createElement(MessageContext.Provider, {
 }, {
 	PluginApp = Roact.createElement(PluginApp, {
 		-- selene: allow(incorrect_standard_library_use)
-		userId = plugin:GetStudioUserId(),
+		userId = tostring(plugin:GetStudioUserId()),
 	}),
 
 	-- Billboards do not adorn when parented under PluginGuiService so we have

@@ -15,7 +15,7 @@ local SPRING_CONFIG = {
 }
 
 local validateProps = t.interface({
-	message = types.IMessage,
+	message = types.Message,
 	isShown = t.optional(t.boolean),
 	onActivated = t.optional(t.callback),
 })

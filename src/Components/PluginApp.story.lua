@@ -7,7 +7,7 @@ local MessageContext = require(TeamComments.Context.MessageContext)
 return function(target)
 	local root = Roact.createElement(MessageContext.Provider, { messageTag = "TeamComment" }, {
 		Wrapper = Roact.createElement("Frame", {
-			Size = UDim2.fromScale(0.4, 0.8),
+			Size = UDim2.new(0, 400, 1, 0),
 			BackgroundTransparency = 1,
 		}, {
 			PluginApp = Roact.createElement(PluginApp, {

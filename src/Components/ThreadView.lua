@@ -33,7 +33,9 @@ local function ThreadView(props, hooks)
 		PaddingLeft = Styles.Padding,
 	})
 
+	print("responses:")
 	for index, messageId in ipairs(props.message.responses) do
+		print(messageId)
 		table.insert(
 			children,
 			Roact.createElement(Comment, {

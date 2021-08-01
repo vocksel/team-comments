@@ -62,11 +62,24 @@ function MessageProvider:init(initialProps)
 			userId = "-1",
 			text = "",
 			createdAt = 0,
-			responses = {},
 		}
 
 		for key, value in pairs(instance:GetAttributes()) do
 			message[key] = value
+		end
+
+		if not message.isResponse then
+			local responses = {}
+
+			for _, child in ipairs(instance:GetChildren()) do
+				if CollectionService:HasTag(child, self.props.responseTag) then
+					local response = self.loadMessageFromInstance(child)
+					self.createMessageState(response)
+					table.insert(responses, response.id)
+				end
+			end
+
+			message.responses = responses
 		end
 
 		return message
@@ -168,6 +181,7 @@ function MessageProvider:init(initialProps)
 			return {
 				messages = Immutable.join(prev.messages, {
 					[parentId] = newMessage,
+					[message.id] = message,
 				}),
 			}
 		end)
@@ -223,6 +237,16 @@ function MessageProvider:init(initialProps)
 	self.getMessages = function()
 		return self.state.messages
 	end
+
+	self.setSelectedMessage = function(messageId)
+		self:setState({
+			selectedMessageId = messageId or Roact.None,
+		})
+	end
+
+	self.getSelectedMessage = function()
+		return self.state.messages[self.state.selectedMessageId]
+	end
 end
 
 function MessageProvider:render()
@@ -236,6 +260,8 @@ function MessageProvider:render()
 			getOrderedMessages = self.getOrderedMessages,
 			getMessagePart = self.getMessagePart,
 			focusMessagePart = self.focusMessagePart,
+			setSelectedMessage = self.setSelectedMessage,
+			getSelectedMessage = self.getSelectedMessage,
 		},
 	}, self.props[Roact.Children])
 end

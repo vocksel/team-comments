@@ -53,6 +53,14 @@ local function MessageActions(props, hooks)
 				messages.deleteMessage(props.message.id)
 			end,
 		}),
+
+		Reply = Roact.createElement(Button, {
+			LayoutOrder = 3,
+			text = "Reply",
+			onClick = function()
+				messages.setSelectedMessage(props.message.id)
+			end,
+		}),
 	})
 end
 

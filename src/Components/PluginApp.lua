@@ -33,26 +33,6 @@ local function App(props, hooks)
 				userId = tostring(props.userId),
 			}),
 
-			Options = Roact.createElement("Frame", {
-				LayoutOrder = 2,
-				AutomaticSize = Enum.AutomaticSize.Y,
-				Size = UDim2.fromScale(1, 0),
-				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Light),
-			}, {
-				Padding = Roact.createElement("UIPadding", {
-					PaddingTop = Styles.Padding,
-					PaddingRight = Styles.Padding,
-					PaddingBottom = Styles.Padding,
-					PaddingLeft = Styles.Padding,
-				}),
-
-				-- FIXME: Porting over to Roact Context from Rodux. Don't have
-				-- any UI settings in place yet, so this still needs to be added.
-				-- TODO: Create an action for each toggle so that the user can
-				-- easily bind keys to them.
-				-- ToggleVisibility = Roact.createElement(ToggleVisibilityCheckbox)
-			}),
-
 			MessageList = Roact.createElement("Frame", {
 				LayoutOrder = 3,
 				Size = UDim2.fromScale(1, 0),

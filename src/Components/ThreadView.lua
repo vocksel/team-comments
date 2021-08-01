@@ -12,9 +12,9 @@ local MessageInputField = require(script.Parent.MessageInputField)
 
 local validateProps = t.interface({
 	userId = t.string,
-	message = types.IMessage,
+	message = types.Message,
 	-- TODO: Swap out full list of messages for the context
-	messages = t.map(t.string, types.IMessage),
+	messages = t.map(t.string, types.Message),
 })
 
 local function ThreadView(props, hooks)
@@ -152,7 +152,7 @@ local function ThreadView(props, hooks)
 				}, {
 					MessageInputField = Roact.createElement(MessageInputField, {
 						userId = props.userId,
-						respondTo = props.message.id,
+						respondTo = props.message,
 					}),
 				}),
 			}

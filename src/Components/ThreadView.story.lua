@@ -11,6 +11,7 @@ return function(target)
 			userId = "1343930",
 			text = "Hello World!",
 			createdAt = os.time(),
+			position = Vector3.new(),
 			responses = {
 				"2",
 				"3",
@@ -22,6 +23,7 @@ return function(target)
 			text = "A response to the comment",
 			createdAt = os.time() + 100000,
 			responses = {},
+			parentId = "1",
 		},
 		["3"] = {
 			id = "3",
@@ -29,6 +31,7 @@ return function(target)
 			text = "Another response in the thread",
 			createdAt = os.time() + 200000,
 			responses = {},
+			parentId = "1",
 		},
 	}
 

@@ -9,7 +9,7 @@ local MessageContext = require(TeamComments.Context.MessageContext)
 local Button = require(script.Parent.Button)
 
 local Props = t.interface({
-	message = Types.IMessage,
+	message = Types.Message,
 	size = t.UDim2,
 	LayoutOrder = t.integer,
 })
@@ -34,7 +34,7 @@ local function MessageActions(props, hooks)
 			text = "Focus",
 			LayoutOrder = 1,
 			onClick = function()
-				messages.focusMessagePart(props.message.id)
+				messages.focusAdornee(props.message.id)
 			end,
 		}),
 

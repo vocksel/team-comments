@@ -13,7 +13,7 @@ local MessageActions = require(script.Parent.MessageActions)
 
 local Props = t.interface({
 	LayoutOrder = t.optional(t.integer),
-	message = Types.IMessage,
+	message = Types.Message,
 })
 
 local AVATAR_SIZE = 64

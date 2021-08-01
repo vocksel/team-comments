@@ -12,7 +12,7 @@ local function BillboardApp(_props, hooks)
 	local children = {}
 
 	for _, message in pairs(messages.getMessages()) do
-		local messagePart = messages.getMessagePart(message.id)
+		local messagePart = messages.getAdornee(message.id)
 		local distance = useCameraDistance(hooks, messagePart.Position)
 
 		local function onActivated()

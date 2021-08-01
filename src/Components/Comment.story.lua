@@ -16,6 +16,8 @@ return function(target)
 					userId = "1343930",
 					text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel leo bibendum, efficitur eros vel, tincidunt est. Aenean augue velit, volutpat et posuere quis, fermentum quis purus. Etiam est risus, fringilla sit amet elementum eget, elementum eu tellus. Vestibulum vehicula nibh felis, at gravida metus rhoncus eu. Curabitur ornare sodales varius.",
 					createdAt = os.time(),
+					position = Vector3.new(),
+					responses = {},
 				},
 			}),
 		}),

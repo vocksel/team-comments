@@ -8,10 +8,11 @@ local t = require(TeamComments.Packages.t)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local Styles = require(TeamComments.Styles)
+local types = require(TeamComments.Types)
 
 local validateProps = t.interface({
 	userId = t.string,
-	respondTo = t.optional(t.string),
+	respondTo = t.optional(types.Message),
 	LayoutOrder = t.optional(t.number),
 })
 
@@ -24,19 +25,19 @@ local function MessageInputField(props, hooks)
 
 	local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
 		if enterPressed then
-			local position = workspace.CurrentCamera.CFrame.p
 			local message = {
 				id = HttpService:GenerateGUID(),
 				userId = props.userId,
 				text = text,
 				createdAt = os.time(),
+                position = workspace.CurrentCamera.CFrame.Position,
 				responses = {},
 			}
 
 			if props.respondTo then
 				messages.respond(props.respondTo, message)
 			else
-				messages.createMessage(message, position)
+				messages.comment(message)
 			end
 
 			setText("")

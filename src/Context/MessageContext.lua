@@ -7,6 +7,7 @@ local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
 local Immutable = require(TeamComments.Lib.Immutable)
 local Config = require(TeamComments.Config)
+local types = require(TeamComments.Types)
 
 local MessageContext = Roact.createContext()
 
@@ -24,12 +25,12 @@ MessageProvider.defaultProps = {
 	storageTag = Config.STORAGE_TAG_NAME,
 }
 
-function MessageProvider:init(initialProps)
+function MessageProvider:init()
 	self.state = {
 		messages = {},
 	}
 
-	self.getOrCreateBaseStorage = function()
+	self._getOrCreateBaseStorage = function()
 		local storage = CollectionService:GetTagged(self.props.storageTag)[1]
 
 		if not storage then
@@ -43,49 +44,48 @@ function MessageProvider:init(initialProps)
 		return storage
 	end
 
-	self.saveMessageToInstance = function(message, instance)
-		local keys = {
-			"id",
-			"userId",
-			"text",
-			"createdAt",
-		}
-
-		for _, key in ipairs(keys) do
-			instance:SetAttribute(key, message[key])
+	self._saveMessageToInstance = function(message, instance)
+		for key, value in pairs(message) do
+			if typeof(value) ~= "table" then
+				instance:SetAttribute(key, value)
+			end
 		end
 	end
 
-	self.loadMessageFromInstance = function(instance)
+	self._loadMessageFromInstance = function(instance)
 		local message = {
-			id = "-1",
-			userId = "-1",
-			text = "",
-			createdAt = 0,
+			responses = {},
 		}
 
 		for key, value in pairs(instance:GetAttributes()) do
 			message[key] = value
 		end
 
-		if not message.isResponse then
-			local responses = {}
-
+		if CollectionService:HasTag(instance.Parent, self.props.messageTag) then
+			message.parentId = instance.Parent:GetAttribute("id")
+		else
 			for _, child in ipairs(instance:GetChildren()) do
-				if CollectionService:HasTag(child, self.props.responseTag) then
-					local response = self.loadMessageFromInstance(child)
-					self.createMessageState(response)
-					table.insert(responses, response.id)
-				end
+				local response = self._loadMessageFromInstance(child)
+				table.insert(message.responses, response.id)
+				self._addResponseState(message, response)
 			end
-
-			message.responses = responses
 		end
 
 		return message
 	end
 
-	self.createMessagePart = function(message, position)
+	self._createResponseInstance = function(parentId, message)
+		local adornee = self.getAdornee(parentId)
+		local dialog = Instance.new("Dialog")
+		dialog.Name = ("Response_%i"):format(message.createdAt)
+		dialog.Parent = adornee
+
+		return dialog
+	end
+
+	self._createAdornee = function(message)
+		assert(types.Message(message))
+
 		local part = Instance.new("Part")
 		part.Name = ("TeamComment_%i"):format(message.createdAt)
 		part.Anchored = true
@@ -95,96 +95,81 @@ function MessageProvider:init(initialProps)
 		part.Transparency = 1
 		-- Normally we would use Position, but this forces the Part to exist
 		-- inside another, without being pushed up on top.
-		part.CFrame = CFrame.new(position)
+		part.CFrame = CFrame.new(message.position)
 		part.Size = Vector3.new(0, 0, 0)
-		part.Parent = self.getOrCreateBaseStorage()
-
-		self.saveMessageToInstance(message, part)
-
-		CollectionService:AddTag(part, initialProps.messageTag)
+		part.Parent = self._getOrCreateBaseStorage()
 
 		return part
 	end
 
-	self.createResponseInstance = function(parentId, message)
-		local messagePart = self.getMessagePart(parentId)
-		local dialog = Instance.new("Dialog")
-		dialog.Name = ("Response_%i"):format(message.createdAt)
-		dialog.Parent = messagePart
-
-		self.saveMessageToInstance(message, dialog)
-
-		CollectionService:AddTag(dialog, initialProps.responseTag)
-
-		return dialog
-	end
-
-	self.getMessagePart = function(messageId)
-		for _, messagePart in pairs(CollectionService:GetTagged(self.props.messageTag)) do
-			if messagePart:GetAttribute("id") == messageId then
-				return messagePart
+	self.getAdornee = function(messageId)
+		for _, adornee in pairs(CollectionService:GetTagged(self.props.messageTag)) do
+			if adornee:GetAttribute("id") == messageId then
+				return adornee
 			end
 		end
 	end
 
-	self.focusMessagePart = function(messageId)
-		local messagePart = self.getMessagePart(messageId)
+	self.focusAdornee = function(messageId)
+		local adornee = self.getAdornee(messageId)
 
-		if messagePart then
+		if adornee then
 			local camera = workspace.CurrentCamera
 			local orientation = camera.CFrame - camera.CFrame.p
-			local newCFrame = CFrame.new(messagePart.Position) * orientation
+			local newCFrame = CFrame.new(adornee.Position) * orientation
 
-			camera.Focus = messagePart.CFrame
+			camera.Focus = adornee.CFrame
 			camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
 		end
 	end
 
-	self.createMessageState = function(message)
-		self:setState(function(prevState)
-			-- Skip over any messages that already exist in the state. This is
-			-- so when the user sends a message that it doesn't get added a
-			-- second time from CollectionService adding messages to the state
-			-- when new message parts are added.
-			if prevState.messages[message.id] then
-				return
-			end
-
+	self._addMessageState = function(message)
+		self:setState(function(prev)
 			return {
-				messages = Immutable.join(prevState.messages, {
+				messages = Immutable.join(prev.messages, {
 					[message.id] = message,
 				}),
 			}
 		end)
 	end
 
-	self.createMessage = function(message, position)
-		-- Adding a message part triggers CollectionService, which in turn adds
-		-- the message to the state. A bit roundabout, but it works well and
-		-- solves some issues with trying to add state _then_ the part, and vice
-		-- versa.
-		self.createMessagePart(message, position)
-	end
-
-	self.respond = function(parentId, message)
-		self.createResponseInstance(parentId, message)
-
+	self._addResponseState = function(parent, message)
 		self:setState(function(prev)
-			local parentMessage = prev.messages[parentId]
-
-			local newMessage = Immutable.join(parentMessage, {
-				responses = Immutable.join(parentMessage.responses, {
+			local newParent = Immutable.join(parent, {
+				responses = Immutable.join(parent.responses, {
 					message.id,
 				}),
 			})
 
 			return {
 				messages = Immutable.join(prev.messages, {
-					[parentId] = newMessage,
+					[parent.id] = newParent,
 					[message.id] = message,
 				}),
 			}
 		end)
+	end
+
+	self.comment = function(message)
+		assert(types.Message(message))
+
+		local adornee = self._createAdornee(message)
+
+		self._addMessageState(message)
+		self._saveMessageToInstance(message, adornee)
+
+		CollectionService:AddTag(adornee, self.props.messageTag)
+	end
+
+	self.respond = function(parent, message)
+		assert(t.tuple(types.Message, types.Message)(parent, message))
+
+		local dialog = self._createResponseInstance(parent.id, message)
+
+		self._addResponseState(parent, message)
+		self._saveMessageToInstance(message, dialog)
+
+		CollectionService:AddTag(dialog, self.props.responseTag)
 	end
 
 	self.deleteMessage = function(messageId)
@@ -194,11 +179,11 @@ function MessageProvider:init(initialProps)
 			}
 		end)
 
-		local messagePart = self.getMessagePart(messageId)
+		local adornee = self.getAdornee(messageId)
 
-		if messagePart then
+		if adornee then
 			ChangeHistoryService:SetWaypoint("Deleting message...")
-			messagePart.Parent = nil
+			adornee.Parent = nil
 			ChangeHistoryService:SetWaypoint("Deleted message")
 		end
 	end
@@ -239,12 +224,12 @@ function MessageProvider:render()
 	return Roact.createElement(MessageContext.Provider, {
 		value = {
 			getMessages = self.getMessages,
-			createMessage = self.createMessage,
+			comment = self.comment,
 			respond = self.respond,
 			deleteMessage = self.deleteMessage,
 			getOrderedMessages = self.getOrderedMessages,
-			getMessagePart = self.getMessagePart,
-			focusMessagePart = self.focusMessagePart,
+			getAdornee = self.getAdornee,
+			focusAdornee = self.focusAdornee,
 			setSelectedMessage = self.setSelectedMessage,
 			getSelectedMessage = self.getSelectedMessage,
 		},
@@ -252,17 +237,17 @@ function MessageProvider:render()
 end
 
 function MessageProvider:didMount()
-	local function onAdded(messagePart: Part)
-		local message = self.loadMessageFromInstance(messagePart)
-		self.createMessageState(message)
+	local function onAdded(adornee: Part)
+		local message = self._loadMessageFromInstance(adornee)
+		self._addMessageState(message)
 	end
 
-	local function onRemoved(messagePart)
-		self.deleteMessage(messagePart:GetAttribute("id"))
+	local function onRemoved(adornee)
+		self.deleteMessage(adornee:GetAttribute("id"))
 	end
 
-	for _, messagePart in ipairs(CollectionService:GetTagged(self.props.messageTag)) do
-		onAdded(messagePart)
+	for _, adornee in ipairs(CollectionService:GetTagged(self.props.messageTag)) do
+		onAdded(adornee)
 	end
 
 	self.onAddedConn = CollectionService:GetInstanceAddedSignal(self.props.messageTag):Connect(onAdded)

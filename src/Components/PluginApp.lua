@@ -20,6 +20,9 @@ local function App(props, hooks)
 			userId = props.userId,
 			message = selectedMessage,
 			messages = messages.getAllMessages(),
+			onClose = function()
+				messages.setSelectedMessage(nil)
+			end,
 		})
 	else
 		return Roact.createElement(

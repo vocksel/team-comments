@@ -74,15 +74,6 @@ function MessageProvider:init()
 		return message
 	end
 
-	self._createResponseInstance = function(parentId, message)
-		local adornee = self.getAdornee(parentId)
-		local dialog = Instance.new("Dialog")
-		dialog.Name = ("Response_%i"):format(message.createdAt)
-		dialog.Parent = adornee
-
-		return dialog
-	end
-
 	self._createAdornee = function(message)
 		assert(types.Message(message))
 
@@ -133,6 +124,26 @@ function MessageProvider:init()
 		end)
 	end
 
+	self.comment = function(message)
+		assert(types.Message(message))
+
+		local adornee = self._createAdornee(message)
+
+		self._addMessageState(message)
+		self._saveMessageToInstance(message, adornee)
+
+		CollectionService:AddTag(adornee, self.props.messageTag)
+	end
+
+	self._createDialog = function(parentId, message)
+		local adornee = self.getAdornee(parentId)
+		local dialog = Instance.new("Dialog")
+		dialog.Name = ("Response_%i"):format(message.createdAt)
+		dialog.Parent = adornee
+
+		return dialog
+	end
+
 	self._addResponseState = function(parent, message)
 		self:setState(function(prev)
 			local newParent = Immutable.join(parent, {
@@ -150,21 +161,10 @@ function MessageProvider:init()
 		end)
 	end
 
-	self.comment = function(message)
-		assert(types.Message(message))
-
-		local adornee = self._createAdornee(message)
-
-		self._addMessageState(message)
-		self._saveMessageToInstance(message, adornee)
-
-		CollectionService:AddTag(adornee, self.props.messageTag)
-	end
-
 	self.respond = function(parent, message)
 		assert(t.tuple(types.Message, types.Message)(parent, message))
 
-		local dialog = self._createResponseInstance(parent.id, message)
+		local dialog = self._createDialog(parent.id, message)
 
 		self._addResponseState(parent, message)
 		self._saveMessageToInstance(message, dialog)

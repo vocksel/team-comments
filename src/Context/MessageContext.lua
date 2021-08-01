@@ -93,8 +93,8 @@ function MessageProvider:init(initialProps)
 		return part
 	end
 
-	self.createResponseInstance = function(message)
-		local messagePart = self.getMessagePart(message.id)
+	self.createResponseInstance = function(parentId, message)
+		local messagePart = self.getMessagePart(parentId)
 		local dialog = Instance.new("Dialog")
 		dialog.Name = ("Response_%i"):format(message.createdAt)
 		dialog.Parent = messagePart
@@ -151,6 +151,26 @@ function MessageProvider:init(initialProps)
 		-- solves some issues with trying to add state _then_ the part, and vice
 		-- versa.
 		self.createMessagePart(message, position)
+	end
+
+	self.respond = function(parentId, message)
+		self.createResponseInstance(parentId, message)
+
+		self:setState(function(prev)
+			local parentMessage = prev.messages[parentId]
+
+			local newMessage = Immutable.join(parentMessage, {
+				responses = Immutable.join(parentMessage.responses, {
+					message.id,
+				}),
+			})
+
+			return {
+				messages = Immutable.join(prev.messages, {
+					[parentId] = newMessage,
+				}),
+			}
+		end)
 	end
 
 	self.deleteMessage = function(messageId)
@@ -210,6 +230,7 @@ function MessageProvider:render()
 		value = {
 			getMessages = self.getMessages,
 			createMessage = self.createMessage,
+			respond = self.respond,
 			deleteMessage = self.deleteMessage,
 			setMessageText = self.setMessageText,
 			getOrderedMessages = self.getOrderedMessages,

@@ -11,6 +11,7 @@ local Styles = require(TeamComments.Styles)
 
 local validateProps = t.interface({
 	userId = t.string,
+	respondTo = t.optional(t.string),
 	LayoutOrder = t.optional(t.number),
 })
 
@@ -32,7 +33,12 @@ local function MessageInputField(props, hooks)
 				responses = {},
 			}
 
-			messages.createMessage(message, position)
+			if props.respondTo then
+				messages.respond(props.respondTo, message)
+			else
+				messages.createMessage(message, position)
+			end
+
 			setText("")
 		end
 	end, {

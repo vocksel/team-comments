@@ -191,11 +191,13 @@ function MessageProvider:init()
 	-- Sorts the messages by the time they were created. Returns an array of
 	-- each message in order from newest to oldest. This is used to display the
 	-- list of messages in the plugin.
-	self.getOrderedMessages = function()
+	self.getOrderedComments = function()
 		local messages = {}
 
 		for _, message in pairs(self.state.messages) do
-			table.insert(messages, message)
+			if message.parentId == nil then
+				table.insert(messages, message)
+			end
 		end
 
 		table.sort(messages, function(a, b)
@@ -205,7 +207,17 @@ function MessageProvider:init()
 		return messages
 	end
 
-	self.getMessages = function()
+	self.getComments = function()
+		local comments = {}
+		for _, message in pairs(self.state.messages) do
+			if message.parentId == nil then
+				comments[message.id] = message
+			end
+		end
+		return comments
+	end
+
+	self.getAllMessages = function()
 		return self.state.messages
 	end
 
@@ -223,11 +235,12 @@ end
 function MessageProvider:render()
 	return Roact.createElement(MessageContext.Provider, {
 		value = {
-			getMessages = self.getMessages,
 			comment = self.comment,
 			respond = self.respond,
+			getComments = self.getComments,
+			getOrderedComments = self.getOrderedComments,
+			getAllMessages = self.getAllMessages,
 			deleteMessage = self.deleteMessage,
-			getOrderedMessages = self.getOrderedMessages,
 			getAdornee = self.getAdornee,
 			focusAdornee = self.focusAdornee,
 			setSelectedMessage = self.setSelectedMessage,

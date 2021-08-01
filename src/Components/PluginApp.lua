@@ -19,7 +19,7 @@ local function App(props, hooks)
 		return Roact.createElement(ThreadView, {
 			userId = props.userId,
 			message = selectedMessage,
-			messages = messages.getMessages(),
+			messages = messages.getAllMessages(),
 		})
 	else
 		return Roact.createElement(
@@ -56,7 +56,7 @@ local function App(props, hooks)
 								SortOrder = Enum.SortOrder.LayoutOrder,
 							})
 
-							for index, message in ipairs(context.getOrderedMessages()) do
+							for index, message in ipairs(context.getOrderedComments()) do
 								children[message.id] = Roact.createElement(Comment, {
 									LayoutOrder = index,
 									message = message,

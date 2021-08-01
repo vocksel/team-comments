@@ -11,7 +11,7 @@ local function BillboardApp(_props, hooks)
 
 	local children = {}
 
-	for _, message in pairs(messages.getMessages()) do
+	for _, message in pairs(messages.getComments()) do
 		local messagePart = messages.getAdornee(message.id)
 
 		if messagePart then

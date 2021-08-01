@@ -16,7 +16,6 @@ local function App(props, hooks)
 	local selectedMessage = messages.getSelectedMessage()
 
 	if selectedMessage then
-		print("thread time")
 		return Roact.createElement(ThreadView, {
 			userId = props.userId,
 			message = selectedMessage,

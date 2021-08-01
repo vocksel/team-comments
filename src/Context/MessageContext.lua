@@ -14,11 +14,13 @@ local MessageProvider = Roact.Component:extend("MessageProvider")
 
 MessageProvider.validateProps = t.interface({
 	messageTag = t.optional(t.string),
+	responseTag = t.optional(t.string),
 	storageTag = t.optional(t.string),
 })
 
 MessageProvider.defaultProps = {
 	messageTag = Config.TAG_NAME,
+	responseTag = Config.RESPONSE_TAG_NAME,
 	storageTag = Config.STORAGE_TAG_NAME,
 }
 
@@ -28,22 +30,51 @@ function MessageProvider:init(initialProps)
 	}
 
 	self.getOrCreateBaseStorage = function()
-		local storage = CollectionService:GetTagged(initialProps.storageTag)[1]
+		local storage = CollectionService:GetTagged(self.props.storageTag)[1]
 
 		if not storage then
 			storage = Instance.new("Folder")
 			storage.Name = "TeamComments"
 			storage.Parent = workspace
 
-			CollectionService:AddTag(storage, initialProps.storageTag)
+			CollectionService:AddTag(storage, self.props.storageTag)
 		end
 
 		return storage
 	end
 
-	self.createMessagePart = function(messageId, userId, text, createdAt, position)
+	self.saveMessageToInstance = function(message, instance)
+		local keys = {
+			"id",
+			"userId",
+			"text",
+			"createdAt",
+		}
+
+		for _, key in ipairs(keys) do
+			instance:SetAttribute(key, message[key])
+		end
+	end
+
+	self.loadMessageFromInstance = function(instance)
+		local message = {
+			id = "-1",
+			userId = "-1",
+			text = "",
+			createdAt = 0,
+			responses = {},
+		}
+
+		for key, value in pairs(instance:GetAttributes()) do
+			message[key] = value
+		end
+
+		return message
+	end
+
+	self.createMessagePart = function(message, position)
 		local part = Instance.new("Part")
-		part.Name = ("TeamComment_%i"):format(createdAt)
+		part.Name = ("TeamComment_%i"):format(message.createdAt)
 		part.Anchored = true
 		part.Locked = true
 		part.CanCollide = false
@@ -55,19 +86,29 @@ function MessageProvider:init(initialProps)
 		part.Size = Vector3.new(0, 0, 0)
 		part.Parent = self.getOrCreateBaseStorage()
 
-		part:SetAttribute("Id", messageId)
-		part:SetAttribute("UserId", userId)
-		part:SetAttribute("Text", text)
-		part:SetAttribute("CreatedAt", createdAt)
+		self.saveMessageToInstance(message, part)
 
 		CollectionService:AddTag(part, initialProps.messageTag)
 
 		return part
 	end
 
+	self.createResponseInstance = function(message)
+		local messagePart = self.getMessagePart(message.id)
+		local dialog = Instance.new("Dialog")
+		dialog.Name = ("Response_%i"):format(message.createdAt)
+		dialog.Parent = messagePart
+
+		self.saveMessageToInstance(message, dialog)
+
+		CollectionService:AddTag(dialog, initialProps.responseTag)
+
+		return dialog
+	end
+
 	self.getMessagePart = function(messageId)
 		for _, messagePart in pairs(CollectionService:GetTagged(self.props.messageTag)) do
-			if messagePart:GetAttribute("Id") == messageId then
+			if messagePart:GetAttribute("id") == messageId then
 				return messagePart
 			end
 		end
@@ -86,37 +127,30 @@ function MessageProvider:init(initialProps)
 		end
 	end
 
-	self.createMessageState = function(messageId, userId, text, createdAt)
+	self.createMessageState = function(message)
 		self:setState(function(prevState)
 			-- Skip over any messages that already exist in the state. This is
 			-- so when the user sends a message that it doesn't get added a
 			-- second time from CollectionService adding messages to the state
 			-- when new message parts are added.
-			if prevState.messages[messageId] then
+			if prevState.messages[message.id] then
 				return
 			end
 
-			local message = {
-				id = messageId,
-				userId = userId,
-				text = text,
-				createdAt = createdAt,
-			}
-
 			return {
 				messages = Immutable.join(prevState.messages, {
-					[messageId] = message,
+					[message.id] = message,
 				}),
 			}
 		end)
 	end
 
-	self.createMessage = function(messageId, userId, text, createdAt, position)
+	self.createMessage = function(message, position)
 		-- Adding a message part triggers CollectionService, which in turn adds
 		-- the message to the state. A bit roundabout, but it works well and
 		-- solves some issues with trying to add state _then_ the part, and vice
 		-- versa.
-		self.createMessagePart(messageId, userId, text, createdAt, position)
+		self.createMessagePart(message, position)
 	end
 
 	self.deleteMessage = function(messageId)
@@ -187,12 +221,12 @@ end
 
 function MessageProvider:didMount()
 	local function onAdded(messagePart: Part)
-		local attr = messagePart:GetAttributes()
-		self.createMessageState(attr.Id, attr.UserId, attr.Text, attr.CreatedAt)
+		local message = self.loadMessageFromInstance(messagePart)
+		self.createMessageState(message)
 	end
 
 	local function onRemoved(messagePart)
-		self.deleteMessage(messagePart:GetAttribute("Id"))
+		self.deleteMessage(messagePart:GetAttribute("id"))
 	end
 
 	for _, messagePart in ipairs(CollectionService:GetTagged(self.props.messageTag)) do

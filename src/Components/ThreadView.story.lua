@@ -11,7 +11,6 @@ return function(target)
 			userId = "1343930",
 			text = "Hello World!",
 			createdAt = os.time(),
-			position = Vector3.new(),
 			responses = {
 				"2",
 				"3",

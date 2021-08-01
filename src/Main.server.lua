@@ -68,7 +68,7 @@ local ui = Roact.createElement(MessageContext.Provider, {
 }, {
 	PluginApp = Roact.createElement(PluginApp, {
 		-- selene: allow(incorrect_standard_library_use)
-		userId = plugin:GetStudioUserId(),
+		userId = tostring(plugin:GetStudioUserId()),
 	}),
 
 	-- Billboards do not adorn when parented under PluginGuiService so we have

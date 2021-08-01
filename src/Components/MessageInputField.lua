@@ -25,19 +25,20 @@ local function MessageInputField(props, hooks)
 
 	local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
 		if enterPressed then
+			local position = workspace.CurrentCamera.CFrame.Position
+
 			local message = {
 				id = HttpService:GenerateGUID(),
 				userId = props.userId,
 				text = text,
 				createdAt = os.time(),
-                position = workspace.CurrentCamera.CFrame.Position,
 				responses = {},
 			}
 
 			if props.respondTo then
 				messages.respond(props.respondTo, message)
 			else
-				messages.comment(message)
+				messages.comment(message, position)
 			end
 
 			setText("")

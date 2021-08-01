@@ -74,7 +74,7 @@ function MessageProvider:init()
 		return message
 	end
 
-	self._createAdornee = function(message)
+	self._createAdornee = function(message, position)
 		assert(types.Message(message))
 
 		local part = Instance.new("Part")
@@ -86,7 +86,7 @@ function MessageProvider:init()
 		part.Transparency = 1
 		-- Normally we would use Position, but this forces the Part to exist
 		-- inside another, without being pushed up on top.
-		part.CFrame = CFrame.new(message.position)
+		part.CFrame = CFrame.new(position)
 		part.Size = Vector3.new(0, 0, 0)
 		part.Parent = self._getOrCreateBaseStorage()
 
@@ -124,10 +124,10 @@ function MessageProvider:init()
 		end)
 	end
 
-	self.comment = function(message)
+	self.comment = function(message, position)
 		assert(types.Message(message))
 
-		local adornee = self._createAdornee(message)
+		local adornee = self._createAdornee(message, position)
 
 		self._addMessageState(message)
 		self._saveMessageToInstance(message, adornee)

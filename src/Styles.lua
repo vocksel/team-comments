@@ -1,5 +1,6 @@
 return {
 	Padding = UDim.new(0, 8),
+	PaddingLarge = UDim.new(0, 16),
 
 	Header = {
 		Font = Enum.Font.GothamBold,
@@ -24,5 +25,16 @@ return {
 		Size = UDim2.fromScale(1, 0),
 		BackgroundTransparency = 1,
 		LineHeight = 1.25,
+	},
+
+	ScrollingFrame = {
+		Size = UDim2.fromScale(1, 1),
+		CanvasSize = UDim2.fromScale(1, 0),
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		ScrollBarThickness = 6,
+		HorizontalScrollBarInset = Enum.ScrollBarInset.Always,
 	},
 }

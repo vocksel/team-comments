@@ -18,26 +18,29 @@ return function(target)
 		},
 		["2"] = {
 			id = "2",
-			userId = "1343930",
+			userId = "29819622",
 			text = "A response to the comment",
 			createdAt = os.time() + 100000,
 			responses = {},
 		},
 		["3"] = {
 			id = "3",
-			userId = "1343930",
+			userId = "103649798",
 			text = "Another response in the thread",
 			createdAt = os.time() + 200000,
 			responses = {},
 		},
 	}
+
 	local root = Roact.createElement(MessageContext.Provider, nil, {
 		Wrapper = Roact.createElement("Frame", {
-			Size = UDim2.new(0, 500, 1, 0),
+			Size = UDim2.new(0, 500, 0, 300),
 			Position = UDim2.fromScale(1, 0.5),
 			AnchorPoint = Vector2.new(1, 0.5),
+			BorderSizePixel = 0,
 		}, {
 			ThreadView = Roact.createElement(ThreadView, {
+				userId = "1343930",
 				message = MESSAGES["1"],
 				messages = MESSAGES,
 			}),

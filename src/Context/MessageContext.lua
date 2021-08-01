@@ -8,6 +8,7 @@ local t = require(TeamComments.Packages.t)
 local Immutable = require(TeamComments.Lib.Immutable)
 local Config = require(TeamComments.Config)
 local types = require(TeamComments.Types)
+local zoom = require(TeamComments.zoom)
 
 local MessageContext = Roact.createContext()
 
@@ -105,12 +106,7 @@ function MessageProvider:init()
 		local adornee = self.getAdornee(messageId)
 
 		if adornee then
-			local camera = workspace.CurrentCamera
-			local orientation = camera.CFrame - camera.CFrame.p
-			local newCFrame = CFrame.new(adornee.Position) * orientation
-
-			camera.Focus = adornee.CFrame
-			camera.CFrame = newCFrame * CFrame.new(-Config.PUSHBACK_FROM_FOCUS, 0, 0)
+			zoom(adornee)
 		end
 	end
 

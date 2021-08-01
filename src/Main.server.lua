@@ -67,6 +67,7 @@ local ui = Roact.createElement(MessageContext.Provider, {
 	messageTag = "TeamComment",
 }, {
 	PluginApp = Roact.createElement(PluginApp, {
+		widget = widget,
 		-- selene: allow(incorrect_standard_library_use)
 		userId = tostring(plugin:GetStudioUserId()),
 	}),
@@ -79,7 +80,9 @@ local ui = Roact.createElement(MessageContext.Provider, {
 	Billboards = Roact.createElement(Roact.Portal, {
 		target = CoreGui,
 	}, {
-		BillboardApp = Roact.createElement(BillboardApp),
+		BillboardApp = Roact.createElement(BillboardApp, {
+			widget = widget,
+		}),
 	}),
 })
 

@@ -147,7 +147,7 @@ function MessageProvider:init()
 	self._addResponseState = function(parent, message)
 		self:setState(function(prev)
 			local newParent = Immutable.join(parent, {
-				responses = Immutable.join(parent.responses, {
+				responses = Immutable.joinLists(parent.responses, {
 					message.id,
 				}),
 			})

@@ -34,13 +34,10 @@ local function ThreadView(props, hooks)
 	})
 
 	for index, messageId in ipairs(props.message.responses) do
-		table.insert(
-			children,
-			Roact.createElement(Comment, {
-				LayoutOrder = index,
-				message = props.messages[messageId],
-			})
-		)
+		children[messageId] = Roact.createElement(Comment, {
+			LayoutOrder = index,
+			message = props.messages[messageId],
+		})
 	end
 
 	return Roact.createElement("Frame", {

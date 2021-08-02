@@ -11,7 +11,7 @@ local function zoom(goal: Part)
 	local camera = workspace.CurrentCamera
 	local start = camera.CFrame.Position
 	local orientation = camera.CFrame - start
-	local goalPos = goal.Position - (goal.Position - start).Unit * 10
+	local goalPos = goal.Position - (camera.CFrame.LookVector * 15)
 
 	camera.CameraType = Enum.CameraType.Scriptable
 	camera.Focus = goal.CFrame

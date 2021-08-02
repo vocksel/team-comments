@@ -27,6 +27,10 @@ local function MessageInputField(props, hooks)
 		if enterPressed then
 			local position = workspace.CurrentCamera.CFrame.Position
 
+			if text == "" then
+				return
+			end
+
 			local message = {
 				id = HttpService:GenerateGUID(),
 				userId = props.userId,

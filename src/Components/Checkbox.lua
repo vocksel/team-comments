@@ -5,7 +5,7 @@ local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	isChecked = t.boolean,
 	onClick = t.optional(t.callback),
 	position = t.optional(t.UDim2),
@@ -14,7 +14,7 @@ local Props = t.interface({
 })
 
 local function Checkbox(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local state = props.isChecked and Enum.StudioStyleGuideModifier.Selected or Enum.StudioStyleGuideModifier.Default
 	local theme = useTheme(hooks)

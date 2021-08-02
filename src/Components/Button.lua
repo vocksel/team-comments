@@ -6,7 +6,7 @@ local t = require(TeamComments.Packages.t)
 local Styles = require(TeamComments.Styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	text = t.string,
 	LayoutOrder = t.interger,
 	size = t.optional(t.UDim2),
@@ -14,7 +14,7 @@ local Props = t.interface({
 })
 
 local function Button(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
 

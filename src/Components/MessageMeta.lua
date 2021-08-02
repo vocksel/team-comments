@@ -9,14 +9,14 @@ local Styles = require(TeamComments.Styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local useName = require(TeamComments.Hooks.useName)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	message = Types.Message,
 	size = t.UDim2,
 	LayoutOrder = t.integer,
 })
 
 local function MessageMeta(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local date = os.date("*t", props.message.createdAt)
 	local formattedDate = ("%02i/%02i/%i"):format(date.month, date.day, date.year)

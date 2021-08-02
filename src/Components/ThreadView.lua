@@ -7,8 +7,11 @@ local useTheme = require(TeamComments.Hooks.useTheme)
 local Immutable = require(TeamComments.Lib.Immutable)
 local Styles = require(TeamComments.Styles)
 local types = require(TeamComments.Types)
+local assets = require(TeamComments.Assets)
 local Comment = require(script.Parent.Comment)
 local MessageInputField = require(script.Parent.MessageInputField)
+
+local TITLE_HEIGHT = Styles.Text.TextSize * 2
 
 local validateProps = t.interface({
 	userId = t.string,
@@ -45,47 +48,79 @@ local function ThreadView(props, hooks)
 		BorderSizePixel = 0,
 		Size = UDim2.fromScale(1, 1),
 	}, {
-		Title = Roact.createElement(
-			"TextLabel",
-			Immutable.join(Styles.Header, {
-				LayoutOrder = 1,
-				Text = "Thread",
-				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-				AnchorPoint = Vector2.new(0, 1),
-				BackgroundTransparency = 0,
-				BorderSizePixel = 0,
-				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
-			}),
-			{
-				Padding = Roact.createElement("UIPadding", {
-					PaddingTop = Styles.Padding,
-					PaddingRight = Styles.Padding,
-					PaddingBottom = Styles.Padding,
-					PaddingLeft = Styles.Padding,
-				}),
-			}
-		),
+		Layout = Roact.createElement("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
 
-		Border = Roact.createElement("Frame", {
-			Size = UDim2.new(1, 0, 0, 1),
-			BorderSizePixel = 0,
-			BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Border),
+		Title = Roact.createElement("Frame", {
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, TITLE_HEIGHT),
+		}, {
+			Padding = Roact.createElement("UIPadding", {
+				PaddingRight = Styles.Padding,
+				PaddingLeft = Styles.Padding,
+			}),
+
+			Main = Roact.createElement("Frame", {
+				Size = UDim2.fromScale(1, 1),
+				BackgroundTransparency = 1,
+			}, {
+				Layout = Roact.createElement("UIListLayout", {
+					SortOrder = Enum.SortOrder.LayoutOrder,
+					FillDirection = Enum.FillDirection.Horizontal,
+					VerticalAlignment = Enum.VerticalAlignment.Center,
+					Padding = Styles.Padding,
+				}),
+
+				Close = Roact.createElement("ImageButton", {
+					LayoutOrder = 1,
+					Image = assets.ArrowLeft,
+					Position = UDim2.fromScale(1, 0),
+					AnchorPoint = Vector2.new(1, 0),
+					Size = UDim2.fromScale(1, 1),
+					BackgroundTransparency = 1,
+					[Roact.Event.Activated] = props.onClose,
+				}, {
+					AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
+						AspectRatio = 1,
+					}),
+
+					Scale = Roact.createElement("UIScale", {
+						Scale = 0.8,
+					}),
+				}),
+
+				Label = Roact.createElement(
+					"TextLabel",
+					Immutable.join(Styles.Header, {
+						LayoutOrder = 2,
+						Text = "Thread",
+						Position = UDim2.fromScale(0, 0.5),
+						AnchorPoint = Vector2.new(0, 0.5),
+						TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+						BackgroundTransparency = 1,
+					})
+				),
+			}),
+
+			Border = Roact.createElement("Frame", {
+				Size = UDim2.new(1, 0, 0, 1),
+				Position = UDim2.new(0, 0, 1, 0),
+				BorderSizePixel = 0,
+				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Border),
+			}),
 		}),
 
 		MessageScroller = Roact.createElement(
 			"ScrollingFrame",
 			Immutable.join(Styles.ScrollingFrame, {
-				LayoutOrder = 2,
+				LayoutOrder = 3,
+				Size = UDim2.new(1, 0, 1, -TITLE_HEIGHT),
 			}),
 			{
 				Layout = Roact.createElement("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
 					Padding = Styles.Padding + Styles.Padding,
-				}),
-
-				Padding = Roact.createElement("UIPadding", {
-					PaddingRight = Styles.Padding,
-					PaddingLeft = Styles.Padding,
 				}),
 
 				MainComment = Roact.createElement(Comment, {

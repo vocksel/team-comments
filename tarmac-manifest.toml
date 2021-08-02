@@ -1,3 +1,8 @@
+[inputs."assets/ArrowLeft.png"]
+hash = "8849947d23e857019115badc4de92c0a0ccd60637190243f422e32903540b120"
+id = 7193741875
+packable = false
+
 [inputs."assets/CommentBubble.png"]
 hash = "b17af8492f8d8675f34908ebb2c0b5ac43bfc212174adfba182710a887ef180f"
 id = 7182229175

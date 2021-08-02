@@ -61,29 +61,46 @@ local function ThreadView(props, hooks)
 				PaddingLeft = Styles.Padding,
 			}),
 
-			Label = Roact.createElement(
-				"TextLabel",
-				Immutable.join(Styles.Header, {
-					LayoutOrder = 1,
-					Text = "Thread",
-					Position = UDim2.fromScale(0, 0.5),
-					AnchorPoint = Vector2.new(0, 0.5),
-					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-					BackgroundTransparency = 1,
-				})
-			),
-
-			Close = Roact.createElement("ImageButton", {
-				Image = assets.CommentBubble,
-				Position = UDim2.fromScale(1, 0),
-				AnchorPoint = Vector2.new(1, 0),
+			Main = Roact.createElement("Frame", {
 				Size = UDim2.fromScale(1, 1),
 				BackgroundTransparency = 1,
-				[Roact.Event.Activated] = props.onClose,
 			}, {
-				AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
-					AspectRatio = 1,
+				Layout = Roact.createElement("UIListLayout", {
+					SortOrder = Enum.SortOrder.LayoutOrder,
+					FillDirection = Enum.FillDirection.Horizontal,
+					VerticalAlignment = Enum.VerticalAlignment.Center,
+					Padding = Styles.Padding,
 				}),
+
+				Close = Roact.createElement("ImageButton", {
+					LayoutOrder = 1,
+					Image = assets.ArrowLeft,
+					Position = UDim2.fromScale(1, 0),
+					AnchorPoint = Vector2.new(1, 0),
+					Size = UDim2.fromScale(1, 1),
+					BackgroundTransparency = 1,
+					[Roact.Event.Activated] = props.onClose,
+				}, {
+					AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
+						AspectRatio = 1,
+					}),
+
+					Scale = Roact.createElement("UIScale", {
+						Scale = 0.8,
+					}),
+				}),
+
+				Label = Roact.createElement(
+					"TextLabel",
+					Immutable.join(Styles.Header, {
+						LayoutOrder = 2,
+						Text = "Thread",
+						Position = UDim2.fromScale(0, 0.5),
+						AnchorPoint = Vector2.new(0, 0.5),
+						TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+						BackgroundTransparency = 1,
+					})
+				),
 			}),
 
 			Border = Roact.createElement("Frame", {

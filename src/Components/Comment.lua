@@ -11,7 +11,7 @@ local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageActions = require(script.Parent.MessageActions)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	LayoutOrder = t.optional(t.integer),
 	message = Types.Message,
 })
@@ -19,7 +19,7 @@ local Props = t.interface({
 local AVATAR_SIZE = 64
 
 local function Comment(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
 

@@ -7,7 +7,7 @@ local Checkbox = require(script.Parent.Checkbox)
 local Styles = require(TeamComments.Styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	text = t.string,
 	isChecked = t.boolean,
 	onClick = t.optional(t.callback),
@@ -15,7 +15,7 @@ local Props = t.interface({
 })
 
 local function ToggleOption(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
 

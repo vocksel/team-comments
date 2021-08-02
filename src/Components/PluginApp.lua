@@ -2,6 +2,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
+local t = require(TeamComments.Packages.t)
 local Styles = require(TeamComments.Styles)
 local Immutable = require(TeamComments.Lib.Immutable)
 local MessageContext = require(TeamComments.Context.MessageContext)
@@ -10,7 +11,13 @@ local MessageInputField = require(script.Parent.MessageInputField)
 local Comment = require(script.Parent.Comment)
 local ThreadView = require(script.Parent.ThreadView)
 
+local validateProps = t.interface({
+	userId = t.string,
+})
+
 local function App(props, hooks)
+	assert(validateProps(props))
+
 	local theme = useTheme(hooks)
 	local messages = hooks.useContext(MessageContext)
 	local selectedMessage = messages.getSelectedMessage()

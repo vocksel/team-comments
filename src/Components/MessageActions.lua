@@ -8,14 +8,14 @@ local Styles = require(TeamComments.Styles)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local Button = require(script.Parent.Button)
 
-local Props = t.interface({
+local validateProps = t.interface({
 	message = Types.Message,
 	size = t.UDim2,
 	LayoutOrder = t.integer,
 })
 
 local function MessageActions(props, hooks)
-	assert(Props(props))
+	assert(validateProps(props))
 
 	local messages = hooks.useContext(MessageContext)
 

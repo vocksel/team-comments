@@ -15,13 +15,22 @@ local ThreadParticipants = require(script.Parent.ThreadParticipants)
 local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
-	LayoutOrder = t.optional(t.integer),
 	message = Types.Message,
+	LayoutOrder = t.optional(t.integer),
+	showActions = t.optional(t.boolean),
 })
+
+local defaultProps = {
+	showActions = true,
+}
 
 local AVATAR_SIZE = 64
 
 local function Comment(props, hooks)
+	props = Immutable.join(defaultProps, props)
+
+	print(props)
+
 	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
@@ -90,7 +99,7 @@ local function Comment(props, hooks)
 				})
 			),
 
-			Actions = Roact.createElement("Frame", {
+			Actions = props.showActions and Roact.createElement("Frame", {
 				LayoutOrder = 3,
 				Size = UDim2.new(1, 0, 0, 24),
 				BackgroundTransparency = 1,

@@ -5,11 +5,14 @@ local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
+local assets = require(TeamComments.Assets)
 local Immutable = require(TeamComments.Lib.Immutable)
 local useTheme = require(TeamComments.Hooks.useTheme)
+local MessageContext = require(TeamComments.Context.MessageContext)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
-local MessageActions = require(script.Parent.MessageActions)
+local ThreadParticipants = require(script.Parent.ThreadParticipants)
+local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
 	message = Types.Message,
@@ -31,6 +34,8 @@ local function Comment(props, hooks)
 	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
+	local messages = hooks.useContext(MessageContext)
+	local hasResponses = #props.message.responses > 0
 
 	return Roact.createElement("Frame", {
 		LayoutOrder = props.LayoutOrder,
@@ -94,10 +99,77 @@ local function Comment(props, hooks)
 				})
 			),
 
-			Actions = props.showActions and Roact.createElement(MessageActions, {
-				message = props.message,
-				size = UDim2.new(1, 0, 0, 20),
+			Actions = props.showActions and Roact.createElement("Frame", {
 				LayoutOrder = 3,
+				Size = UDim2.new(1, 0, 0, 24),
+				BackgroundTransparency = 1,
+			}, {
+				Left = hasResponses and Roact.createElement("Frame", {
+					Size = UDim2.fromScale(1 / 2, 1),
+					BackgroundTransparency = 1,
+				}, {
+					Layout = Roact.createElement("UIListLayout", {
+						SortOrder = Enum.SortOrder.LayoutOrder,
+						FillDirection = Enum.FillDirection.Horizontal,
+						Padding = Styles.Padding,
+					}),
+
+					Participants = Roact.createElement(ThreadParticipants, {
+						message = props.message,
+						onActivated = function()
+							messages.setSelectedMessage(props.message.id)
+						end,
+					}),
+
+					ReplyCount = Roact.createElement(
+						"TextLabel",
+						Immutable.join(Styles.Text, {
+							LayoutOrder = 2,
+							TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+							TextYAlignment = Enum.TextYAlignment.Bottom,
+							AutomaticSize = Enum.AutomaticSize.X,
+							Size = UDim2.fromScale(0, 1),
+							Text = ("%i replies"):format(#props.message.responses),
+						})
+					),
+				}),
+
+				Right = Roact.createElement("Frame", {
+					Size = UDim2.fromScale(1 / 2, 1),
+					Position = UDim2.fromScale(1 / 2, 0),
+					BackgroundTransparency = 1,
+				}, {
+					Layout = Roact.createElement("UIListLayout", {
+						SortOrder = Enum.SortOrder.LayoutOrder,
+						FillDirection = Enum.FillDirection.Horizontal,
+						HorizontalAlignment = Enum.HorizontalAlignment.Right,
+						Padding = Styles.Padding,
+					}),
+
+					View = Roact.createElement(ImageButton, {
+						LayoutOrder = 1,
+						Image = assets.Focus,
+						onActivated = function()
+							messages.focusAdornee(props.message.id)
+						end,
+					}),
+
+					Resolve = Roact.createElement(ImageButton, {
+						LayoutOrder = 2,
+						Image = assets.Delete,
+						onActivated = function()
+							messages.deleteMessage(props.message.id)
+						end,
+					}),
+
+					Reply = Roact.createElement(ImageButton, {
+						LayoutOrder = 3,
+						Image = assets.Reply,
+						onActivated = function()
+							messages.setSelectedMessage(props.message.id)
+						end,
+					}),
+				}),
 			}),
 		}),
 	})

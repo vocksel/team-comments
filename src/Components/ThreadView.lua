@@ -40,6 +40,7 @@ local function ThreadView(props, hooks)
 		children[messageId] = Roact.createElement(Comment, {
 			LayoutOrder = index,
 			message = props.messages[messageId],
+			showActions = false,
 		})
 	end
 

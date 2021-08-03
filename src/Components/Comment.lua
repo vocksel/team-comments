@@ -12,13 +12,22 @@ local MessageMeta = require(script.Parent.MessageMeta)
 local MessageActions = require(script.Parent.MessageActions)
 
 local validateProps = t.interface({
-	LayoutOrder = t.optional(t.integer),
 	message = Types.Message,
+	LayoutOrder = t.optional(t.integer),
+	showActions = t.optional(t.boolean),
 })
+
+local defaultProps = {
+	showActions = true,
+}
 
 local AVATAR_SIZE = 64
 
 local function Comment(props, hooks)
+	props = Immutable.join(defaultProps, props)
+
+	print(props)
+
 	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
@@ -85,7 +94,7 @@ local function Comment(props, hooks)
 				})
 			),
 
-			Actions = Roact.createElement(MessageActions, {
+			Actions = props.showActions and Roact.createElement(MessageActions, {
 				message = props.message,
 				size = UDim2.new(1, 0, 0, 20),
 				LayoutOrder = 3,

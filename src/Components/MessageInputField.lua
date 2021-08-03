@@ -5,77 +5,157 @@ local HttpService = game:GetService("HttpService")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
+local Immutable = require(TeamComments.Lib.Immutable)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local Styles = require(TeamComments.Styles)
+local assets = require(TeamComments.Assets)
 local types = require(TeamComments.Types)
+local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
 	userId = t.string,
+	placeholder = t.optional(t.string),
+	focusOnMount = t.optional(t.boolean),
 	respondTo = t.optional(types.Message),
 	LayoutOrder = t.optional(t.number),
 })
 
+local defaultProps = {
+	focusOnMount = false,
+}
+
 local function MessageInputField(props, hooks)
+	props = Immutable.join(defaultProps, props)
+
 	assert(validateProps(props))
 
+	local input = Roact.createRef()
 	local text, setText = hooks.useState("")
 	local messages = hooks.useContext(MessageContext)
 	local theme = useTheme(hooks)
 
-	local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
-		if enterPressed then
-			local position = workspace.CurrentCamera.CFrame.Position
+	local send = hooks.useCallback(function()
+		local position = workspace.CurrentCamera.CFrame.Position
 
-			local message = {
-				id = HttpService:GenerateGUID(),
-				userId = props.userId,
-				text = text,
-				createdAt = os.time(),
-				responses = {},
-			}
-
-			if props.respondTo then
-				messages.respond(props.respondTo, message)
-			else
-				messages.comment(message, position)
-			end
-
-			setText("")
+		if text == "" then
+			return
 		end
+
+		local message = {
+			id = HttpService:GenerateGUID(),
+			userId = props.userId,
+			text = text,
+			createdAt = os.time(),
+			responses = {},
+		}
+
+		if props.respondTo then
+			messages.respond(props.respondTo, message)
+		else
+			messages.comment(message, position)
+		end
+
+		setText("")
 	end, {
-		messages,
-		props.userId,
 		text,
 		setText,
+		messages,
+		props,
 	})
 
-	return Roact.createElement("TextBox", {
+	local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
+		if enterPressed then
+			send()
+		end
+	end, {
+		send,
+	})
+
+	local onTextChanged = hooks.useCallback(function(rbx)
+		setText(rbx.Text)
+	end, { setText })
+
+	hooks.useEffect(function()
+		if props.focusOnMount then
+			local field = input:getValue()
+			-- why does this work
+			spawn(function()
+				field:CaptureFocus()
+			end)
+		end
+	end, {
+		props.focusOnMount,
+	})
+
+	return Roact.createElement("Frame", {
 		LayoutOrder = props.LayoutOrder,
-		Text = text,
-		PlaceholderText = "Write a new message...",
 		AutomaticSize = Enum.AutomaticSize.Y,
 		Size = UDim2.fromScale(1, 0),
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextYAlignment = Enum.TextYAlignment.Top,
 		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
 		BorderSizePixel = 0,
-		TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-		PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
-		ClearTextOnFocus = false,
-		TextWrapped = true,
-		LineHeight = Styles.Text.TextSize,
-
-		[Roact.Change.Text] = function(rbx)
-			setText(rbx.Text)
-		end,
-		[Roact.Event.FocusLost] = onFocusLost,
 	}, {
-		Padding = Roact.createElement("UIPadding", {
-			PaddingTop = Styles.Padding,
-			PaddingRight = Styles.Padding,
-			PaddingBottom = Styles.Padding,
-			PaddingLeft = Styles.Padding,
+		Layout = Roact.createElement("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
+
+		Input = Roact.createElement(
+			"TextBox",
+			Immutable.join(Styles.TextBox, {
+				Text = text,
+				Active = true,
+				PlaceholderText = props.placeholder,
+				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+				PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
+				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
+				[Roact.Change.Text] = onTextChanged,
+				[Roact.Event.FocusLost] = onFocusLost,
+				[Roact.Ref] = input,
+			}),
+			{
+				SizeConstraint = Roact.createElement("UISizeConstraint", {
+					MinSize = Vector2.new(0, Styles.Text.TextSize * 2),
+				}),
+
+				Padding = Roact.createElement("UIPadding", {
+					PaddingTop = Styles.Padding,
+					PaddingRight = Styles.Padding,
+					PaddingBottom = Styles.Padding,
+					PaddingLeft = Styles.Padding,
+				}),
+			}
+		),
+
+		Actions = Roact.createElement("Frame", {
+			AutomaticSize = Enum.AutomaticSize.Y,
+			Size = UDim2.fromScale(1, 0),
+			BackgroundTransparency = 1,
+		}, {
+			Layout = Roact.createElement("UIListLayout", {
+				SortOrder = Enum.SortOrder.LayoutOrder,
+				FillDirection = Enum.FillDirection.Horizontal,
+				VerticalAlignment = Enum.VerticalAlignment.Center,
+				HorizontalAlignment = Enum.HorizontalAlignment.Right,
+				Padding = Styles.Padding,
+			}),
+
+			Padding = Roact.createElement("UIPadding", {
+				PaddingRight = Styles.PaddingLarge,
+				PaddingLeft = Styles.Padding,
+			}),
+
+			-- TODO: Add emoji support! https://github.com/vocksel/TeamComments/issues/7
+			-- Emojis = Roact.createElement(ImageButton, {
+			-- 	LayoutOrder = 1,
+			-- 	Image = assets.Emojis,
+			-- 	[Roact.Event.Activated] = send,
+			-- }),
+
+			Send = Roact.createElement(ImageButton, {
+				LayoutOrder = 2,
+				Image = assets.Send,
+				onActivated = send,
+			}),
 		}),
 	})
 end

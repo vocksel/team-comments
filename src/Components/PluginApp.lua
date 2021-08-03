@@ -50,6 +50,7 @@ local function App(props, hooks)
 				InputField = Roact.createElement(MessageInputField, {
 					LayoutOrder = 1,
 					userId = tostring(props.userId),
+					placeholder = "Post a comment...",
 				}),
 
 				MessageList = Roact.createElement("Frame", {

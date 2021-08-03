@@ -5,9 +5,10 @@ local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
+local assets = require(TeamComments.Assets)
 local MessageContext = require(TeamComments.Context.MessageContext)
-local Button = require(script.Parent.Button)
 local ThreadParticipants = require(script.Parent.ThreadParticipants)
+local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
 	message = Types.Message,
@@ -51,37 +52,30 @@ local function MessageActions(props, hooks)
 			Layout = Roact.createElement("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,
 				FillDirection = Enum.FillDirection.Horizontal,
+				HorizontalAlignment = Enum.HorizontalAlignment.Right,
 				Padding = Styles.Padding,
 			}),
 
-			View = Roact.createElement(Button, {
-				text = "Focus",
+			View = Roact.createElement(ImageButton, {
 				LayoutOrder = 1,
-				onClick = function()
+				Image = assets.Focus,
+				onActivated = function()
 					messages.focusAdornee(props.message.id)
 				end,
 			}),
 
-			-- Edit = Roact.createElement(Button, {
-			-- 	text = "Edit",
-			-- 	LayoutOrder = 1,
-			-- 	onClick = function()
-			-- 		print("click :)")
-			-- 	end
-			-- }),
-
-			Resolve = Roact.createElement(Button, {
-				text = "Resolve",
+			Resolve = Roact.createElement(ImageButton, {
 				LayoutOrder = 2,
-				onClick = function()
+				Image = assets.Delete,
+				onActivated = function()
 					messages.deleteMessage(props.message.id)
 				end,
 			}),
 
-			Reply = Roact.createElement(Button, {
+			Reply = Roact.createElement(ImageButton, {
 				LayoutOrder = 3,
-				text = "Reply",
-				onClick = function()
+				Image = assets.Reply,
+				onActivated = function()
 					messages.setSelectedMessage(props.message.id)
 				end,
 			}),

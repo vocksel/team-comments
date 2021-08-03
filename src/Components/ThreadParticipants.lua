@@ -3,11 +3,8 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
-local Immutable = require(TeamComments.Lib.Immutable)
 local types = require(TeamComments.Types)
-local styles = require(TeamComments.Styles)
 local MessageContext = require(TeamComments.Context.MessageContext)
-local useTheme = require(TeamComments.Hooks.useTheme)
 local Avatar = require(script.Parent.Avatar)
 
 -- Shows all the users that have responsed to a thread
@@ -19,7 +16,6 @@ local validateProps = t.interface({
 local function ThreadParticipants(props, hooks)
 	assert(validateProps(props))
 
-	local theme = useTheme(hooks)
 	local messages = hooks.useContext(MessageContext)
 	local allMessages = messages.getAllMessages()
 	local responses = props.message.responses
@@ -50,26 +46,13 @@ local function ThreadParticipants(props, hooks)
 			LayoutOrder = index,
 			userId = userId,
 		})
-
-		if index == #participants then
-			children.Label = Roact.createElement(
-				"TextLabel",
-				Immutable.join(styles.Text, {
-					LayoutOrder = index + 1,
-					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-					TextYAlignment = Enum.TextYAlignment.Bottom,
-					AutomaticSize = Enum.AutomaticSize.X,
-					Size = UDim2.fromScale(0, 1),
-					Text = ("%i replies"):format(#responses),
-				})
-			)
-		end
 	end
 
 	return Roact.createElement("ImageButton", {
 		ImageTransparency = 1,
 		BackgroundTransparency = 1,
-		Size = UDim2.fromScale(1, 1),
+		AutomaticSize = Enum.AutomaticSize.X,
+		Size = UDim2.fromScale(0, 1),
 		[Roact.Event.Activated] = props.onActivated,
 	}, children)
 end

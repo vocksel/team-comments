@@ -185,6 +185,8 @@ local function ThreadView(props, hooks)
 					MessageInputField = Roact.createElement(MessageInputField, {
 						userId = props.userId,
 						respondTo = props.message,
+						focusOnMount = true,
+						placeholder = "Reply...",
 					}),
 				}),
 			}

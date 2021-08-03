@@ -7,6 +7,7 @@ local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
 local Immutable = require(TeamComments.Lib.Immutable)
 local useTheme = require(TeamComments.Hooks.useTheme)
+local useTextFilter = require(TeamComments.Hooks.useTextFilter)
 local Avatar = require(script.Parent.Avatar)
 local MessageMeta = require(script.Parent.MessageMeta)
 local MessageActions = require(script.Parent.MessageActions)
@@ -26,11 +27,10 @@ local AVATAR_SIZE = 64
 local function Comment(props, hooks)
 	props = Immutable.join(defaultProps, props)
 
-	print(props)
-
 	assert(validateProps(props))
 
 	local theme = useTheme(hooks)
+	local text = useTextFilter(hooks, props.message.userId, props.message.text)
 
 	return Roact.createElement("Frame", {
 		LayoutOrder = props.LayoutOrder,
@@ -89,7 +89,7 @@ local function Comment(props, hooks)
 				"TextLabel",
 				Immutable.join(Styles.Text, {
 					LayoutOrder = 2,
-					Text = props.message.text,
+					Text = text,
 					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 				})
 			),

@@ -5,5 +5,30 @@ packable = false
 
 [inputs."assets/CommentBubble.png"]
 hash = "b17af8492f8d8675f34908ebb2c0b5ac43bfc212174adfba182710a887ef180f"
-id = 7182229175
+id = 7193938902
+packable = false
+
+[inputs."assets/Delete.png"]
+hash = "57401612a70f0e055a89efaa39c39617d88565e3b4669e257d27b1f508447834"
+id = 7193911951
+packable = false
+
+[inputs."assets/Emojis.png"]
+hash = "9585e60b624b045b231682bd57fcd70043ed64e47a8c32da3516157d03ef8a4f"
+id = 7194000666
+packable = false
+
+[inputs."assets/Focus.png"]
+hash = "c5da15da37cd5b3eb7c0b62d1d8402279f14b8ddea9df39e776abedb6de8668a"
+id = 7194058333
+packable = false
+
+[inputs."assets/Reply.png"]
+hash = "8217c930427f319ee06ce926ac212b7634d10f2f80888995a56fb3eddbc4b7e3"
+id = 7193912115
+packable = false
+
+[inputs."assets/Send.png"]
+hash = "aa08404051f5a815c13df09bb2a9ea383bbb56fbf5b3d69b2c016710566ed59e"
+id = 7193912190
 packable = false

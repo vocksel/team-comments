@@ -3,7 +3,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
-local Styles = require(TeamComments.Styles)
+local styles = require(TeamComments.styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
 local validateProps = t.interface({
@@ -20,8 +20,8 @@ local function Button(props, hooks)
 
 	return Roact.createElement("TextButton", {
 		Text = props.text,
-		TextSize = Styles.Text.TextSize - 2,
-		Font = Styles.Header.Font,
+		TextSize = styles.Text.TextSize - 2,
+		Font = styles.Header.Font,
 		LayoutOrder = props.LayoutOrder,
 		TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.Button),

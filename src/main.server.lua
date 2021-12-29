@@ -19,21 +19,21 @@
 local CoreGui = game:GetService("CoreGui")
 
 local Roact = require(script.Parent.Packages.Roact)
-local Config = require(script.Parent.Config)
 local PluginApp = require(script.Parent.Components.PluginApp)
 local BillboardApp = require(script.Parent.Components.BillboardApp)
 local MessageContext = require(script.Parent.Context.MessageContext)
-local assets = require(script.Parent.Assets)
+local config = require(script.Parent.config)
+local assets = require(script.Parent.assets)
 
-local toolbar = plugin:CreateToolbar(Config.DISPLAY_NAME)
+local toolbar = plugin:CreateToolbar(config.DISPLAY_NAME)
 
 local function createWidget()
 	local info = DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Left, true)
-	local widgetName = Config.PLUGIN_NAME .. "App"
+	local widgetName = config.PLUGIN_NAME .. "App"
 	local widget = plugin:CreateDockWidgetPluginGui(widgetName, info)
 
 	widget.Name = widgetName
-	widget.Title = Config.DISPLAY_NAME
+	widget.Title = config.DISPLAY_NAME
 	widget.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 	return widget
@@ -41,7 +41,7 @@ end
 
 local function createButtons(widget)
 	local toggleAppView = toolbar:CreateButton(
-		Config.DISPLAY_NAME,
+		config.DISPLAY_NAME,
 		"View and edit the list of messages",
 		assets.CommentBubble
 	)
@@ -86,7 +86,7 @@ local ui = Roact.createElement(MessageContext.Provider, {
 	}),
 })
 
-Roact.setGlobalConfig({
+Roact.setGlobalconfig({
 	typeChecks = true,
 	elementTracing = true,
 	propValidation = true,

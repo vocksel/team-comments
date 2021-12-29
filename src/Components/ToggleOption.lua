@@ -4,7 +4,7 @@ local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
 local Checkbox = require(script.Parent.Checkbox)
-local Styles = require(TeamComments.Styles)
+local styles = require(TeamComments.styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
 local validateProps = t.interface({
@@ -26,7 +26,7 @@ local function ToggleOption(props, hooks)
 	}, {
 		Layout = Roact.createElement("UIListLayout", {
 			FillDirection = Enum.FillDirection.Horizontal,
-			Padding = Styles.Padding,
+			Padding = styles.Padding,
 		}),
 
 		Checkbox = Roact.createElement(Checkbox, {
@@ -37,7 +37,7 @@ local function ToggleOption(props, hooks)
 
 		Label = Roact.createElement(
 			"TextLabel",
-			Llama.Dictionary.join(Styles.Text, {
+			Llama.Dictionary.join(styles.Text, {
 				LayoutOrder = 2,
 				Text = props.text,
 				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),

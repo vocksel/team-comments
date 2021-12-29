@@ -8,9 +8,9 @@ local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
-local Styles = require(TeamComments.Styles)
-local assets = require(TeamComments.Assets)
-local types = require(TeamComments.Types)
+local styles = require(TeamComments.styles)
+local assets = require(TeamComments.assets)
+local types = require(TeamComments.types)
 local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
@@ -101,7 +101,7 @@ local function MessageInputField(props, hooks)
 
 		Input = Roact.createElement(
 			"TextBox",
-			Llama.Dictionary.join(Styles.TextBox, {
+			Llama.Dictionary.join(styles.TextBox, {
 				Text = text,
 				Active = true,
 				PlaceholderText = props.placeholder,
@@ -114,14 +114,14 @@ local function MessageInputField(props, hooks)
 			}),
 			{
 				SizeConstraint = Roact.createElement("UISizeConstraint", {
-					MinSize = Vector2.new(0, Styles.Text.TextSize * 2),
+					MinSize = Vector2.new(0, styles.Text.TextSize * 2),
 				}),
 
 				Padding = Roact.createElement("UIPadding", {
-					PaddingTop = Styles.Padding,
-					PaddingRight = Styles.Padding,
-					PaddingBottom = Styles.Padding,
-					PaddingLeft = Styles.Padding,
+					PaddingTop = styles.Padding,
+					PaddingRight = styles.Padding,
+					PaddingBottom = styles.Padding,
+					PaddingLeft = styles.Padding,
 				}),
 			}
 		),
@@ -136,12 +136,12 @@ local function MessageInputField(props, hooks)
 				FillDirection = Enum.FillDirection.Horizontal,
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 				HorizontalAlignment = Enum.HorizontalAlignment.Right,
-				Padding = Styles.Padding,
+				Padding = styles.Padding,
 			}),
 
 			Padding = Roact.createElement("UIPadding", {
-				PaddingRight = Styles.PaddingLarge,
-				PaddingLeft = Styles.Padding,
+				PaddingRight = styles.PaddingLarge,
+				PaddingLeft = styles.Padding,
 			}),
 
 			-- TODO: Add emoji support! https://github.com/vocksel/TeamComments/issues/7

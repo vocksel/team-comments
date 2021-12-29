@@ -3,5 +3,5 @@ name = "TeamComments"
 [[inputs]]
 glob = "assets/**/*.png"
 codegen = true
-codegen-path = "src/Assets.lua"
+codegen-path = "src/assets.lua"
 codegen-base-path = "assets"

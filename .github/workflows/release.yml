@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+env:
+  ASSET_ID: 7194354353
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install toolchain
+        uses: Roblox/setup-foreman@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove development files
+        run: find . -type f -name "*.(story|spec).lua" -delete
+
+      - name: Build
+        run: rojo build -o import.rbxmx
+
+      - name: Add model file to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: import.rbxmx
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to asset library
+        run: rojo upload --asset_id ${{ env.ASSET_ID }} --cookie "${{ secrets.ROBLOSECURITY }}"

@@ -1,5 +1,7 @@
 # TeamComments
 
+[![CI](https://github.com/vocksel/team-comments/actions/workflows/ci.yml/badge.svg)](https://github.com/vocksel/team-comments/actions/workflows/ci.yml)
+
 TeamComments is a productivity tool for Roblox Studio that lets you and your team leave floating messages around the Workspace that can be replied to in threads.
 
 **This is an early version and likely has many undiscovered bugs. Please submit issues here on GitHub if you discover anything!**

@@ -2,13 +2,20 @@
   "name": "TeamComments (Dev)",
   "tree": {
     "$className": "DataModel",
-
-    "ServerScriptService": {
+    "ReplicatedStorage": {
+      "DevPackages": {
+        "$path": "DevPackages"
+      },
       "TeamComments": {
         "Packages": {
-          "$path": "packages"
+          "$path": "Packages"
         },
         "$path": "src/"
+      }
+    },
+    "ServerScriptService": {
+      "tests": {
+        "$path": "tests"
       }
     }
   }

@@ -14,3 +14,6 @@ Hooks = "kampfkarren/roact-hooks@0.3.0"
 Flipper = "reselim/flipper@2.0.0"
 t = "osyrisrblx/t@3.0.0"
 Llama = "freddylist/llama@1.1.1"
+
+[dev-dependencies]
+TestEZ = "roblox/testez@0.4.1"

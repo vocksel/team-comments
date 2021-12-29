@@ -5,15 +5,15 @@
     "ReplicatedStorage": {
       "DevPackages": {
         "$path": "DevPackages"
-      }
-    },
-    "ServerScriptService": {
+      },
       "TeamComments": {
         "Packages": {
           "$path": "Packages"
         },
         "$path": "src/"
-      },
+      }
+    },
+    "ServerScriptService": {
       "tests": {
         "$path": "tests"
       }

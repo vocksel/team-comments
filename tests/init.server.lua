@@ -1,10 +1,9 @@
-local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local TestEZ = require(ReplicatedStorage.DevPackages.TestEZ)
 
 local results = TestEZ.TestBootstrap:run({
-	ServerScriptService.TeamComments,
+	ReplicatedStorage.TeamComments,
 })
 
 if results.failureCount > 0 then

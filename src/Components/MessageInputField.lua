@@ -5,7 +5,7 @@ local HttpService = game:GetService("HttpService")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
-local Immutable = require(TeamComments.Lib.Immutable)
+local Llama = require(TeamComments.Packages.Llama)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local Styles = require(TeamComments.Styles)
@@ -26,7 +26,7 @@ local defaultProps = {
 }
 
 local function MessageInputField(props, hooks)
-	props = Immutable.join(defaultProps, props)
+	props = Llama.Dictionary.join(defaultProps, props)
 
 	assert(validateProps(props))
 
@@ -101,7 +101,7 @@ local function MessageInputField(props, hooks)
 
 		Input = Roact.createElement(
 			"TextBox",
-			Immutable.join(Styles.TextBox, {
+			Llama.Dictionary.join(Styles.TextBox, {
 				Text = text,
 				Active = true,
 				PlaceholderText = props.placeholder,

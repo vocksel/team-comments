@@ -2,8 +2,6 @@ return {
 	PLUGIN_NAME = "TeamComments",
 	DISPLAY_NAME = "Team Comments",
 
-	VERSION = "1.0.0",
-
 	TAG_NAME = "TeamComment",
 	RESPONSE_TAG_NAME = "TeamCommentResponse",
 	STORAGE_TAG_NAME = "TeamCommentStorage",

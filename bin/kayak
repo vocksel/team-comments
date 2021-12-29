@@ -1,6 +1,0 @@
-#! /usr/bin/bash
-
-# Kayak tends to leave temp folders around. This script installs dependencies
-# and then cleans up anything lingering.
-npx kayak pull
-rm -rf packages/.__*

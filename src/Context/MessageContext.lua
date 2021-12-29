@@ -5,7 +5,7 @@ local CollectionService = game:GetService("CollectionService")
 
 local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
-local Immutable = require(TeamComments.Lib.Immutable)
+local Llama = require(TeamComments.Packages.Llama)
 local Config = require(TeamComments.Config)
 local types = require(TeamComments.Types)
 local zoom = require(TeamComments.zoom)
@@ -113,7 +113,7 @@ function MessageProvider:init()
 	self._addMessageState = function(message)
 		self:setState(function(prev)
 			return {
-				messages = Immutable.join(prev.messages, {
+				messages = Llama.Dictionary.join(prev.messages, {
 					[message.id] = message,
 				}),
 			}
@@ -142,14 +142,14 @@ function MessageProvider:init()
 
 	self._addResponseState = function(parent, message)
 		self:setState(function(prev)
-			local newParent = Immutable.join(parent, {
-				responses = Immutable.joinLists(parent.responses, {
+			local newParent = Llama.Dictionary.join(parent, {
+				responses = Llama.List.join(parent.responses, {
 					message.id,
 				}),
 			})
 
 			return {
-				messages = Immutable.join(prev.messages, {
+				messages = Llama.Dictionary.join(prev.messages, {
 					[parent.id] = newParent,
 					[message.id] = message,
 				}),
@@ -171,7 +171,9 @@ function MessageProvider:init()
 	self.deleteMessage = function(messageId)
 		self:setState(function(state)
 			return {
-				messages = Immutable.set(state.messages, messageId, nil),
+				messages = Llama.Dictionary.join(state.messages, {
+					messageId = Llama.None,
+				}),
 			}
 		end)
 

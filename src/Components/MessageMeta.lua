@@ -3,7 +3,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
-local Immutable = require(TeamComments.Lib.Immutable)
+local Llama = require(TeamComments.Packages.Llama)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
@@ -42,7 +42,7 @@ local function MessageMeta(props, hooks)
 	}, {
 		Name = Roact.createElement(
 			"TextLabel",
-			Immutable.join(Styles.Text, {
+			Llama.Dictionary.join(Styles.Text, {
 				Text = name,
 				Font = Styles.HeaderFont,
 				TextSize = Styles.Header.TextSize,
@@ -52,7 +52,7 @@ local function MessageMeta(props, hooks)
 
 		Date = Roact.createElement(
 			"TextLabel",
-			Immutable.join(Styles.Text, {
+			Llama.Dictionary.join(Styles.Text, {
 				Text = getDateString(props.message.createdAt),
 				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.DimmedText),
 				TextXAlignment = Enum.TextXAlignment.Right,

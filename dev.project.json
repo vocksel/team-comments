@@ -13,6 +13,9 @@
           "$path": "Packages"
         },
         "$path": "src/"
+      },
+      "tests": {
+        "$path": "tests"
       }
     }
   }

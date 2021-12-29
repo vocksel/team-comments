@@ -1,8 +1,11 @@
 [package]
 name = "vocksel/team-comments"
 version = "1.0.0"
+authors = [ "David Minnerly <me@vocksel.com>" ]
+license = "MIT"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
+exclude = [ "*" ]
 
 [dependencies]
 Promise = "evaera/promise@3.2.0"

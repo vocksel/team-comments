@@ -6,8 +6,8 @@ local CollectionService = game:GetService("CollectionService")
 local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
-local Config = require(TeamComments.Config)
-local types = require(TeamComments.Types)
+local config = require(TeamComments.config)
+local types = require(TeamComments.types)
 local zoom = require(TeamComments.zoom)
 
 local MessageContext = Roact.createContext()
@@ -21,9 +21,9 @@ MessageProvider.validateProps = t.interface({
 })
 
 MessageProvider.defaultProps = {
-	messageTag = Config.TAG_NAME,
-	responseTag = Config.RESPONSE_TAG_NAME,
-	storageTag = Config.STORAGE_TAG_NAME,
+	messageTag = config.TAG_NAME,
+	responseTag = config.RESPONSE_TAG_NAME,
+	storageTag = config.STORAGE_TAG_NAME,
 }
 
 function MessageProvider:init()

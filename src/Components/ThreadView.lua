@@ -5,13 +5,13 @@ local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
 local useTheme = require(TeamComments.Hooks.useTheme)
-local Styles = require(TeamComments.Styles)
-local types = require(TeamComments.Types)
-local assets = require(TeamComments.Assets)
+local styles = require(TeamComments.styles)
+local types = require(TeamComments.types)
+local assets = require(TeamComments.assets)
 local Comment = require(script.Parent.Comment)
 local MessageInputField = require(script.Parent.MessageInputField)
 
-local TITLE_HEIGHT = Styles.Text.TextSize * 2
+local TITLE_HEIGHT = styles.Text.TextSize * 2
 
 local validateProps = t.interface({
 	userId = t.string,
@@ -33,7 +33,7 @@ local function ThreadView(props, hooks)
 	})
 
 	children.Padding = Roact.createElement("UIPadding", {
-		PaddingLeft = Styles.Padding,
+		PaddingLeft = styles.Padding,
 	})
 
 	for index, messageId in ipairs(props.message.responses) do
@@ -58,8 +58,8 @@ local function ThreadView(props, hooks)
 			Size = UDim2.new(1, 0, 0, TITLE_HEIGHT),
 		}, {
 			Padding = Roact.createElement("UIPadding", {
-				PaddingRight = Styles.Padding,
-				PaddingLeft = Styles.Padding,
+				PaddingRight = styles.Padding,
+				PaddingLeft = styles.Padding,
 			}),
 
 			Main = Roact.createElement("Frame", {
@@ -70,7 +70,7 @@ local function ThreadView(props, hooks)
 					SortOrder = Enum.SortOrder.LayoutOrder,
 					FillDirection = Enum.FillDirection.Horizontal,
 					VerticalAlignment = Enum.VerticalAlignment.Center,
-					Padding = Styles.Padding,
+					Padding = styles.Padding,
 				}),
 
 				Close = Roact.createElement("ImageButton", {
@@ -93,7 +93,7 @@ local function ThreadView(props, hooks)
 
 				Label = Roact.createElement(
 					"TextLabel",
-					Llama.Dictionary.join(Styles.Header, {
+					Llama.Dictionary.join(styles.Header, {
 						LayoutOrder = 2,
 						Text = "Thread",
 						Position = UDim2.fromScale(0, 0.5),
@@ -114,14 +114,14 @@ local function ThreadView(props, hooks)
 
 		MessageScroller = Roact.createElement(
 			"ScrollingFrame",
-			Llama.Dictionary.join(Styles.ScrollingFrame, {
+			Llama.Dictionary.join(styles.ScrollingFrame, {
 				LayoutOrder = 3,
 				Size = UDim2.new(1, 0, 1, -TITLE_HEIGHT),
 			}),
 			{
 				Layout = Roact.createElement("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
-					Padding = Styles.Padding + Styles.Padding,
+					Padding = styles.Padding + styles.Padding,
 				}),
 
 				MainComment = Roact.createElement(Comment, {
@@ -137,19 +137,19 @@ local function ThreadView(props, hooks)
 				}, {
 					Layout = Roact.createElement("UIListLayout", {
 						SortOrder = Enum.SortOrder.LayoutOrder,
-						Padding = Styles.Padding,
+						Padding = styles.Padding,
 						VerticalAlignment = Enum.VerticalAlignment.Center,
 						FillDirection = Enum.FillDirection.Horizontal,
 					}),
 
 					Padding = Roact.createElement("UIPadding", {
-						PaddingRight = Styles.Padding,
-						PaddingLeft = Styles.Padding,
+						PaddingRight = styles.Padding,
+						PaddingLeft = styles.Padding,
 					}),
 
 					ReplyCount = Roact.createElement(
 						"TextLabel",
-						Llama.Dictionary.join(Styles.Text, {
+						Llama.Dictionary.join(styles.Text, {
 							LayoutOrder = 1,
 							Text = ("%s replies"):format(#props.message.responses),
 							TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),

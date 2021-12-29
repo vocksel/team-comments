@@ -5,7 +5,7 @@ local Hooks = require(TeamComments.Packages.Hooks)
 local Flipper = require(TeamComments.Packages.Flipper)
 local Llama = require(TeamComments.Packages.Llama)
 local t = require(TeamComments.Packages.t)
-local types = require(TeamComments.Types)
+local types = require(TeamComments.types)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local useAvatar = require(TeamComments.Hooks.useAvatar)
 

@@ -4,8 +4,8 @@ local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
-local Types = require(TeamComments.Types)
-local Styles = require(TeamComments.Styles)
+local types = require(TeamComments.types)
+local styles = require(TeamComments.styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local useName = require(TeamComments.Hooks.useName)
 
@@ -24,7 +24,7 @@ local function getDateString(timestamp)
 end
 
 local validateProps = t.interface({
-	message = Types.Message,
+	message = types.Message,
 	size = t.UDim2,
 	LayoutOrder = t.integer,
 })
@@ -42,17 +42,17 @@ local function MessageMeta(props, hooks)
 	}, {
 		Name = Roact.createElement(
 			"TextLabel",
-			Llama.Dictionary.join(Styles.Text, {
+			Llama.Dictionary.join(styles.Text, {
 				Text = name,
-				Font = Styles.HeaderFont,
-				TextSize = Styles.Header.TextSize,
+				Font = styles.HeaderFont,
+				TextSize = styles.Header.TextSize,
 				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 			})
 		),
 
 		Date = Roact.createElement(
 			"TextLabel",
-			Llama.Dictionary.join(Styles.Text, {
+			Llama.Dictionary.join(styles.Text, {
 				Text = getDateString(props.message.createdAt),
 				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.DimmedText),
 				TextXAlignment = Enum.TextXAlignment.Right,

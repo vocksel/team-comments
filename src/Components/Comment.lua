@@ -4,9 +4,9 @@ local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
 local Llama = require(TeamComments.Packages.Llama)
-local Types = require(TeamComments.Types)
-local Styles = require(TeamComments.Styles)
-local assets = require(TeamComments.Assets)
+local types = require(TeamComments.types)
+local styles = require(TeamComments.styles)
+local assets = require(TeamComments.assets)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local Avatar = require(script.Parent.Avatar)
@@ -15,7 +15,7 @@ local ThreadParticipants = require(script.Parent.ThreadParticipants)
 local ImageButton = require(script.Parent.ImageButton)
 
 local validateProps = t.interface({
-	message = Types.Message,
+	message = types.Message,
 	LayoutOrder = t.optional(t.integer),
 	showActions = t.optional(t.boolean),
 })
@@ -50,10 +50,10 @@ local function Comment(props, hooks)
 		}),
 
 		Padding = Roact.createElement("UIPadding", {
-			PaddingTop = Styles.Padding,
-			PaddingRight = Styles.Padding,
-			PaddingBottom = Styles.Padding,
-			PaddingLeft = Styles.Padding,
+			PaddingTop = styles.Padding,
+			PaddingRight = styles.Padding,
+			PaddingBottom = styles.Padding,
+			PaddingLeft = styles.Padding,
 		}),
 
 		Sidebar = Roact.createElement("Frame", {
@@ -77,22 +77,22 @@ local function Comment(props, hooks)
 		}, {
 			Layout = Roact.createElement("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,
-				Padding = Styles.Padding,
+				Padding = styles.Padding,
 			}),
 
 			Padding = Roact.createElement("UIPadding", {
-				PaddingLeft = Styles.Padding,
+				PaddingLeft = styles.Padding,
 			}),
 
 			Meta = Roact.createElement(MessageMeta, {
 				message = props.message,
-				size = UDim2.new(1, 0, 0, Styles.Header.TextSize),
+				size = UDim2.new(1, 0, 0, styles.Header.TextSize),
 				LayoutOrder = 1,
 			}),
 
 			Body = Roact.createElement(
 				"TextLabel",
-				Llama.Dictionary.join(Styles.Text, {
+				Llama.Dictionary.join(styles.Text, {
 					LayoutOrder = 2,
 					Text = props.message.text,
 					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
@@ -111,7 +111,7 @@ local function Comment(props, hooks)
 					Layout = Roact.createElement("UIListLayout", {
 						SortOrder = Enum.SortOrder.LayoutOrder,
 						FillDirection = Enum.FillDirection.Horizontal,
-						Padding = Styles.Padding,
+						Padding = styles.Padding,
 					}),
 
 					Participants = Roact.createElement(ThreadParticipants, {
@@ -123,7 +123,7 @@ local function Comment(props, hooks)
 
 					ReplyCount = Roact.createElement(
 						"TextLabel",
-						Llama.Dictionary.join(Styles.Text, {
+						Llama.Dictionary.join(styles.Text, {
 							LayoutOrder = 2,
 							TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 							TextYAlignment = Enum.TextYAlignment.Bottom,
@@ -143,7 +143,7 @@ local function Comment(props, hooks)
 						SortOrder = Enum.SortOrder.LayoutOrder,
 						FillDirection = Enum.FillDirection.Horizontal,
 						HorizontalAlignment = Enum.HorizontalAlignment.Right,
-						Padding = Styles.Padding,
+						Padding = styles.Padding,
 					}),
 
 					View = Roact.createElement(ImageButton, {

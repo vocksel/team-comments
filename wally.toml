@@ -1,0 +1,12 @@
+[package]
+name = "vocksel/team-comments"
+version = "1.0.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+Promise = "evaera/promise@3.2.0"
+Roact = "roblox/roact@1.4.2"
+Hooks = "kampfkarren/roact-hooks@0.3.0"
+Flipper = "reselim/flipper@2.0.0"
+t = "osyrisrblx/t@3.0.0"

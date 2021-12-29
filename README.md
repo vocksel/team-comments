@@ -12,11 +12,7 @@ Leaving comments floating in the environment brings a new way for you and your t
 
 ## Installation
 
-Download the plugin from the [asset library]().
-
-## Documentation
-
-You can find the documentation [here](https://vocksel.github.io/team-comments).
+Download the plugin from the [asset library](https://www.roblox.com/library/7194354353/TeamComments).
 
 ## Contributing
 

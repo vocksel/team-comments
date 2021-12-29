@@ -3,7 +3,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local Flipper = require(TeamComments.Packages.Flipper)
-local Immutable = require(TeamComments.Lib.Immutable)
+local Llama = require(TeamComments.Packages.Llama)
 local t = require(TeamComments.Packages.t)
 local types = require(TeamComments.Types)
 local useTheme = require(TeamComments.Hooks.useTheme)
@@ -25,7 +25,7 @@ local defaultProps = {
 }
 
 local function CommentBubble(props, hooks)
-	props = Immutable.join(defaultProps, props)
+	props = Llama.Dictionary.join(defaultProps, props)
 
 	assert(validateProps(props))
 

@@ -3,8 +3,8 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
+local Llama = require(TeamComments.Packages.Llama)
 local Styles = require(TeamComments.Styles)
-local Immutable = require(TeamComments.Lib.Immutable)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local MessageInputField = require(script.Parent.MessageInputField)
@@ -34,7 +34,7 @@ local function App(props, hooks)
 	else
 		return Roact.createElement(
 			"ScrollingFrame",
-			Immutable.join(Styles.ScrollingFrame, {
+			Llama.Dictionary.join(Styles.ScrollingFrame, {
 				Size = UDim2.fromScale(1, 1),
 				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
 				CanvasSize = UDim2.fromScale(1, 0),

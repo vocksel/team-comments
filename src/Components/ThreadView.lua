@@ -3,8 +3,8 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
+local Llama = require(TeamComments.Packages.Llama)
 local useTheme = require(TeamComments.Hooks.useTheme)
-local Immutable = require(TeamComments.Lib.Immutable)
 local Styles = require(TeamComments.Styles)
 local types = require(TeamComments.Types)
 local assets = require(TeamComments.Assets)
@@ -93,7 +93,7 @@ local function ThreadView(props, hooks)
 
 				Label = Roact.createElement(
 					"TextLabel",
-					Immutable.join(Styles.Header, {
+					Llama.Dictionary.join(Styles.Header, {
 						LayoutOrder = 2,
 						Text = "Thread",
 						Position = UDim2.fromScale(0, 0.5),
@@ -114,7 +114,7 @@ local function ThreadView(props, hooks)
 
 		MessageScroller = Roact.createElement(
 			"ScrollingFrame",
-			Immutable.join(Styles.ScrollingFrame, {
+			Llama.Dictionary.join(Styles.ScrollingFrame, {
 				LayoutOrder = 3,
 				Size = UDim2.new(1, 0, 1, -TITLE_HEIGHT),
 			}),
@@ -149,7 +149,7 @@ local function ThreadView(props, hooks)
 
 					ReplyCount = Roact.createElement(
 						"TextLabel",
-						Immutable.join(Styles.Text, {
+						Llama.Dictionary.join(Styles.Text, {
 							LayoutOrder = 1,
 							Text = ("%s replies"):format(#props.message.responses),
 							TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),

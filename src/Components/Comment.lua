@@ -3,10 +3,10 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Roact = require(TeamComments.Packages.Roact)
 local Hooks = require(TeamComments.Packages.Hooks)
 local t = require(TeamComments.Packages.t)
+local Llama = require(TeamComments.Packages.Llama)
 local Types = require(TeamComments.Types)
 local Styles = require(TeamComments.Styles)
 local assets = require(TeamComments.Assets)
-local Immutable = require(TeamComments.Lib.Immutable)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local Avatar = require(script.Parent.Avatar)
@@ -27,7 +27,7 @@ local defaultProps = {
 local AVATAR_SIZE = 64
 
 local function Comment(props, hooks)
-	props = Immutable.join(defaultProps, props)
+	props = Llama.Dictionary.join(defaultProps, props)
 
 	print(props)
 
@@ -92,7 +92,7 @@ local function Comment(props, hooks)
 
 			Body = Roact.createElement(
 				"TextLabel",
-				Immutable.join(Styles.Text, {
+				Llama.Dictionary.join(Styles.Text, {
 					LayoutOrder = 2,
 					Text = props.message.text,
 					TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
@@ -123,7 +123,7 @@ local function Comment(props, hooks)
 
 					ReplyCount = Roact.createElement(
 						"TextLabel",
-						Immutable.join(Styles.Text, {
+						Llama.Dictionary.join(Styles.Text, {
 							LayoutOrder = 2,
 							TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
 							TextYAlignment = Enum.TextYAlignment.Bottom,

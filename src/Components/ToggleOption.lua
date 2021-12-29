@@ -2,7 +2,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local Roact = require(TeamComments.Packages.Roact)
 local t = require(TeamComments.Packages.t)
-local Immutable = require(TeamComments.Lib.Immutable)
+local Llama = require(TeamComments.Packages.Llama)
 local Checkbox = require(script.Parent.Checkbox)
 local Styles = require(TeamComments.Styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
@@ -37,7 +37,7 @@ local function ToggleOption(props, hooks)
 
 		Label = Roact.createElement(
 			"TextLabel",
-			Immutable.join(Styles.Text, {
+			Llama.Dictionary.join(Styles.Text, {
 				LayoutOrder = 2,
 				Text = props.text,
 				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),

@@ -6,7 +6,14 @@ local function getDefaultCameraState()
 	return Instance.new("Camera").CameraType
 end
 
-local function zoom(goal: Part)
+--[=[
+    Smoothly zooms the camera to a BasePart.
+
+    This is used as a means of focusing comment bubbles. When a comment is
+    selected, the user's camera is sent to the position of the comment bubble
+    so that the user has context about where the comment was left.
+]=]
+local function zoom(goal: BasePart)
 	local motor = Flipper.SingleMotor.new(0)
 	local camera = workspace.CurrentCamera
 	local start = camera.CFrame.Position

@@ -39,8 +39,10 @@ local function CommentBubble(providedProps: Props)
 
     React.useEffect(function()
         motor:onStep(function(value)
-            setScale(value)
-            setTransparency(1 - value)
+            if typeof(value) == "number" then
+                setScale(value)
+                setTransparency(1 - value)
+            end
         end)
 
         return function()

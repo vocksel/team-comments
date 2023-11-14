@@ -3,7 +3,7 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Flipper = require(TeamComments.Packages.Flipper)
 
 local function getDefaultCameraState()
-	return Instance.new("Camera").CameraType
+    return Instance.new("Camera").CameraType
 end
 
 --[=[
@@ -14,27 +14,27 @@ end
     so that the user has context about where the comment was left.
 ]=]
 local function zoom(goal: BasePart)
-	local motor = Flipper.SingleMotor.new(0)
-	local camera = workspace.CurrentCamera
-	local start = camera.CFrame.Position
-	local orientation = camera.CFrame - start
-	local goalPos = goal.Position - (camera.CFrame.LookVector * 15)
+    local motor = Flipper.SingleMotor.new(0)
+    local camera = workspace.CurrentCamera
+    local start = camera.CFrame.Position
+    local orientation = camera.CFrame - start
+    local goalPos = goal.Position - (camera.CFrame.LookVector * 15)
 
-	camera.CameraType = Enum.CameraType.Scriptable
-	camera.Focus = goal.CFrame
+    camera.CameraType = Enum.CameraType.Scriptable
+    camera.Focus = goal.CFrame
 
-	motor:onStep(function(alpha)
-		camera.CFrame = CFrame.new(start:Lerp(goalPos, alpha)) * orientation
-	end)
+    motor:onStep(function(alpha)
+        camera.CFrame = CFrame.new(start:Lerp(goalPos, alpha)) * orientation
+    end)
 
-	motor:setGoal(Flipper.Spring.new(1, {
-		frequency = 1.5,
-		dampingRatio = 1,
-	}))
+    motor:setGoal(Flipper.Spring.new(1, {
+        frequency = 1.5,
+        dampingRatio = 1,
+    }))
 
-	motor:onComplete(function()
-		camera.CameraType = getDefaultCameraState()
-	end)
+    motor:onComplete(function()
+        camera.CameraType = getDefaultCameraState()
+    end)
 end
 
 return zoom

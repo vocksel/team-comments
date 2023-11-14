@@ -13,36 +13,36 @@ local widget = createWidget(plugin)
 local disconnectButtonEvents = createToggleButton(toolbar, widget)
 
 local ui = Roact.createElement(MessageContext.Provider, {
-	messageTag = "TeamComment",
+    messageTag = "TeamComment",
 }, {
-	PluginApp = Roact.createElement(PluginApp, {
-		-- selene: allow(incorrect_standard_library_use)
-		userId = tostring(plugin:GetStudioUserId()),
-	}),
+    PluginApp = Roact.createElement(PluginApp, {
+        -- selene: allow(incorrect_standard_library_use)
+        userId = tostring(plugin:GetStudioUserId()),
+    }),
 
-	-- Billboards do not adorn when parented under PluginGuiService so we have
-	-- to portal them to CoreGui.
-	--
-	-- We're using a portal instead of mounting BillboardApp separately because
-	-- we need MessageContext shared between the plugin and billboards.
-	Billboards = Roact.createElement(Roact.Portal, {
-		target = CoreGui,
-	}, {
-		BillboardApp = Roact.createElement(BillboardApp, {
-			widget = widget,
-		}),
-	}),
+    -- Billboards do not adorn when parented under PluginGuiService so we have
+    -- to portal them to CoreGui.
+    --
+    -- We're using a portal instead of mounting BillboardApp separately because
+    -- we need MessageContext shared between the plugin and billboards.
+    Billboards = Roact.createElement(Roact.Portal, {
+        target = CoreGui,
+    }, {
+        BillboardApp = Roact.createElement(BillboardApp, {
+            widget = widget,
+        }),
+    }),
 })
 
 Roact.setGlobalConfig({
-	typeChecks = true,
-	elementTracing = true,
-	propValidation = true,
+    typeChecks = true,
+    elementTracing = true,
+    propValidation = true,
 })
 
 local handle = Roact.mount(ui, widget, "Apps")
 
 plugin.Unloading:Connect(function()
-	Roact.unmount(handle)
-	disconnectButtonEvents()
+    Roact.unmount(handle)
+    disconnectButtonEvents()
 end)

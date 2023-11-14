@@ -3,15 +3,16 @@ local TeamComments = script:FindFirstAncestor("TeamComments")
 local Players = game:GetService("Players")
 
 local Promise = require(TeamComments.Packages.Promise)
+local React = require(TeamComments.Packages.React)
 
-local fetchPlayerName = Promise.promisify(function(userId)
+local fetchPlayerName = Promise.promisify(function(userId: string)
     return Players:GetNameFromUserIdAsync(tonumber(userId))
 end)
 
-local function useName(hooks, userId)
-    local name, setName = hooks.useState("")
+local function useName(userId: string)
+    local name, setName = React.useState("")
 
-    hooks.useEffect(function()
+    React.useEffect(function()
         fetchPlayerName(userId):andThen(setName)
     end, { userId })
 

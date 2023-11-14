@@ -1,31 +1,28 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local useTheme = require(TeamComments.Hooks.useTheme)
 
-local validateProps = t.interface({
-    Image = t.string,
-    LayoutOrder = t.optional(t.number),
-    onActivated = t.optional(t.callback),
-})
+export type Props = {
+    Image: string,
+    LayoutOrder: number?,
+    onActivated: (() -> ())?,
+}
 
-local function ImageButton(props, hooks)
-    assert(validateProps(props))
+local function ImageButton(props: Props)
+    local theme = useTheme()
+    local isHovered, setIsHovered = React.useState(false)
 
-    local theme = useTheme(hooks)
-    local isHovered, setIsHovered = hooks.useState(false)
-
-    local onMouseEnter = hooks.useCallback(function()
+    local onMouseEnter = React.useCallback(function()
         setIsHovered(true)
     end, {})
 
-    local onMouseLeave = hooks.useCallback(function()
+    local onMouseLeave = React.useCallback(function()
         setIsHovered(false)
     end, {})
 
-    return Roact.createElement("ImageButton", {
+    return React.createElement("ImageButton", {
         LayoutOrder = props.LayoutOrder,
         Image = props.Image,
         Active = true,
@@ -35,10 +32,10 @@ local function ImageButton(props, hooks)
             isHovered and Enum.StudioStyleGuideModifier.Hover or nil
         ),
         BackgroundTransparency = 1,
-        [Roact.Event.Activated] = props.onActivated,
-        [Roact.Event.MouseEnter] = onMouseEnter,
-        [Roact.Event.MouseLeave] = onMouseLeave,
+        [React.Event.Activated] = props.onActivated,
+        [React.Event.MouseEnter] = onMouseEnter,
+        [React.Event.MouseLeave] = onMouseLeave,
     })
 end
 
-return Hooks.new(Roact)(ImageButton)
+return ImageButton

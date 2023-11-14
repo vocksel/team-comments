@@ -1,13 +1,13 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
+local React = require(TeamComments.Packages.React)
 local CommentBubble = require(script.Parent.CommentBubble)
 
-local Story = Hooks.new(Roact)(function(_props, hooks)
-    local isShown, set = hooks.useState(true)
+local function Story()
+    local isShown, set = React.useState(true)
 
-    hooks.useEffect(function()
+    React.useEffect(function()
         local isLooping = true
 
         coroutine.wrap(function()
@@ -25,10 +25,10 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
         end
     end, {})
 
-    return Roact.createElement("Frame", {
+    return React.createElement("Frame", {
         Size = UDim2.fromScale(1, 1),
     }, {
-        Roact.createElement(CommentBubble, {
+        React.createElement(CommentBubble, {
             isShown = isShown,
             message = {
                 id = "1",
@@ -43,10 +43,10 @@ local Story = Hooks.new(Roact)(function(_props, hooks)
             end,
         }),
     })
-end)
+end
 
 return {
     story = function()
-        return Roact.createElement(Story)
+        return React.createElement(Story)
     end,
 }

@@ -1,15 +1,14 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local types = require(TeamComments.types)
 local styles = require(TeamComments.styles)
 local useTheme = require(TeamComments.Hooks.useTheme)
 local useName = require(TeamComments.Hooks.useName)
 
-local function getDateString(timestamp)
+local function getDateString(timestamp: number)
     -- Aug 02, 07:26 PM
     local formatStr = "%b %d, %I:%M %p"
 
@@ -23,24 +22,22 @@ local function getDateString(timestamp)
     return os.date(formatStr, timestamp)
 end
 
-local validateProps = t.interface({
-    message = types.Message,
-    size = t.UDim2,
-    LayoutOrder = t.integer,
-})
+export type Props = {
+    message: types.Message,
+    size: UDim2?,
+    LayoutOrder: number?,
+}
 
-local function MessageMeta(props, hooks)
-    assert(validateProps(props))
+local function MessageMeta(props: Props)
+    local theme = useTheme()
+    local name = useName(props.message.userId)
 
-    local theme = useTheme(hooks)
-    local name = useName(hooks, props.message.userId)
-
-    return Roact.createElement("Frame", {
+    return React.createElement("Frame", {
         BackgroundTransparency = 1,
         Size = props.size,
         LayoutOrder = props.LayoutOrder,
     }, {
-        Name = Roact.createElement(
+        Name = React.createElement(
             "TextLabel",
             Llama.Dictionary.join(styles.Text, {
                 Text = name,
@@ -50,7 +47,7 @@ local function MessageMeta(props, hooks)
             })
         ),
 
-        Date = Roact.createElement(
+        Date = React.createElement(
             "TextLabel",
             Llama.Dictionary.join(styles.Text, {
                 Text = getDateString(props.message.createdAt),
@@ -64,4 +61,4 @@ local function MessageMeta(props, hooks)
     })
 end
 
-return Hooks.new(Roact)(MessageMeta)
+return MessageMeta

@@ -1,24 +1,24 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local ChangeHistoryService = game:GetService("ChangeHistoryService")
 local CollectionService = game:GetService("CollectionService")
 
-local Roact = require(TeamComments.Packages.Roact)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local config = require(TeamComments.config)
 local types = require(TeamComments.types)
 local zoom = require(TeamComments.zoom)
 
-local MessageContext = Roact.createContext()
+local MessageContext = React.createContext({})
 
-local MessageProvider = Roact.Component:extend("MessageProvider")
+local MessageProvider = React.Component:extend("MessageProvider")
 
-MessageProvider.validateProps = t.interface({
-    messageTag = t.optional(t.string),
-    responseTag = t.optional(t.string),
-    storageTag = t.optional(t.string),
-})
+export type Props = {
+    messageTag: string?,
+    responseTag: string?,
+    storageTag: string?,
+}
 
 MessageProvider.defaultProps = {
     messageTag = config.TAG_NAME,
@@ -45,7 +45,7 @@ function MessageProvider:init()
         return storage
     end
 
-    self._saveMessageToInstance = function(message, instance)
+    self._saveMessageToInstance = function(message: types.Message, instance: Instance)
         for key, value in pairs(message) do
             if typeof(value) ~= "table" then
                 instance:SetAttribute(key, value)
@@ -53,7 +53,7 @@ function MessageProvider:init()
         end
     end
 
-    self._loadMessageFromInstance = function(instance)
+    self._loadMessageFromInstance = function(instance: Instance)
         local message = {
             responses = {},
         }
@@ -75,9 +75,7 @@ function MessageProvider:init()
         return message
     end
 
-    self._createAdornee = function(message, position)
-        assert(types.Message(message))
-
+    self._createAdornee = function(message: types.Message, position: Vector3)
         local part = Instance.new("Part")
         part.Name = ("TeamComment_%i"):format(message.createdAt)
         part.Anchored = true
@@ -94,7 +92,7 @@ function MessageProvider:init()
         return part
     end
 
-    self.getAdornee = function(messageId)
+    self.getAdornee = function(messageId: string)
         for _, adornee in pairs(CollectionService:GetTagged(self.props.messageTag)) do
             if adornee:GetAttribute("id") == messageId then
                 return adornee
@@ -102,7 +100,7 @@ function MessageProvider:init()
         end
     end
 
-    self.focusAdornee = function(messageId)
+    self.focusAdornee = function(messageId: string)
         local adornee = self.getAdornee(messageId)
 
         if adornee then
@@ -110,7 +108,7 @@ function MessageProvider:init()
         end
     end
 
-    self._addMessageState = function(message)
+    self._addMessageState = function(message: types.Message)
         self:setState(function(prev)
             return {
                 messages = Llama.Dictionary.join(prev.messages, {
@@ -120,9 +118,7 @@ function MessageProvider:init()
         end)
     end
 
-    self.comment = function(message, position)
-        assert(types.Message(message))
-
+    self.comment = function(message: types.Message, position: Vector3)
         local adornee = self._createAdornee(message, position)
 
         self._addMessageState(message)
@@ -131,7 +127,7 @@ function MessageProvider:init()
         CollectionService:AddTag(adornee, self.props.messageTag)
     end
 
-    self._createDialog = function(parentId, message)
+    self._createDialog = function(parentId: string, message: types.Message)
         local adornee = self.getAdornee(parentId)
         local dialog = Instance.new("Dialog")
         dialog.Name = ("Response_%i"):format(message.createdAt)
@@ -140,7 +136,7 @@ function MessageProvider:init()
         return dialog
     end
 
-    self._addResponseState = function(parent, message)
+    self._addResponseState = function(parent: types.Message, message: types.Message)
         self:setState(function(prev)
             local newParent = Llama.Dictionary.join(parent, {
                 responses = Llama.List.join(parent.responses, {
@@ -157,9 +153,7 @@ function MessageProvider:init()
         end)
     end
 
-    self.respond = function(parent, message)
-        assert(t.tuple(types.Message, types.Message)(parent, message))
-
+    self.respond = function(parent: types.Message, message: types.Message)
         local dialog = self._createDialog(parent.id, message)
 
         self._addResponseState(parent, message)
@@ -168,7 +162,7 @@ function MessageProvider:init()
         CollectionService:AddTag(dialog, self.props.responseTag)
     end
 
-    self.deleteMessage = function(messageId)
+    self.deleteMessage = function(messageId: string)
         self:setState(function(state)
             return {
                 messages = Llama.Dictionary.join(state.messages, {
@@ -219,9 +213,9 @@ function MessageProvider:init()
         return self.state.messages
     end
 
-    self.setSelectedMessage = function(messageId)
+    self.setSelectedMessage = function(messageId: string)
         self:setState({
-            selectedMessageId = messageId or Roact.None,
+            selectedMessageId = messageId or React.None,
         })
     end
 
@@ -231,7 +225,7 @@ function MessageProvider:init()
 end
 
 function MessageProvider:render()
-    return Roact.createElement(MessageContext.Provider, {
+    return React.createElement(MessageContext.Provider, {
         value = {
             comment = self.comment,
             respond = self.respond,
@@ -244,16 +238,16 @@ function MessageProvider:render()
             setSelectedMessage = self.setSelectedMessage,
             getSelectedMessage = self.getSelectedMessage,
         },
-    }, self.props[Roact.Children])
+    }, self.props.children)
 end
 
 function MessageProvider:didMount()
-    local function onAdded(adornee: Part)
+    local function onAdded(adornee: Instance)
         local message = self._loadMessageFromInstance(adornee)
         self._addMessageState(message)
     end
 
-    local function onRemoved(adornee)
+    local function onRemoved(adornee: Instance)
         self.deleteMessage(adornee:GetAttribute("id"))
     end
 
@@ -270,7 +264,12 @@ function MessageProvider:willUnmount()
     self.onRemovedConn:Disconnect()
 end
 
+local function useContext()
+    return React.useContext(MessageContext)
+end
+
 return {
+    useContext = useContext,
     Consumer = MessageContext.Consumer,
     Provider = MessageProvider,
 }

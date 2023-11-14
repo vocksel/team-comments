@@ -1,22 +1,20 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local types = require(TeamComments.types)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local Avatar = require(script.Parent.Avatar)
 
 -- Shows all the users that have responsed to a thread
-local validateProps = t.interface({
-    message = types.Message,
-    onActivated = t.optional(t.callback),
-})
 
-local function ThreadParticipants(props, hooks)
-    assert(validateProps(props))
+export type Props = {
+    message: types.Message,
+    onActivated: (() -> ())?,
+}
 
-    local messages = hooks.useContext(MessageContext)
+local function ThreadParticipants(props: Props)
+    local messages = MessageContext.useContext()
     local allMessages = messages.getAllMessages()
     local responses = props.message.responses
 
@@ -35,26 +33,26 @@ local function ThreadParticipants(props, hooks)
 
     local children = {}
 
-    children.Layout = Roact.createElement("UIListLayout", {
+    children.Layout = React.createElement("UIListLayout", {
         SortOrder = Enum.SortOrder.LayoutOrder,
         FillDirection = Enum.FillDirection.Horizontal,
         VerticalAlignment = Enum.VerticalAlignment.Center,
     })
 
     for index, userId in ipairs(participants) do
-        children[userId] = Roact.createElement(Avatar, {
+        children[userId] = React.createElement(Avatar, {
             LayoutOrder = index,
             userId = userId,
         })
     end
 
-    return Roact.createElement("ImageButton", {
+    return React.createElement("ImageButton", {
         ImageTransparency = 1,
         BackgroundTransparency = 1,
         AutomaticSize = Enum.AutomaticSize.X,
         Size = UDim2.fromScale(0, 1),
-        [Roact.Event.Activated] = props.onActivated,
+        [React.Event.Activated] = props.onActivated,
     }, children)
 end
 
-return Hooks.new(Roact)(ThreadParticipants)
+return ThreadParticipants

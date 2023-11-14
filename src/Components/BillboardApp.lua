@@ -1,20 +1,17 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useCameraDistance = require(TeamComments.Hooks.useCameraDistance)
 local CommentBubble = require(script.Parent.CommentBubble)
 
-local validateProps = t.interface({
-    widget = t.instance("DockWidgetPluginGui"),
-})
+export type Props = {
+    widget: DockWidgetPluginGui,
+}
 
-local function BillboardApp(props, hooks)
-    assert(validateProps(props))
-
-    local messages = hooks.useContext(MessageContext)
+local function BillboardApp(props: Props)
+    local messages = MessageContext.useContext()
     local children = {}
 
     for _, message in pairs(messages.getComments()) do
@@ -27,16 +24,16 @@ local function BillboardApp(props, hooks)
         end
 
         if messagePart then
-            local distance = useCameraDistance(hooks, messagePart.Position)
+            local distance = useCameraDistance(messagePart.Position)
 
-            children[message.id] = Roact.createElement("BillboardGui", {
+            children[message.id] = React.createElement("BillboardGui", {
                 MaxDistance = math.huge,
                 Size = UDim2.fromScale(4, 4),
                 LightInfluence = 0,
                 Adornee = messagePart,
                 Active = true,
             }, {
-                CommentBubble = Roact.createElement(CommentBubble, {
+                CommentBubble = React.createElement(CommentBubble, {
                     isShown = distance < 60,
                     message = message,
                     onActivated = onActivated,
@@ -45,7 +42,7 @@ local function BillboardApp(props, hooks)
         end
     end
 
-    return Roact.createElement("Folder", {}, children)
+    return React.createElement("Folder", {}, children)
 end
 
-return Hooks.new(Roact)(BillboardApp)
+return BillboardApp

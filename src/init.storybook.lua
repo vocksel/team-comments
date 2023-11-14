@@ -1,9 +1,11 @@
 local Root = script:FindFirstAncestor("TeamComments")
-local Roact = require(Root.Packages.Roact)
+local React = require(Root.Packages.React)
+local ReactRoblox = require(Root.Packages.ReactRoblox)
 
 return {
     name = Root.Name,
-    roact = Roact,
+    react = React,
+    reactRoblox = ReactRoblox,
     storyRoots = {
         Root.Components,
     },

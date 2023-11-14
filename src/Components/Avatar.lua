@@ -1,34 +1,31 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local useAvatar = require(TeamComments.Hooks.useAvatar)
 
-local validateProps = t.interface({
-    LayoutOrder = t.optional(t.number),
-    userId = t.string,
-})
+export type Props = {
+    userId: string,
+    LayoutOrder: number?,
+}
 
-local function Avatar(props, hooks)
-    assert(validateProps(props))
+local function Avatar(props: Props)
+    local avatar = useAvatar(props.userId)
 
-    local avatar = useAvatar(hooks, props.userId)
-
-    return Roact.createElement("ImageLabel", {
+    return React.createElement("ImageLabel", {
         LayoutOrder = props.LayoutOrder,
         Image = avatar,
         BackgroundTransparency = 1,
         Size = UDim2.fromScale(1, 1),
     }, {
-        AspectRatio = Roact.createElement("UIAspectRatioConstraint", {
+        AspectRatio = React.createElement("UIAspectRatioConstraint", {
             AspectRatio = 1,
         }),
 
-        Corner = Roact.createElement("UICorner", {
+        Corner = React.createElement("UICorner", {
             CornerRadius = UDim.new(0.5, 0),
         }),
     })
 end
 
-return Hooks.new(Roact)(Avatar)
+return Avatar

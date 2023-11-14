@@ -1,10 +1,9 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local HttpService = game:GetService("HttpService")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
@@ -13,29 +12,29 @@ local assets = require(TeamComments.assets)
 local types = require(TeamComments.types)
 local ImageButton = require(script.Parent.ImageButton)
 
-local validateProps = t.interface({
-    userId = t.string,
-    placeholder = t.optional(t.string),
-    focusOnMount = t.optional(t.boolean),
-    respondTo = t.optional(types.Message),
-    LayoutOrder = t.optional(t.number),
-})
+export type Props = {
+    userId: string,
+    placeholder: string?,
+    focusOnMount: boolean?,
+    respondTo: types.Message?,
+    LayoutOrder: number?,
+}
 
 local defaultProps = {
     focusOnMount = false,
 }
 
-local function MessageInputField(props, hooks)
-    props = Llama.Dictionary.join(defaultProps, props)
+type InternalProps = typeof(defaultProps) & Props
 
-    assert(validateProps(props))
+local function MessageInputField(providedProps: Props)
+    local props: InternalProps = Llama.Dictionary.join(defaultProps, providedProps)
 
-    local input = Roact.createRef()
-    local text, setText = hooks.useState("")
-    local messages = hooks.useContext(MessageContext)
-    local theme = useTheme(hooks)
+    local input = React.createRef()
+    local text, setText = React.useState("")
+    local messages = MessageContext.useContext()
+    local theme = useTheme()
 
-    local send = hooks.useCallback(function()
+    local send = React.useCallback(function()
         local position = workspace.CurrentCamera.CFrame.Position
 
         if text == "" then
@@ -57,14 +56,9 @@ local function MessageInputField(props, hooks)
         end
 
         setText("")
-    end, {
-        text,
-        setText,
-        messages,
-        props,
-    })
+    end, { text, setText, messages, props } :: { any })
 
-    local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
+    local onFocusLost = React.useCallback(function(_rbx, enterPressed)
         if enterPressed then
             send()
         end
@@ -72,11 +66,11 @@ local function MessageInputField(props, hooks)
         send,
     })
 
-    local onTextChanged = hooks.useCallback(function(rbx)
+    local onTextChanged = React.useCallback(function(rbx)
         setText(rbx.Text)
     end, { setText })
 
-    hooks.useEffect(function()
+    React.useEffect(function()
         if props.focusOnMount then
             local field = input:getValue()
             -- why does this work
@@ -88,18 +82,18 @@ local function MessageInputField(props, hooks)
         props.focusOnMount,
     })
 
-    return Roact.createElement("Frame", {
+    return React.createElement("Frame", {
         LayoutOrder = props.LayoutOrder,
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = UDim2.fromScale(1, 0),
         BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
         BorderSizePixel = 0,
     }, {
-        Layout = Roact.createElement("UIListLayout", {
+        Layout = React.createElement("UIListLayout", {
             SortOrder = Enum.SortOrder.LayoutOrder,
         }),
 
-        Input = Roact.createElement(
+        Input = React.createElement(
             "TextBox",
             Llama.Dictionary.join(styles.TextBox, {
                 Text = text,
@@ -108,16 +102,16 @@ local function MessageInputField(props, hooks)
                 TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
                 PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
                 BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
-                [Roact.Change.Text] = onTextChanged,
-                [Roact.Event.FocusLost] = onFocusLost,
-                [Roact.Ref] = input,
+                [React.Change.Text] = onTextChanged,
+                [React.Event.FocusLost] = onFocusLost,
+                ref = input,
             }),
             {
-                SizeConstraint = Roact.createElement("UISizeConstraint", {
+                SizeConstraint = React.createElement("UISizeConstraint", {
                     MinSize = Vector2.new(0, styles.Text.TextSize * 2),
                 }),
 
-                Padding = Roact.createElement("UIPadding", {
+                Padding = React.createElement("UIPadding", {
                     PaddingTop = styles.Padding,
                     PaddingRight = styles.Padding,
                     PaddingBottom = styles.Padding,
@@ -126,12 +120,12 @@ local function MessageInputField(props, hooks)
             }
         ),
 
-        Actions = Roact.createElement("Frame", {
+        Actions = React.createElement("Frame", {
             AutomaticSize = Enum.AutomaticSize.Y,
             Size = UDim2.fromScale(1, 0),
             BackgroundTransparency = 1,
         }, {
-            Layout = Roact.createElement("UIListLayout", {
+            Layout = React.createElement("UIListLayout", {
                 SortOrder = Enum.SortOrder.LayoutOrder,
                 FillDirection = Enum.FillDirection.Horizontal,
                 VerticalAlignment = Enum.VerticalAlignment.Center,
@@ -139,19 +133,19 @@ local function MessageInputField(props, hooks)
                 Padding = styles.Padding,
             }),
 
-            Padding = Roact.createElement("UIPadding", {
+            Padding = React.createElement("UIPadding", {
                 PaddingRight = styles.PaddingLarge,
                 PaddingLeft = styles.Padding,
             }),
 
             -- TODO: Add emoji support! https://github.com/vocksel/TeamComments/issues/7
-            -- Emojis = Roact.createElement(ImageButton, {
+            -- Emojis = React.createElement(ImageButton, {
             -- 	LayoutOrder = 1,
             -- 	Image = assets.Emojis,
-            -- 	[Roact.Event.Activated] = send,
+            -- 	[React.Event.Activated] = send,
             -- }),
 
-            Send = Roact.createElement(ImageButton, {
+            Send = React.createElement(ImageButton, {
                 LayoutOrder = 2,
                 Image = assets.Send,
                 onActivated = send,
@@ -160,4 +154,4 @@ local function MessageInputField(props, hooks)
     })
 end
 
-return Hooks.new(Roact)(MessageInputField)
+return MessageInputField

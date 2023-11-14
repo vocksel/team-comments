@@ -1,6 +1,8 @@
+--!strict
 local CoreGui = game:GetService("CoreGui")
 
-local Roact = require(script.Parent.Packages.Roact)
+local React = require(script.Parent.Packages.React)
+local ReactRoblox = require(script.Parent.Packages.ReactRoblox)
 local PluginApp = require(script.Parent.Components.PluginApp)
 local BillboardApp = require(script.Parent.Components.BillboardApp)
 local MessageContext = require(script.Parent.Context.MessageContext)
@@ -12,10 +14,10 @@ local toolbar = plugin:CreateToolbar(config.DISPLAY_NAME)
 local widget = createWidget(plugin)
 local disconnectButtonEvents = createToggleButton(toolbar, widget)
 
-local ui = Roact.createElement(MessageContext.Provider, {
+local ui = React.createElement(MessageContext.Provider, {
     messageTag = "TeamComment",
 }, {
-    PluginApp = Roact.createElement(PluginApp, {
+    PluginApp = React.createElement(PluginApp, {
         -- selene: allow(incorrect_standard_library_use)
         userId = tostring(plugin:GetStudioUserId()),
     }),
@@ -25,24 +27,18 @@ local ui = Roact.createElement(MessageContext.Provider, {
     --
     -- We're using a portal instead of mounting BillboardApp separately because
     -- we need MessageContext shared between the plugin and billboards.
-    Billboards = Roact.createElement(Roact.Portal, {
-        target = CoreGui,
-    }, {
-        BillboardApp = Roact.createElement(BillboardApp, {
+    Billboards = ReactRoblox.createPortal(
+        React.createElement(BillboardApp, {
             widget = widget,
         }),
-    }),
+        CoreGui
+    ),
 })
 
-Roact.setGlobalConfig({
-    typeChecks = true,
-    elementTracing = true,
-    propValidation = true,
-})
-
-local handle = Roact.mount(ui, widget, "Apps")
+local root = ReactRoblox.createRoot(widget)
+root:render(ui)
 
 plugin.Unloading:Connect(function()
-    Roact.unmount(handle)
+    root:unmount()
     disconnectButtonEvents()
 end)

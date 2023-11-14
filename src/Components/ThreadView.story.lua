@@ -1,6 +1,7 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
+local React = require(TeamComments.Packages.React)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local ThreadView = require(script.Parent.ThreadView)
 
@@ -35,12 +36,12 @@ local MESSAGES = {
 
 return {
     story = function()
-        return Roact.createElement(MessageContext.Provider, nil, {
-            Wrapper = Roact.createElement("Frame", {
+        return React.createElement(MessageContext.Provider, nil, {
+            Wrapper = React.createElement("Frame", {
                 Size = UDim2.new(0, 500, 1, 0),
                 BackgroundTransparency = 1,
             }, {
-                ThreadView = Roact.createElement(ThreadView, {
+                ThreadView = React.createElement(ThreadView, {
                     userId = "1343930",
                     message = MESSAGES["1"],
                     messages = MESSAGES,

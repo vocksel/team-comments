@@ -1,8 +1,7 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local styles = require(TeamComments.styles)
 local MessageContext = require(TeamComments.Context.MessageContext)
@@ -11,19 +10,17 @@ local MessageInputField = require(script.Parent.MessageInputField)
 local Comment = require(script.Parent.Comment)
 local ThreadView = require(script.Parent.ThreadView)
 
-local validateProps = t.interface({
-    userId = t.string,
-})
+export type Props = {
+    userId: string,
+}
 
-local function App(props, hooks)
-    assert(validateProps(props))
-
-    local theme = useTheme(hooks)
-    local messages = hooks.useContext(MessageContext)
+local function App(props: Props)
+    local theme = useTheme()
+    local messages = MessageContext.useContext()
     local selectedMessage = messages.getSelectedMessage()
 
     if selectedMessage then
-        return Roact.createElement(ThreadView, {
+        return React.createElement(ThreadView, {
             userId = props.userId,
             message = selectedMessage,
             messages = messages.getAllMessages(),
@@ -32,7 +29,7 @@ local function App(props, hooks)
             end,
         })
     else
-        return Roact.createElement(
+        return React.createElement(
             "ScrollingFrame",
             Llama.Dictionary.join(styles.ScrollingFrame, {
                 Size = UDim2.fromScale(1, 1),
@@ -43,38 +40,38 @@ local function App(props, hooks)
                 BackgroundTransparency = 0,
             }),
             {
-                Layout = Roact.createElement("UIListLayout", {
+                Layout = React.createElement("UIListLayout", {
                     SortOrder = Enum.SortOrder.LayoutOrder,
                 }),
 
-                InputField = Roact.createElement(MessageInputField, {
+                InputField = React.createElement(MessageInputField, {
                     LayoutOrder = 1,
                     userId = tostring(props.userId),
                     placeholder = "Post a comment...",
                 }),
 
-                MessageList = Roact.createElement("Frame", {
+                MessageList = React.createElement("Frame", {
                     LayoutOrder = 3,
                     Size = UDim2.fromScale(1, 0),
                     AutomaticSize = Enum.AutomaticSize.Y,
                     BackgroundTransparency = 1,
                 }, {
-                    Roact.createElement(MessageContext.Consumer, {
+                    React.createElement(MessageContext.Consumer, {
                         render = function(context)
                             local children = {}
 
-                            children.Layout = Roact.createElement("UIListLayout", {
+                            children.Layout = React.createElement("UIListLayout", {
                                 SortOrder = Enum.SortOrder.LayoutOrder,
                             })
 
                             for index, message in ipairs(context.getOrderedComments()) do
-                                children[message.id] = Roact.createElement(Comment, {
+                                children[message.id] = React.createElement(Comment, {
                                     LayoutOrder = index,
                                     message = message,
                                 })
                             end
 
-                            return Roact.createFragment(children)
+                            return React.createElement(React.Fragment, nil, children)
                         end,
                     }),
                 }),
@@ -83,4 +80,4 @@ local function App(props, hooks)
     end
 end
 
-return Hooks.new(Roact)(App)
+return App

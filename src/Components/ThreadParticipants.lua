@@ -14,7 +14,7 @@ export type Props = {
 }
 
 local function ThreadParticipants(props: Props)
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local allMessages = messages.getAllMessages()
     local responses = props.message.responses
 

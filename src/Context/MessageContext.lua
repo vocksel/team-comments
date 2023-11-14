@@ -238,7 +238,7 @@ function MessageProvider:render()
             setSelectedMessage = self.setSelectedMessage,
             getSelectedMessage = self.getSelectedMessage,
         },
-    }, self.props[React.Children])
+    }, self.props.children)
 end
 
 function MessageProvider:didMount()
@@ -264,7 +264,12 @@ function MessageProvider:willUnmount()
     self.onRemovedConn:Disconnect()
 end
 
+local function useContext()
+    return React.useContext(MessageContext)
+end
+
 return {
+    useContext = useContext,
     Consumer = MessageContext.Consumer,
     Provider = MessageProvider,
 }

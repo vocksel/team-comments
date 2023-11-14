@@ -31,7 +31,7 @@ local function Comment(props: Props)
     print(props)
 
     local theme = useTheme()
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local hasResponses = #props.message.responses > 0
 
     return React.createElement("Frame", {

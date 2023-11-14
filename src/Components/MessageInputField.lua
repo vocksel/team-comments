@@ -31,7 +31,7 @@ local function MessageInputField(providedProps: Props)
 
     local input = React.createRef()
     local text, setText = React.useState("")
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local theme = useTheme()
 
     local send = React.useCallback(function()

@@ -7,7 +7,7 @@ local CommentBubble = require(script.Parent.CommentBubble)
 local ThreadView = require(script.Parent.ThreadView)
 
 local function Story()
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local selectedMessage = messages.getSelectedMessage()
 
     local message = {

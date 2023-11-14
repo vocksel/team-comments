@@ -11,7 +11,7 @@ export type Props = {
 }
 
 local function BillboardApp(props: Props)
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local children = {}
 
     for _, message in pairs(messages.getComments()) do

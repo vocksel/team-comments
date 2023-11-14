@@ -16,7 +16,7 @@ export type Props = {
 
 local function App(props: Props)
     local theme = useTheme()
-    local messages = React.useContext(MessageContext)
+    local messages = MessageContext.useContext()
     local selectedMessage = messages.getSelectedMessage()
 
     if selectedMessage then

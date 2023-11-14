@@ -10,24 +10,21 @@ local assets = require(script.Parent.Parent.assets)
     @return () -> nil -- Returns a callback for disconnecting button events
 ]=]
 local function createToggleButton(toolbar: PluginToolbar, widget: DockWidgetPluginGui)
-	local toggleAppView = toolbar:CreateButton(
-		config.DISPLAY_NAME,
-		"View and edit the list of messages",
-		assets.CommentBubble
-	)
+    local toggleAppView =
+        toolbar:CreateButton(config.DISPLAY_NAME, "View and edit the list of messages", assets.CommentBubble)
 
-	local click = toggleAppView.Click:Connect(function()
-		widget.Enabled = not widget.Enabled
-	end)
+    local click = toggleAppView.Click:Connect(function()
+        widget.Enabled = not widget.Enabled
+    end)
 
-	local enabled = widget:GetPropertyChangedSignal("Enabled"):Connect(function()
-		toggleAppView:SetActive(widget.Enabled)
-	end)
+    local enabled = widget:GetPropertyChangedSignal("Enabled"):Connect(function()
+        toggleAppView:SetActive(widget.Enabled)
+    end)
 
-	return function()
-		click:Disconnect()
-		enabled:Disconnect()
-	end
+    return function()
+        click:Disconnect()
+        enabled:Disconnect()
+    end
 end
 
 return createToggleButton

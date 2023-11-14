@@ -1,25 +1,29 @@
+local TeamComments = script:FindFirstAncestor("TeamComments")
+
 local RunService = game:GetService("RunService")
 
-local function useCameraDistance(hooks, origin)
-	local distance, set = hooks.useState(math.huge)
+local React = require(TeamComments.Packages.React)
 
-	hooks.useEffect(function()
-		local conn = RunService.Heartbeat:Connect(function()
-			local camera = workspace.CurrentCamera
+local function useCameraDistance(origin: Vector3)
+    local distance, set = React.useState(math.huge)
 
-			if camera then
-				set((origin - camera.CFrame.p).Magnitude)
-			end
-		end)
+    React.useEffect(function()
+        local conn = RunService.Heartbeat:Connect(function()
+            local camera = workspace.CurrentCamera
 
-		return function()
-			conn:Disconnect()
-		end
-	end, {
-		origin,
-	})
+            if camera then
+                set((origin - camera.CFrame.p).Magnitude)
+            end
+        end)
 
-	return distance
+        return function()
+            conn:Disconnect()
+        end
+    end, {
+        origin,
+    })
+
+    return distance
 end
 
 return useCameraDistance

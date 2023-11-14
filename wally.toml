@@ -9,10 +9,9 @@ exclude = [ "*" ]
 
 [dependencies]
 Promise = "evaera/promise@3.2.0"
-Roact = "roblox/roact@1.4.2"
-Hooks = "kampfkarren/roact-hooks@0.3.0"
+React = "jsdotlua/react@17.0.2"
+ReactRoblox = "jsdotlua/react-roblox@17.0.2"
 Flipper = "reselim/flipper@2.0.0"
-t = "osyrisrblx/t@3.0.0"
 Llama = "freddylist/llama@1.1.1"
 
 [dev-dependencies]

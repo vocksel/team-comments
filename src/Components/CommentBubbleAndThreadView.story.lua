@@ -1,13 +1,13 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
+local React = require(TeamComments.Packages.React)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local CommentBubble = require(script.Parent.CommentBubble)
 local ThreadView = require(script.Parent.ThreadView)
 
-local function Story(_props, hooks)
-    local messages = hooks.useContext(MessageContext)
+local function Story()
+    local messages = React.useContext(MessageContext)
     local selectedMessage = messages.getSelectedMessage()
 
     local message = {
@@ -19,7 +19,7 @@ local function Story(_props, hooks)
         responses = {},
     }
 
-    hooks.useEffect(function()
+    React.useEffect(function()
         messages.comment(message, Vector3.new(0, 0, 0))
     end, {})
 
@@ -27,22 +27,22 @@ local function Story(_props, hooks)
         messages.setSelectedMessage(message.id)
     end
 
-    return Roact.createFragment({
-        CommentBubbleWrapper = Roact.createElement("Frame", {
+    return React.createElement(React.Fragment, nil, {
+        CommentBubbleWrapper = React.createElement("Frame", {
             Size = UDim2.fromScale(0.5, 1),
         }, {
-            CommentBubble = Roact.createElement(CommentBubble, {
+            CommentBubble = React.createElement(CommentBubble, {
                 isShown = true,
                 message = message,
                 onActivated = onActivated,
             }),
         }),
 
-        ThreadViewWrapper = selectedMessage and Roact.createElement("Frame", {
+        ThreadViewWrapper = selectedMessage and React.createElement("Frame", {
             Size = UDim2.fromScale(0.5, 1),
             Position = UDim2.fromScale(0.5, 0),
         }, {
-            ThreadView = Roact.createElement(ThreadView, {
+            ThreadView = React.createElement(ThreadView, {
                 userId = "1343930",
                 message = selectedMessage,
                 messages = {
@@ -52,12 +52,11 @@ local function Story(_props, hooks)
         }),
     })
 end
-Story = Hooks.new(Roact)(Story)
 
 return {
     story = function()
-        return Roact.createElement(MessageContext.Provider, {}, {
-            Story = Roact.createElement(Story),
+        return React.createElement(MessageContext.Provider, {}, {
+            Story = React.createElement(Story),
         })
     end,
 }

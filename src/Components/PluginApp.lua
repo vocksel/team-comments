@@ -1,8 +1,7 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local styles = require(TeamComments.styles)
 local MessageContext = require(TeamComments.Context.MessageContext)
@@ -11,76 +10,74 @@ local MessageInputField = require(script.Parent.MessageInputField)
 local Comment = require(script.Parent.Comment)
 local ThreadView = require(script.Parent.ThreadView)
 
-local validateProps = t.interface({
-	userId = t.string,
-})
+export type Props = {
+    userId: string,
+}
 
-local function App(props, hooks)
-	assert(validateProps(props))
+local function App(props: Props)
+    local theme = useTheme()
+    local messages = React.useContext(MessageContext)
+    local selectedMessage = messages.getSelectedMessage()
 
-	local theme = useTheme(hooks)
-	local messages = hooks.useContext(MessageContext)
-	local selectedMessage = messages.getSelectedMessage()
+    if selectedMessage then
+        return React.createElement(ThreadView, {
+            userId = props.userId,
+            message = selectedMessage,
+            messages = messages.getAllMessages(),
+            onClose = function()
+                messages.setSelectedMessage(nil)
+            end,
+        })
+    else
+        return React.createElement(
+            "ScrollingFrame",
+            Llama.Dictionary.join(styles.ScrollingFrame, {
+                Size = UDim2.fromScale(1, 1),
+                BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
+                CanvasSize = UDim2.fromScale(1, 0),
+                AutomaticCanvasSize = Enum.AutomaticSize.Y,
+                ScrollingDirection = Enum.ScrollingDirection.Y,
+                BackgroundTransparency = 0,
+            }),
+            {
+                Layout = React.createElement("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                }),
 
-	if selectedMessage then
-		return Roact.createElement(ThreadView, {
-			userId = props.userId,
-			message = selectedMessage,
-			messages = messages.getAllMessages(),
-			onClose = function()
-				messages.setSelectedMessage(nil)
-			end,
-		})
-	else
-		return Roact.createElement(
-			"ScrollingFrame",
-			Llama.Dictionary.join(styles.ScrollingFrame, {
-				Size = UDim2.fromScale(1, 1),
-				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
-				CanvasSize = UDim2.fromScale(1, 0),
-				AutomaticCanvasSize = Enum.AutomaticSize.Y,
-				ScrollingDirection = Enum.ScrollingDirection.Y,
-				BackgroundTransparency = 0,
-			}),
-			{
-				Layout = Roact.createElement("UIListLayout", {
-					SortOrder = Enum.SortOrder.LayoutOrder,
-				}),
+                InputField = React.createElement(MessageInputField, {
+                    LayoutOrder = 1,
+                    userId = tostring(props.userId),
+                    placeholder = "Post a comment...",
+                }),
 
-				InputField = Roact.createElement(MessageInputField, {
-					LayoutOrder = 1,
-					userId = tostring(props.userId),
-					placeholder = "Post a comment...",
-				}),
+                MessageList = React.createElement("Frame", {
+                    LayoutOrder = 3,
+                    Size = UDim2.fromScale(1, 0),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                }, {
+                    React.createElement(MessageContext.Consumer, {
+                        render = function(context)
+                            local children = {}
 
-				MessageList = Roact.createElement("Frame", {
-					LayoutOrder = 3,
-					Size = UDim2.fromScale(1, 0),
-					AutomaticSize = Enum.AutomaticSize.Y,
-					BackgroundTransparency = 1,
-				}, {
-					Roact.createElement(MessageContext.Consumer, {
-						render = function(context)
-							local children = {}
+                            children.Layout = React.createElement("UIListLayout", {
+                                SortOrder = Enum.SortOrder.LayoutOrder,
+                            })
 
-							children.Layout = Roact.createElement("UIListLayout", {
-								SortOrder = Enum.SortOrder.LayoutOrder,
-							})
+                            for index, message in ipairs(context.getOrderedComments()) do
+                                children[message.id] = React.createElement(Comment, {
+                                    LayoutOrder = index,
+                                    message = message,
+                                })
+                            end
 
-							for index, message in ipairs(context.getOrderedComments()) do
-								children[message.id] = Roact.createElement(Comment, {
-									LayoutOrder = index,
-									message = message,
-								})
-							end
-
-							return Roact.createFragment(children)
-						end,
-					}),
-				}),
-			}
-		)
-	end
+                            return React.createElement(React.Fragment, nil, children)
+                        end,
+                    }),
+                }),
+            }
+        )
+    end
 end
 
-return Hooks.new(Roact)(App)
+return App

@@ -1,21 +1,25 @@
-local function useTheme(hooks)
-	local studio = hooks.useMemo(function()
-		return settings().Studio
-	end, {})
+local TeamComments = script:FindFirstAncestor("TeamComments")
 
-	local theme, set = hooks.useState(studio.Theme)
+local React = require(TeamComments.Packages.React)
 
-	hooks.useEffect(function()
-		local conn = studio.ThemeChanged:Connect(function()
-			set(studio.Theme)
-		end)
+local function useTheme()
+    local studio = React.useMemo(function()
+        return settings().Studio
+    end, {})
 
-		return function()
-			conn:Disconnect()
-		end
-	end, {})
+    local theme, set = React.useState(studio.Theme)
 
-	return theme
+    React.useEffect(function()
+        local conn = studio.ThemeChanged:Connect(function()
+            set(studio.Theme)
+        end)
+
+        return function()
+            conn:Disconnect()
+        end
+    end, {})
+
+    return theme
 end
 
 return useTheme

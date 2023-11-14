@@ -1,10 +1,9 @@
+--!strict
 local TeamComments = script:FindFirstAncestor("TeamComments")
 
 local HttpService = game:GetService("HttpService")
 
-local Roact = require(TeamComments.Packages.Roact)
-local Hooks = require(TeamComments.Packages.Hooks)
-local t = require(TeamComments.Packages.t)
+local React = require(TeamComments.Packages.React)
 local Llama = require(TeamComments.Packages.Llama)
 local MessageContext = require(TeamComments.Context.MessageContext)
 local useTheme = require(TeamComments.Hooks.useTheme)
@@ -13,151 +12,146 @@ local assets = require(TeamComments.assets)
 local types = require(TeamComments.types)
 local ImageButton = require(script.Parent.ImageButton)
 
-local validateProps = t.interface({
-	userId = t.string,
-	placeholder = t.optional(t.string),
-	focusOnMount = t.optional(t.boolean),
-	respondTo = t.optional(types.Message),
-	LayoutOrder = t.optional(t.number),
-})
-
-local defaultProps = {
-	focusOnMount = false,
+export type Props = {
+    userId: string,
+    placeholder: string?,
+    focusOnMount: boolean?,
+    respondTo: types.Message?,
+    LayoutOrder: number?,
 }
 
-local function MessageInputField(props, hooks)
-	props = Llama.Dictionary.join(defaultProps, props)
+local defaultProps = {
+    focusOnMount = false,
+}
 
-	assert(validateProps(props))
+type InternalProps = typeof(defaultProps) & Props
 
-	local input = Roact.createRef()
-	local text, setText = hooks.useState("")
-	local messages = hooks.useContext(MessageContext)
-	local theme = useTheme(hooks)
+local function MessageInputField(providedProps: Props)
+    local props: InternalProps = Llama.Dictionary.join(defaultProps, providedProps)
 
-	local send = hooks.useCallback(function()
-		local position = workspace.CurrentCamera.CFrame.Position
+    local input = React.createRef()
+    local text, setText = React.useState("")
+    local messages = React.useContext(MessageContext)
+    local theme = useTheme()
 
-		if text == "" then
-			return
-		end
+    local send = React.useCallback(function()
+        local position = workspace.CurrentCamera.CFrame.Position
 
-		local message = {
-			id = HttpService:GenerateGUID(),
-			userId = props.userId,
-			text = text,
-			createdAt = os.time(),
-			responses = {},
-		}
+        if text == "" then
+            return
+        end
 
-		if props.respondTo then
-			messages.respond(props.respondTo, message)
-		else
-			messages.comment(message, position)
-		end
+        local message = {
+            id = HttpService:GenerateGUID(),
+            userId = props.userId,
+            text = text,
+            createdAt = os.time(),
+            responses = {},
+        }
 
-		setText("")
-	end, {
-		text,
-		setText,
-		messages,
-		props,
-	})
+        if props.respondTo then
+            messages.respond(props.respondTo, message)
+        else
+            messages.comment(message, position)
+        end
 
-	local onFocusLost = hooks.useCallback(function(_rbx, enterPressed)
-		if enterPressed then
-			send()
-		end
-	end, {
-		send,
-	})
+        setText("")
+    end, { text, setText, messages, props } :: { any })
 
-	local onTextChanged = hooks.useCallback(function(rbx)
-		setText(rbx.Text)
-	end, { setText })
+    local onFocusLost = React.useCallback(function(_rbx, enterPressed)
+        if enterPressed then
+            send()
+        end
+    end, {
+        send,
+    })
 
-	hooks.useEffect(function()
-		if props.focusOnMount then
-			local field = input:getValue()
-			-- why does this work
-			spawn(function()
-				field:CaptureFocus()
-			end)
-		end
-	end, {
-		props.focusOnMount,
-	})
+    local onTextChanged = React.useCallback(function(rbx)
+        setText(rbx.Text)
+    end, { setText })
 
-	return Roact.createElement("Frame", {
-		LayoutOrder = props.LayoutOrder,
-		AutomaticSize = Enum.AutomaticSize.Y,
-		Size = UDim2.fromScale(1, 0),
-		BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
-		BorderSizePixel = 0,
-	}, {
-		Layout = Roact.createElement("UIListLayout", {
-			SortOrder = Enum.SortOrder.LayoutOrder,
-		}),
+    React.useEffect(function()
+        if props.focusOnMount then
+            local field = input:getValue()
+            -- why does this work
+            spawn(function()
+                field:CaptureFocus()
+            end)
+        end
+    end, {
+        props.focusOnMount,
+    })
 
-		Input = Roact.createElement(
-			"TextBox",
-			Llama.Dictionary.join(styles.TextBox, {
-				Text = text,
-				Active = true,
-				PlaceholderText = props.placeholder,
-				TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
-				PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
-				BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
-				[Roact.Change.Text] = onTextChanged,
-				[Roact.Event.FocusLost] = onFocusLost,
-				[Roact.Ref] = input,
-			}),
-			{
-				SizeConstraint = Roact.createElement("UISizeConstraint", {
-					MinSize = Vector2.new(0, styles.Text.TextSize * 2),
-				}),
+    return React.createElement("Frame", {
+        LayoutOrder = props.LayoutOrder,
+        AutomaticSize = Enum.AutomaticSize.Y,
+        Size = UDim2.fromScale(1, 0),
+        BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
+        BorderSizePixel = 0,
+    }, {
+        Layout = React.createElement("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+        }),
 
-				Padding = Roact.createElement("UIPadding", {
-					PaddingTop = styles.Padding,
-					PaddingRight = styles.Padding,
-					PaddingBottom = styles.Padding,
-					PaddingLeft = styles.Padding,
-				}),
-			}
-		),
+        Input = React.createElement(
+            "TextBox",
+            Llama.Dictionary.join(styles.TextBox, {
+                Text = text,
+                Active = true,
+                PlaceholderText = props.placeholder,
+                TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+                PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
+                BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
+                [React.Change.Text] = onTextChanged,
+                [React.Event.FocusLost] = onFocusLost,
+                ref = input,
+            }),
+            {
+                SizeConstraint = React.createElement("UISizeConstraint", {
+                    MinSize = Vector2.new(0, styles.Text.TextSize * 2),
+                }),
 
-		Actions = Roact.createElement("Frame", {
-			AutomaticSize = Enum.AutomaticSize.Y,
-			Size = UDim2.fromScale(1, 0),
-			BackgroundTransparency = 1,
-		}, {
-			Layout = Roact.createElement("UIListLayout", {
-				SortOrder = Enum.SortOrder.LayoutOrder,
-				FillDirection = Enum.FillDirection.Horizontal,
-				VerticalAlignment = Enum.VerticalAlignment.Center,
-				HorizontalAlignment = Enum.HorizontalAlignment.Right,
-				Padding = styles.Padding,
-			}),
+                Padding = React.createElement("UIPadding", {
+                    PaddingTop = styles.Padding,
+                    PaddingRight = styles.Padding,
+                    PaddingBottom = styles.Padding,
+                    PaddingLeft = styles.Padding,
+                }),
+            }
+        ),
 
-			Padding = Roact.createElement("UIPadding", {
-				PaddingRight = styles.PaddingLarge,
-				PaddingLeft = styles.Padding,
-			}),
+        Actions = React.createElement("Frame", {
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = UDim2.fromScale(1, 0),
+            BackgroundTransparency = 1,
+        }, {
+            Layout = React.createElement("UIListLayout", {
+                SortOrder = Enum.SortOrder.LayoutOrder,
+                FillDirection = Enum.FillDirection.Horizontal,
+                VerticalAlignment = Enum.VerticalAlignment.Center,
+                HorizontalAlignment = Enum.HorizontalAlignment.Right,
+                Padding = styles.Padding,
+            }),
 
-			-- TODO: Add emoji support! https://github.com/vocksel/TeamComments/issues/7
-			-- Emojis = Roact.createElement(ImageButton, {
-			-- 	LayoutOrder = 1,
-			-- 	Image = assets.Emojis,
-			-- 	[Roact.Event.Activated] = send,
-			-- }),
+            Padding = React.createElement("UIPadding", {
+                PaddingRight = styles.PaddingLarge,
+                PaddingLeft = styles.Padding,
+            }),
 
-			Send = Roact.createElement(ImageButton, {
-				LayoutOrder = 2,
-				Image = assets.Send,
-				onActivated = send,
-			}),
-		}),
-	})
+            -- TODO: Add emoji support! https://github.com/vocksel/TeamComments/issues/7
+            -- Emojis = React.createElement(ImageButton, {
+            -- 	LayoutOrder = 1,
+            -- 	Image = assets.Emojis,
+            -- 	[React.Event.Activated] = send,
+            -- }),
+
+            Send = React.createElement(ImageButton, {
+                LayoutOrder = 2,
+                Image = assets.Send,
+                onActivated = send,
+            }),
+        }),
+    })
 end
 
-return Hooks.new(Roact)(MessageInputField)
+return MessageInputField

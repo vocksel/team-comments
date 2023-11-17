@@ -1,5 +1,6 @@
 --!strict
 local CoreGui = game:GetService("CoreGui")
+local StudioService = game:GetService("StudioService")
 
 local React = require(script.Parent.Packages.React)
 local ReactRoblox = require(script.Parent.Packages.ReactRoblox)
@@ -18,8 +19,7 @@ local ui = React.createElement(MessageContext.Provider, {
     messageTag = "TeamComment",
 }, {
     PluginApp = React.createElement(PluginApp, {
-        -- selene: allow(incorrect_standard_library_use)
-        userId = tostring(plugin:GetStudioUserId()),
+        userId = tostring(StudioService:GetUserId()),
     }),
 
     -- Billboards do not adorn when parented under PluginGuiService so we have

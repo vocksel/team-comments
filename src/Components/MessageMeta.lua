@@ -41,7 +41,7 @@ local function MessageMeta(props: Props)
             "TextLabel",
             Llama.Dictionary.join(styles.Text, {
                 Text = name,
-                Font = styles.HeaderFont,
+                Font = styles.Header.Font,
                 TextSize = styles.Header.TextSize,
                 TextColor3 = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
             })

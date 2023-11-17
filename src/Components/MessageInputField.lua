@@ -103,7 +103,7 @@ local function MessageInputField(providedProps: Props)
                 PlaceholderColor3 = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
                 BackgroundColor3 = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground),
                 [React.Change.Text] = onTextChanged,
-                [React.Event.FocusLost] = onFocusLost,
+                [React.Event.FocusLost] = onFocusLost :: any,
                 ref = input,
             }),
             {

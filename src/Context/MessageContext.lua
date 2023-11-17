@@ -32,17 +32,19 @@ function MessageProvider:init()
     }
 
     self._getOrCreateBaseStorage = function()
-        local storage = CollectionService:GetTagged(self.props.storageTag)[1]
+        local existingStorage = CollectionService:GetTagged(self.props.storageTag)[1]
 
-        if not storage then
-            storage = Instance.new("Folder")
+        if existingStorage then
+            return existingStorage
+        else
+            local storage = Instance.new("Folder")
             storage.Name = "TeamComments"
             storage.Parent = workspace
 
             CollectionService:AddTag(storage, self.props.storageTag)
-        end
 
-        return storage
+            return storage
+        end
     end
 
     self._saveMessageToInstance = function(message: types.Message, instance: Instance)
@@ -62,8 +64,10 @@ function MessageProvider:init()
             message[key] = value
         end
 
-        if CollectionService:HasTag(instance.Parent, self.props.messageTag) then
-            message.parentId = instance.Parent:GetAttribute("id")
+        local parent = instance.Parent
+
+        if parent and CollectionService:HasTag(parent, self.props.messageTag) then
+            message.parentId = parent:GetAttribute("id")
         else
             for _, child in ipairs(instance:GetChildren()) do
                 local response = self._loadMessageFromInstance(child)
@@ -92,12 +96,13 @@ function MessageProvider:init()
         return part
     end
 
-    self.getAdornee = function(messageId: string)
+    self.getAdornee = function(messageId: string): Instance?
         for _, adornee in pairs(CollectionService:GetTagged(self.props.messageTag)) do
             if adornee:GetAttribute("id") == messageId then
                 return adornee
             end
         end
+        return nil
     end
 
     self.focusAdornee = function(messageId: string)
